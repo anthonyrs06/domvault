@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Cover — The Agent Stack</title>
+<style>
+  /* Lulu 6×9 casewrap flat canvas for a 48-page interior:
+     spine = 48 × 0.0025 + 0.06 = 0.18in
+     width = 0.75 wrap + 6 back + 0.18 spine + 6 front + 0.75 wrap = 13.68in
+     height = 0.75 + 9 + 0.75 = 10.5in. Keep text ≥0.5in from folds/edges.
+     No spine text: 0.18in is below Lulu's ~80-page / 0.25in guidance. */
+  @page { size: 13.68in 10.5in; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 13.68in; height: 10.5in; }
+  body {
+    background: #05060e;
+    color: #e8ecff;
+    font-family: Georgia, 'Times New Roman', serif;
+    position: relative;
+    overflow: hidden;
+  }
+  /* star field — two subtle layers */
+  .stars, .stars2 { position: absolute; inset: 0; }
+  .stars {
+    background-image:
+      radial-gradient(1px 1px at 8% 12%, rgba(232,236,255,.7) 50%, transparent 51%),
+      radial-gradient(1px 1px at 22% 68%, rgba(232,236,255,.45) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 37% 30%, rgba(124,92,255,.6) 50%, transparent 51%),
+      radial-gradient(1px 1px at 52% 80%, rgba(232,236,255,.5) 50%, transparent 51%),
+      radial-gradient(1px 1px at 64% 18%, rgba(232,236,255,.6) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 76% 55%, rgba(124,92,255,.5) 50%, transparent 51%),
+      radial-gradient(1px 1px at 88% 34%, rgba(232,236,255,.55) 50%, transparent 51%),
+      radial-gradient(1px 1px at 15% 88%, rgba(232,236,255,.4) 50%, transparent 51%),
+      radial-gradient(1px 1px at 45% 8%, rgba(232,236,255,.5) 50%, transparent 51%),
+      radial-gradient(1px 1px at 93% 78%, rgba(232,236,255,.45) 50%, transparent 51%),
+      radial-gradient(1.2px 1.2px at 70% 90%, rgba(124,92,255,.45) 50%, transparent 51%),
+      radial-gradient(1px 1px at 30% 50%, rgba(232,236,255,.35) 50%, transparent 51%);
+  }
+  .stars2 {
+    background:
+      radial-gradient(ellipse 40% 30% at 78% 22%, rgba(124,92,255,.10), transparent 70%),
+      radial-gradient(ellipse 35% 28% at 18% 75%, rgba(60,80,200,.08), transparent 70%);
+  }
+  .panel { position: absolute; top: 0; height: 10.5in; }
+  .back  { left: 0;       width: 6.75in; }  /* wrap + back trim */
+  .spine { left: 6.75in;  width: 0.18in; }
+  .front { left: 6.93in;  width: 6.75in; }
+
+  /* FRONT — text zone inset ≥0.5in from spine fold and wrap */
+  .front .inner { position: absolute; top: 2.1in; left: 0.85in; right: 1.1in; }
+  .front .orn { color: #7c5cff; font-size: 20px; letter-spacing: .35em; margin-bottom: .5in; }
+  .front h1 { font-size: 64pt; line-height: 1.1; font-weight: 500; letter-spacing: -0.5px; }
+  .front .subtitle {
+    margin-top: .45in; font-family: 'SF Mono', Menlo, monospace;
+    font-size: 12.5pt; letter-spacing: .14em; text-transform: uppercase; color: #8b93c0;
+  }
+  .front .author { position: absolute; top: 8.6in; left: 0.85in; font-size: 17pt; color: #e8ecff; }
+  .front .rule { width: 1.1in; height: 2px; background: #7c5cff; margin-top: .4in; }
+
+  /* SPINE — intentionally blank (0.18in is too narrow for reliable type) */
+
+  /* BACK — blurb zone inset ≥0.5in from wrap and spine; ISBN clear zone lower-right */
+  .back .inner { position: absolute; top: 1.7in; left: 1.1in; right: 0.85in; }
+  .back .blurb { font-size: 13.5pt; line-height: 1.7; color: #d5daf2; }
+  .back .blurb .lead { color: #e8ecff; }
+  .back .meta {
+    position: absolute; top: 7.9in; left: 1.1in;
+    font-family: 'SF Mono', Menlo, monospace; font-size: 9.5pt;
+    line-height: 1.9; color: #8b93c0; letter-spacing: .05em;
+  }
+  /* 2×1.2in ISBN clear zone, lower-right of back trim area (right edge at wrap) */
+  .back .isbn-zone {
+    position: absolute; right: 0.85in; bottom: 0.85in;
+    width: 2in; height: 1.2in; background: transparent;
+  }
+</style>
+</head>
+<body>
+  <div class="stars2"></div>
+  <div class="stars"></div>
+
+  <div class="panel back">
+    <div class="inner">
+      <p class="blurb">
+        <span class="lead">The demo takes an afternoon; making it trustworthy
+        takes months</span> — and the model was never the hard part. Production
+        AI is ten percent model, ninety percent plumbing. This book walks the
+        ninety in the order you meet it building a real agent: memory that
+        updates instead of hoards, retrieval that admits what it hasn't
+        indexed, knowledge that keeps its structure, orchestration as many
+        small minds behind one honest gate, evals that expect to be gamed, an
+        attention budget spent on purpose. Underneath them all, one discipline:
+        don't trust the model — make the structure carry the guarantee.
+        <br><br>
+        Fittingly, an agent stack wrote it — ten agents, one chapter each,
+        grounded in the author's own working notes.
+      </p>
+    </div>
+    <div class="meta">
+      dys5315.github.io/domvault/constellation<br>
+      PolyForm Noncommercial 1.0.0
+    </div>
+    <div class="isbn-zone"></div>
+  </div>
+
+  <div class="panel spine"></div>
+
+  <div class="panel front">
+    <div class="inner">
+      <div class="orn">✦ ✧ ✦</div>
+      <h1>The Agent Stack</h1>
+      <div class="subtitle">How to Build AI That Actually Ships</div>
+      <div class="rule"></div>
+    </div>
+    <div class="author">Dom Sadarangani</div>
+  </div>
+</body>
+</html>

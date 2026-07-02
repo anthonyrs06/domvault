@@ -2,169 +2,148 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Agent Stack — Dom Sadarangani</title>
-<meta name="description" content="How to Build AI That Actually Ships. Written by the Writing Engine of Dom’s second brain.">
+<title>The Agent Stack — print interior</title>
 <style>
-  :root {
-    --bg: #05060e;
-    --fg: #e8ecff;
-    --muted: #8b93c0;
-    --panel: #0d1126;
-    --line: #2a3260;
-    --accent: #9db0ff;
-    --glow: #7c5cff;
+  @page {
+    size: 6in 9in;
+    margin: 0.75in 0.625in;
   }
+  /* Mirrored margins: a slightly larger inner (gutter) edge. Ignored by
+     engines without :left/:right support; the base rule above then applies. */
+  @page :right { margin: 0.75in 0.55in 0.75in 0.7in; }
+  @page :left  { margin: 0.75in 0.7in 0.75in 0.55in; }
+
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html, body { margin: 0; padding: 0; }
   body {
-    margin: 0;
-    background: var(--bg);
-    background-image:
-      radial-gradient(1200px 600px at 70% -10%, rgba(124,92,255,.14), transparent 60%),
-      radial-gradient(900px 500px at 10% 30%, rgba(157,176,255,.06), transparent 60%);
-    background-attachment: fixed;
-    color: var(--fg);
-    font-family: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
-    font-size: 1.075rem;
-    line-height: 1.75;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 10.5pt;
+    line-height: 1.5;
+    color: #000;
+    background: #fff;
   }
-  main { max-width: 68ch; margin: 0 auto; padding: 0 1.25rem 6rem; }
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  code {
-    font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-    font-size: .85em;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    padding: .08em .35em;
-  }
-  hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem auto; width: 8rem; }
-  .kicker, .label, .n {
-    font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-    font-size: .72rem;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--muted);
+  p, li, blockquote { orphans: 3; widows: 3; }
+  h1, h2, h3 { page-break-after: avoid; break-after: avoid; font-weight: 400; }
+  a { color: #000; text-decoration: none; }
+  code { font-family: 'Courier New', Courier, monospace; font-size: .9em; }
+  hr { border: none; border-top: 1px solid #999; width: 6em; margin: 1.5em auto; }
+  .kicker {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 7.5pt; letter-spacing: .18em; text-transform: uppercase; color: #444;
+    margin: 0 0 .4em;
   }
 
-  /* Cover */
-  .cover { min-height: 88vh; display: flex; flex-direction: column; justify-content: center; padding: 4rem 0 3rem; }
-  .cover .stars { color: var(--glow); letter-spacing: .5em; font-size: .8rem; margin-bottom: 2.25rem; }
-  .cover h1 { font-size: clamp(2.1rem, 6vw, 3.4rem); line-height: 1.12; margin: 0 0 1rem; font-weight: 400; }
-  .cover .subtitle { font-size: clamp(1.05rem, 2.6vw, 1.3rem); color: var(--muted); font-style: italic; margin: 0 0 2.5rem; }
-  .cover .author { font-size: 1.1rem; margin: 0 0 .5rem; }
-  .cover .compiled { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: .78rem; color: var(--muted); }
-
-  /* Headnote (the engine's own preface blockquote) */
-  .headnote { margin: 0 0 4rem; }
-  blockquote.epigraph {
-    margin: 0 0 2rem;
-    padding: .2rem 0 .2rem 1.2rem;
-    border-left: 2px solid var(--glow);
-    color: var(--muted);
-    font-style: italic;
+  /* Front matter */
+  .half-title, .title-page, .copyright-page, .toc-page, .epigraph-page {
+    page-break-before: always; break-before: page;
   }
+  .half-title { page-break-before: avoid; break-before: avoid; }
+  .half-title, .title-page { text-align: center; }
+  .half-title h1 { margin-top: 2.8in; font-size: 15pt; letter-spacing: .04em; }
+  .title-page h1 { margin-top: 2.2in; font-size: 22pt; line-height: 1.2; margin-bottom: .3in; }
+  .title-page .subtitle { font-style: italic; font-size: 11.5pt; margin-bottom: .9in; }
+  .title-page .author { font-size: 13pt; margin-bottom: 1.4in; }
+  .title-page .compiled { font-family: 'Courier New', Courier, monospace; font-size: 8pt; color: #333; }
+  .copyright-page {
+    font-size: 8.5pt; line-height: 1.55;
+    /* pin the block to the bottom of a single 6x9 page (9in - 1.5in margins) */
+    height: 7.4in; display: flex; flex-direction: column; justify-content: flex-end;
+    page-break-inside: avoid; break-inside: avoid;
+  }
+  .copyright-page .notice code { font-size: 7.5pt; }
+  .copyright-page h3 { font-size: 9.5pt; font-weight: 700; margin: 1.2em 0 .3em; }
 
   /* TOC */
-  #toc { border-top: 1px solid var(--line); padding-top: 2.5rem; margin-bottom: 4rem; }
-  #toc h2 { font-weight: 400; letter-spacing: .02em; }
-  #toc > ol { list-style: none; padding: 0; margin: 0; border-left: 1px solid var(--line); }
-  #toc > ol > li { font-size: 1.02rem; margin: .45rem 0; padding-left: 1rem; }
-  #toc .n { margin-right: .55em; color: var(--glow); }
-  #toc a { color: var(--fg); }
-  #toc a:hover { color: var(--accent); }
-  .toc-license, .toc-shelf { margin-top: 1.6rem !important; font-size: .98rem !important; }
-  .toc-license .label, .toc-shelf .label { margin-right: .6em; }
+  .toc-page h2 { font-size: 15pt; margin-bottom: 1em; }
+  .toc-page ol { list-style: none; margin: 0; padding: 0; }
+  .toc-page > ol > li { margin: .6em 0; font-size: 11pt; }
+  .toc-page .n { display: inline-block; min-width: 1.6em; font-family: 'Courier New', Courier, monospace; font-size: 8pt; color: #444; }
+
+  /* Epigraph page (the engine's headnote) */
+  .epigraph-page blockquote {
+    margin: 2.2in 0 0; padding: 0 0 0 1em;
+    border-left: 1.5pt solid #000; font-style: italic; color: #222; font-size: 10pt;
+  }
 
   /* Chapters */
-  .chapter { margin-top: 5.5rem; border-top: 1px solid var(--line); padding-top: 3rem; }
-  .chapter header h2 { font-size: clamp(1.45rem, 4vw, 1.9rem); font-weight: 400; line-height: 1.25; margin: .4rem 0 1.2rem; }
-  .chapter h3 { font-size: 1.12rem; font-weight: 700; margin: 2.2rem 0 .6rem; color: var(--accent); }
-  blockquote { margin: 1.5rem 0; padding-left: 1.2rem; border-left: 2px solid var(--line); color: var(--muted); }
-  ul, ol { padding-left: 1.4rem; }
-  li { margin: .4rem 0; }
-  table { border-collapse: collapse; width: 100%; margin: 1.5rem 0; font-size: .92em; }
-  th, td { border: 1px solid var(--line); padding: .5rem .7rem; text-align: left; vertical-align: top; }
-  th { background: var(--panel); font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: .78rem; letter-spacing: .05em; }
-  strong { color: #fff; }
-  cite.ref { font-style: italic; color: var(--accent); }
-  .sources { margin-top: 2.5rem; font-size: .9rem; color: var(--muted); font-style: italic; }
-  em.mvar { font-family: Georgia, serif; }
+  .chapter { page-break-before: always; break-before: page; }
+  .chapter header { margin-bottom: 1.4em; }
+  .chapter header h2 { font-size: 15pt; line-height: 1.25; margin: 0; }
+  .chapter h3 { font-size: 11pt; font-weight: 700; margin: 1.6em 0 .5em; }
+  blockquote { margin: 1em 0; padding-left: 1em; border-left: .75pt solid #777; color: #222; }
+  ul, ol { padding-left: 1.3em; margin: .6em 0; }
+  li { margin: .25em 0; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 8.5pt; page-break-inside: avoid; }
+  th, td { border: .75pt solid #555; padding: .35em .5em; text-align: left; vertical-align: top; }
+  th { font-family: 'Courier New', Courier, monospace; font-size: 7.5pt; letter-spacing: .05em; }
+  cite.ref { font-style: italic; }
+  .sources { margin-top: 1.8em; font-size: 8.5pt; color: #333; font-style: italic; }
+  em.mvar { font-style: italic; }
 
   /* Equation */
-  .equation { margin: 1.9rem 0; text-align: center; font-size: 1.06em; }
+  .equation { margin: 1.4em 0; text-align: center; page-break-inside: avoid; }
   .equation .frac { display: inline-block; vertical-align: middle; text-align: center; margin: 0 .3em; }
-  .equation .frac .num { display: block; padding: 0 .55em .14em; border-bottom: 1px solid var(--muted); }
-  .equation .frac .den { display: block; padding: .14em .55em 0; }
+  .equation .frac .num { display: block; padding: 0 .5em .1em; border-bottom: .75pt solid #000; }
+  .equation .frac .den { display: block; padding: .1em .5em 0; }
   .equation sub { font-size: .72em; }
-
-  /* License */
-  #license { margin-top: 7rem; border-top: 1px solid var(--line); padding-top: 2.5rem; }
-  #license h2 { font-weight: 400; }
-  #license h3 { font-size: 1.05rem; color: var(--accent); }
-  #license .notice code { display: inline-block; padding: .5em .8em; }
-
-  /* Shelf footer */
-  .shelf { margin-top: 4rem; border-top: 1px solid var(--line); padding-top: 2rem; color: var(--muted); }
-  .shelf p { margin: .4rem 0; }
-
-  /* Floating contents link */
-  .toc-link {
-    position: fixed; right: 1rem; bottom: 1rem; z-index: 10;
-    background: var(--panel); border: 1px solid var(--line); border-radius: 999px;
-    padding: .45rem .9rem;
-    font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: .74rem;
-    letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
-  }
-  .toc-link:hover { color: var(--accent); text-decoration: none; border-color: var(--accent); }
-
-  @media (max-width: 600px) {
-    body { font-size: 1rem; }
-    main { padding: 0 1rem 5rem; }
-    table { display: block; overflow-x: auto; }
-  }
 </style>
 </head>
 <body>
-<main>
-  <header class="cover" id="cover">
-    <p class="stars" aria-hidden="true">✦ ✧ ✦</p>
-    <h1>The Agent Stack</h1>
-    <p class="subtitle">How to Build AI That Actually Ships</p>
-    <p class="author">Dom Sadarangani</p>
-    <p class="compiled">Written by the Writing Engine of Dom’s second brain — <a href="https://dys5315.github.io/domvault/constellation/">dys5315.github.io/domvault/constellation</a></p>
+
+<section class="half-title">
+  <h1>The Agent Stack</h1>
+</section>
+
+<section class="title-page">
+  <h1>The Agent Stack</h1>
+  <p class="subtitle">How to Build AI That Actually Ships</p>
+  <p class="author">Dom Sadarangani</p>
+  <p class="compiled">Written by the Writing Engine of Dom’s second brain<br>dys5315.github.io/domvault/constellation</p>
+</section>
+
+<section class="copyright-page">
+  <div>
+<p>&copy; 2026 Dom Sadarangani. Shared under the
+<a href="https://polyformproject.org/licenses/noncommercial/1.0.0/">PolyForm Noncommercial License 1.0.0</a>.</p>
+<p>In plain English: you may read, copy, share, and adapt this material for any
+noncommercial purpose, provided attribution stays intact. Commercial use requires
+the author&rsquo;s written permission. The full license text is at
+<a href="https://polyformproject.org/licenses/noncommercial/1.0.0/">polyformproject.org/licenses/noncommercial/1.0.0</a>.</p>
+<p class="notice"><code>Required Notice: Copyright (c) 2026 Dom Sadarangani (Domvault / The Agent Stack)</code></p>
+<h3>How this book was written</h3>
+<p>Plainly: AI wrote this book, on purpose. Each of the ten chapters was drafted end-to-end by a single AI agent &mdash; ten agents, one chapter each &mdash; running inside Dom&rsquo;s second brain (the Domvault) and grounded in its real notes: frameworks Dom wrote, and captures of what he had been reading. The book consolidates what Dom wrote and what he&rsquo;d been reading about; it is not new reporting, and it should not be read as if it were. Dom built the system, set the argument, and curated the result.</p>
+<p>The manuscript speaks to &ldquo;you&rdquo; because it was written by the brain, for its owner &mdash; and it is published as the engine wrote it. Its sibling volume, <em>Compression Is the Through-Line</em>, collects the frameworks these chapters are built from. The vault&rsquo;s public face is the Domvault
+Constellation (<a href="https://dys5315.github.io/domvault/constellation/">dys5315.github.io/domvault/constellation</a>), where every
+node is content-addressed and signed so authorship is provable.</p></div>
+</section>
+
+<nav class="toc-page">
+  <h2>Contents</h2>
+  <ol>
+    <li><span class="n">1</span> Ten Percent Model, Ninety Percent Plumbing</li>
+    <li><span class="n">2</span> Memory Is the Hard Part</li>
+    <li><span class="n">3</span> Retrieval, and Its Blind Spots</li>
+    <li><span class="n">4</span> Your Knowledge Wants to Be a Graph</li>
+    <li><span class="n">5</span> Orchestration: Many Small Minds</li>
+    <li><span class="n">6</span> Evals Are the Product</li>
+    <li><span class="n">7</span> Generalization Is Compression</li>
+    <li><span class="n">8</span> Attention Is a Budget</li>
+    <li><span class="n">9</span> The Self-Improving Harness</li>
+    <li><span class="n">10</span> The Builder's Stack</li>
+  </ol>
+</nav>
+
+<section class="epigraph-page">
+  <blockquote><p>A book written <strong>by the brain, for its owner</strong> — the fifth, and the one closest to your core craft. It reads your AI-engineering capture set and synthesis neurons as one argument: production AI is a systems discipline — 10% model, 90% plumbing — and the plumbing is memory, retrieval, graphs, orchestration, evals, attention, and a self-improving loop. Generated 2026-06-18 from your own notes. Provenance honest: consolidation of what you captured and connected, not new outside reporting.</p></blockquote>
+</section>
+
+
+<article class="chapter">
+  <header>
+    <p class="kicker">Chapter 1</p>
+    <h2>Ten Percent Model, Ninety Percent Plumbing</h2>
   </header>
-
-  <section class="headnote">
-    <blockquote class="epigraph"><p>A book written <strong>by the brain, for its owner</strong> — the fifth, and the one closest to your core craft. It reads your AI-engineering capture set and synthesis neurons as one argument: production AI is a systems discipline — 10% model, 90% plumbing — and the plumbing is memory, retrieval, graphs, orchestration, evals, attention, and a self-improving loop. Generated 2026-06-18 from your own notes. Provenance honest: consolidation of what you captured and connected, not new outside reporting.</p></blockquote>
-  </section>
-
-  <nav id="toc" aria-label="Table of contents">
-    <h2>Contents</h2>
-    <ol>
-      <li><a href="#ten-percent-model-ninety-percent-plumbing"><span class="n">1</span> Ten Percent Model, Ninety Percent Plumbing</a></li>
-      <li><a href="#memory-is-the-hard-part"><span class="n">2</span> Memory Is the Hard Part</a></li>
-      <li><a href="#retrieval-and-its-blind-spots"><span class="n">3</span> Retrieval, and Its Blind Spots</a></li>
-      <li><a href="#your-knowledge-wants-to-be-a-graph"><span class="n">4</span> Your Knowledge Wants to Be a Graph</a></li>
-      <li><a href="#orchestration-many-small-minds"><span class="n">5</span> Orchestration: Many Small Minds</a></li>
-      <li><a href="#evals-are-the-product"><span class="n">6</span> Evals Are the Product</a></li>
-      <li><a href="#generalization-is-compression"><span class="n">7</span> Generalization Is Compression</a></li>
-      <li><a href="#attention-is-a-budget"><span class="n">8</span> Attention Is a Budget</a></li>
-      <li><a href="#the-self-improving-harness"><span class="n">9</span> The Self-Improving Harness</a></li>
-      <li><a href="#the-builders-stack"><span class="n">10</span> The Builder's Stack</a></li>
-      <li class="toc-license"><span class="label">Colophon</span> <a href="#license">License &amp; Provenance</a></li>
-      <li class="toc-shelf"><span class="label">Also on the shelf</span> <a href="frameworks.html"><em>Compression Is the Through-Line</em> (the frameworks field guide)</a></li>
-    </ol>
-  </nav>
-
-  <article class="chapter" id="ten-percent-model-ninety-percent-plumbing">
-    <header>
-      <p class="kicker">Chapter 1</p>
-      <h2>Ten Percent Model, Ninety Percent Plumbing</h2>
-    </header>
-    <p>You already know the demo trap. You wire up an API call, paste in a clever prompt, watch the model do something that looks like magic, and feel — for about a day — like you've built a product. Then you try to ship it. The thing that took an afternoon to demo takes three months to make trustworthy, and somewhere in those three months you realize the model was never the hard part. The model was the easy ten percent. Everything that made the demo into a system you could put in front of a paying customer — that was the other ninety.</p>
+  <p>You already know the demo trap. You wire up an API call, paste in a clever prompt, watch the model do something that looks like magic, and feel — for about a day — like you've built a product. Then you try to ship it. The thing that took an afternoon to demo takes three months to make trustworthy, and somewhere in those three months you realize the model was never the hard part. The model was the easy ten percent. Everything that made the demo into a system you could put in front of a paying customer — that was the other ninety.</p>
 <p>This is the thesis of the whole book, and it isn't mine in any borrowed sense. It's yours. You saved a cluster of infographics over months — different authors, different angles — and they all circled the same uncomfortable truth, which is why your own brain stitched them into <cite class="ref">Framework — Production AI System (10% Model, 90% Plumbing)</cite>. I'm just going to make you live inside that framework long enough to build on it.</p>
 <h3>The model is a commodity</h3>
 <p>Start by being honest about what the model is. It's a hosted endpoint you don't control, trained on data you didn't curate, behind a price that drops every quarter. Frontier APIs and fine-tuning are table stakes now — table stakes, not differentiation. The capability you were stunned by last year is a checkbox on three vendors' pricing pages this year. If your product's entire edge is &quot;we call a good model,&quot; you have built a thin wrapper around someone else's commodity, and you will be competed to zero by the next person who calls the same endpoint with a slightly better prompt.</p>
@@ -182,15 +161,15 @@
 <p>So here's the contract for everything that follows. When you evaluate a new AI feature — for Infinity Billing, for SiteLync, for this vault — your first question is never &quot;which model?&quot; It's <em>where's the ninety percent?</em> Where's the data work, the retrieval, the memory, the eval harness, the failure handling, the thing that has to exist before the demo becomes a product? Production AI is a systems-engineering discipline. The model is one component in it — the most replaceable one.</p>
 <p>The rest of this book is a tour of the ninety percent, in roughly the order you'll hit it building a real agent: memory next, then retrieval, then orchestration, then evals, then the observability and guardrails that keep it alive in production. Hold the two frameworks — <cite class="ref">Framework — Production AI System (10% Model, 90% Plumbing)</cite> and <cite class="ref">Framework — Dom's AI-Augmented Second Brain Stack</cite> — as the map. Everything else is detail on the territory.</p>
 <p>The model will keep getting better on its own. Your plumbing won't. That's the whole reason this book exists, and it's where the rest of it goes.</p>
-    
-  </article>
+  
+</article>
 
-  <article class="chapter" id="memory-is-the-hard-part">
-    <header>
-      <p class="kicker">Chapter 2</p>
-      <h2>Memory Is the Hard Part</h2>
-    </header>
-    <p>An agent without memory is a goldfish with a vocabulary. It can reason beautifully for one turn, sound brilliant, and then forget you the instant the context window scrolls. You can wire it to the best model, give it perfect tools, and it will still feel useless — because usefulness compounds over time, and compounding requires that something persist. This is the part the demos hide. A model is a function; an agent is a <em>stateful process</em>. The whole difference between a chatbot and something that works for you lives in what it remembers and how it updates that memory when the world disagrees with it.</p>
+<article class="chapter">
+  <header>
+    <p class="kicker">Chapter 2</p>
+    <h2>Memory Is the Hard Part</h2>
+  </header>
+  <p>An agent without memory is a goldfish with a vocabulary. It can reason beautifully for one turn, sound brilliant, and then forget you the instant the context window scrolls. You can wire it to the best model, give it perfect tools, and it will still feel useless — because usefulness compounds over time, and compounding requires that something persist. This is the part the demos hide. A model is a function; an agent is a <em>stateful process</em>. The whole difference between a chatbot and something that works for you lives in what it remembers and how it updates that memory when the world disagrees with it.</p>
 <p>This chapter argues that memory — not reasoning, not tool use, not the model — is the bottleneck for agents that actually ship. And it argues that the hard part isn't <em>storing</em>; it's <em>updating</em>: deciding what to trust when new evidence contradicts what you already believe. That turns out to be a solved problem in another field, and you already know the math.</p>
 <h3>The Four (or Five) Memories an Agent Needs</h3>
 <p>Start with the taxonomy, because most agent failures are really a missing memory <em>type</em>, not a missing feature. Your own captured notes lay this out cleanly. From <cite class="ref">023-5-types-of-llm-memory</cite> and <cite class="ref">728-ai-agent-memory-persistence-context</cite>, the spectrum runs from &quot;this request&quot; to &quot;baked into the weights&quot;:</p>
@@ -210,15 +189,15 @@
 <h3>Where This Leads</h3>
 <p>Notice what every memory type past the context window has in common: when the agent needs a stored fact, it has to <em>go find it</em>. Episodic memory retrieves relevant episodes. Semantic memory looks up relevant facts. External memory runs a query against a vector store and pulls the top-k chunks. Memory poses the question — <em>what do I believe, and how do I update it?</em> — but answering it at runtime is an act of <strong>retrieval</strong>, and retrieval has its own failure modes: stale indexes, irrelevant matches, the wrong chunk ranked first. The Kalman framing even tells you what to optimize for — retrieval should surface the <em>high-confidence, low-noise</em> memories, because those are the ones that earn a high gain.</p>
 <p>So the closed loop only closes if retrieval is good. That's the next chapter.</p>
-    <p class="sources">Sources: <cite class="ref">Framework — Agent Memory Is a Kalman Filter</cite> · <cite class="ref">023-5-types-of-llm-memory</cite> · <cite class="ref">728-ai-agent-memory-persistence-context</cite></p>
-  </article>
+  <p class="sources">Sources: <cite class="ref">Framework — Agent Memory Is a Kalman Filter</cite> · <cite class="ref">023-5-types-of-llm-memory</cite> · <cite class="ref">728-ai-agent-memory-persistence-context</cite></p>
+</article>
 
-  <article class="chapter" id="retrieval-and-its-blind-spots">
-    <header>
-      <p class="kicker">Chapter 3</p>
-      <h2>Retrieval, and Its Blind Spots</h2>
-    </header>
-    <p>A language model, left to itself, is a brilliant amnesiac. One of your own captures puts it bluntly: &quot;New chat = total amnesia.&quot; The model knows an astonishing amount about the world in general and nothing at all about <em>your</em> world — your contracts, your notes, last Tuesday's decision. Retrieval-Augmented Generation is the fix, and it is the quiet workhorse under almost every agent you will build. The pitch is simple: give the model an addressable external memory, fetch the relevant pieces at question time, and let it answer from real data instead of from vapor. Done well, RAG turns a know-it-all into something far more useful — a know-<em>your</em>-stuff.</p>
+<article class="chapter">
+  <header>
+    <p class="kicker">Chapter 3</p>
+    <h2>Retrieval, and Its Blind Spots</h2>
+  </header>
+  <p>A language model, left to itself, is a brilliant amnesiac. One of your own captures puts it bluntly: &quot;New chat = total amnesia.&quot; The model knows an astonishing amount about the world in general and nothing at all about <em>your</em> world — your contracts, your notes, last Tuesday's decision. Retrieval-Augmented Generation is the fix, and it is the quiet workhorse under almost every agent you will build. The pitch is simple: give the model an addressable external memory, fetch the relevant pieces at question time, and let it answer from real data instead of from vapor. Done well, RAG turns a know-it-all into something far more useful — a know-<em>your</em>-stuff.</p>
 <p>But RAG has a structural blind spot, and it is the kind that hides in plain sight until it embarrasses you in production. This chapter is about that blind spot, because the failure is not where most people look for it.</p>
 <h3>How retrieval actually works</h3>
 <p>Strip RAG to its mechanism and you get a loop you sketched out in <cite class="ref">305-vector-databases-how-ai-remembers</cite>. The model has no native way to search your documents by meaning, so you build one. First, text gets converted into embeddings — lists of numbers that place each piece of meaning as a point in a high-dimensional space. The trick that makes this work is that <em>similar meanings sit close together</em>: &quot;King&quot; lands near &quot;Queen&quot; and nowhere near &quot;Banana.&quot; These vectors live in a vector database whose whole job is to find the nearest points to a query, instantly, by meaning rather than by keyword.</p>
@@ -233,15 +212,15 @@
 <p>There is a second move, and it's the one I'd push hardest. Log every query whose top hit is weak. That log is not noise — it is a map of exactly where your light doesn't reach. It tells you which documents to ingest next, which notes to write, which corners of the corpus are dark. In a self-improving system the retriever's failures become the reading list. You turn the blind spot into a backlog.</p>
 <p>This matters for the agents you build because retrieval coverage gaps don't announce themselves — they pass your eval suite, demo cleanly, and then quietly answer wrong on the one question your test set didn't cover. The honest version of RAG ships with a coverage signal and a gap log, not just a relevance score.</p>
 <p>And the deepest fix to coverage isn't a better embedding at all — it's a better <em>shape</em> for the memory. Flat vector stores lose the connective tissue between documents: the link, the citation, the &quot;this decision overrides that one.&quot; When the relationships between your chunks are themselves part of the index, whole categories of dark patches light up. That is Graph-RAG, the subject of <cite class="ref">Framework — The Vault Wants to Be a Graph RAG</cite>, and it's where Chapter 4 goes next.</p>
-    
-  </article>
+  
+</article>
 
-  <article class="chapter" id="your-knowledge-wants-to-be-a-graph">
-    <header>
-      <p class="kicker">Chapter 4</p>
-      <h2>Your Knowledge Wants to Be a Graph</h2>
-    </header>
-    <p>There is a quiet violence in how most retrieval systems treat knowledge. You take a corpus — papers, notes, docs, a lifetime of saved things — and you run it through a chunker. Every document is sliced into uniform fragments, each fragment is embedded into a vector, and the whole library collapses into a cloud of points in high-dimensional space. To answer a question, you embed the question too, find the nearest points, and staple them into a prompt. It works often enough to feel like magic. But notice what just happened: you threw away every relationship. The fact that this note <em>was written to refute</em> that one, that these two ideas <em>bridge</em> two domains, that one note is a hub the author returns to again and again — all of it gone, flattened into proximity. Cosine similarity is the only structure left, and similarity is not the same as relevance. A flat vector index knows that two notes are <em>about</em> the same thing; it has no idea that one <em>answers</em> the other.</p>
+<article class="chapter">
+  <header>
+    <p class="kicker">Chapter 4</p>
+    <h2>Your Knowledge Wants to Be a Graph</h2>
+  </header>
+  <p>There is a quiet violence in how most retrieval systems treat knowledge. You take a corpus — papers, notes, docs, a lifetime of saved things — and you run it through a chunker. Every document is sliced into uniform fragments, each fragment is embedded into a vector, and the whole library collapses into a cloud of points in high-dimensional space. To answer a question, you embed the question too, find the nearest points, and staple them into a prompt. It works often enough to feel like magic. But notice what just happened: you threw away every relationship. The fact that this note <em>was written to refute</em> that one, that these two ideas <em>bridge</em> two domains, that one note is a hub the author returns to again and again — all of it gone, flattened into proximity. Cosine similarity is the only structure left, and similarity is not the same as relevance. A flat vector index knows that two notes are <em>about</em> the same thing; it has no idea that one <em>answers</em> the other.</p>
 <p>Your vault does not have this problem, and the reason is worth dwelling on. You did not build a corpus. You built a graph.</p>
 <h3>The vault is already the thing everyone is trying to build</h3>
 <p>Strip the vocabulary away and a knowledge graph is just nodes and typed edges. Your notes are the nodes. Your <code>[[wiki-links]]</code> are the edges. Your MOCs are hubs — pre-built entry points into clusters. Your synthesis neurons are bridges that deliberately span otherwise-disconnected regions. Your <code>origin</code> field is a typed attribute on every node. This is not a metaphor for a knowledge graph; it is literally the substrate that every &quot;Graph RAG&quot; system spends most of its engineering budget trying to reconstruct from raw text. As <cite class="ref">Framework — The Vault Wants to Be a Graph RAG</cite> puts it, the structure those systems extract from scratch is the structure you've been hand-writing for weeks.</p>
@@ -256,15 +235,15 @@
 <h3>What you're actually building</h3>
 <p>None of this is theoretical for you. There's a phased plan already written: an indexer that parses every <code>.md</code> into a graph and a vector store and prints the orphan count; a flat <code>ask</code> over a CLI; the graph-aware expansion with neuron up-weighting; an MCP server so Cowork and Claude Code can query the vault natively; and a final phase that closes the loop by mining unlinked-but-similar note pairs and feeding them back to the weekly synthesis run as spark candidates. The same retrieval layer that <em>reads</em> edges to answer questions can run in reverse to <em>propose new edges</em> — recall and synthesis from one engine. And it's all governed by a single non-negotiable: the generator cites or it abstains. No source, no answer. You hold out a small set of question-to-source pairs and measure retrieval hit-rate before you trust a word of it, because a graded system needs out-of-sample evidence.</p>
 <p>That's the shape of it. Flat search forgets that your knowledge has structure. You never let it forget. The whole stack is plumbing on top of edges you already drew by hand — which is the recurring lesson of this entire book wearing a knowledge-graph costume. Your knowledge wanted to be a graph the whole time. You just have to put a resolver, a spanning tree, and a citation rule on top of it, and let the walk do the rest.</p>
-    
-  </article>
+  
+</article>
 
-  <article class="chapter" id="orchestration-many-small-minds">
-    <header>
-      <p class="kicker">Chapter 5</p>
-      <h2>Orchestration: Many Small Minds</h2>
-    </header>
-    <p>A single agent is a single mind, and a single mind has a ceiling. You have felt it. The context window fills. The reasoning drifts. Halfway through a job that touches forty files, the model that was sharp on file three is sloppy on file thirty-seven, because it is now carrying the whole history of its own work and the signal-to-noise has quietly collapsed. You can make the model bigger, you can make the prompt cleverer, but you are still asking one attention span to hold the entire problem at once. That is the wrong unit of leverage. The leverage is not a smarter agent. It is <em>more</em> agents — many small minds, each holding a slice small enough to do well — coordinated by a structure that you, not they, are responsible for getting right.</p>
+<article class="chapter">
+  <header>
+    <p class="kicker">Chapter 5</p>
+    <h2>Orchestration: Many Small Minds</h2>
+  </header>
+  <p>A single agent is a single mind, and a single mind has a ceiling. You have felt it. The context window fills. The reasoning drifts. Halfway through a job that touches forty files, the model that was sharp on file three is sloppy on file thirty-seven, because it is now carrying the whole history of its own work and the signal-to-noise has quietly collapsed. You can make the model bigger, you can make the prompt cleverer, but you are still asking one attention span to hold the entire problem at once. That is the wrong unit of leverage. The leverage is not a smarter agent. It is <em>more</em> agents — many small minds, each holding a slice small enough to do well — coordinated by a structure that you, not they, are responsible for getting right.</p>
 <p>This is the move that turns AI from a faster typist into a workforce. And you already discovered it by running it twice, watching what happened, and naming the shape. That shape is <cite class="ref">Framework — The Fan-Out Port (Design as Spec, Parallel Porters, Build-Verify)</cite>, and it is the engineering core of this chapter.</p>
 <h3>Design as spec: the contract comes before the porters</h3>
 <p>The two jobs that taught you this looked unrelated. One was an ingest: 316 screenshots that needed to become roughly 205 structured notes. The other was a port: a ten-screen Claude Design file that needed to become a working React console. Different domains, identical mechanics. In both, the work fanned out across a dozen parallel agents, and in both, the quality did not come from any single agent being brilliant. It came from two things that lived <em>outside</em> the agents entirely: a <strong>contract</strong> and a <strong>verify</strong>.</p>
@@ -280,15 +259,15 @@
 <p><strong>Schemas for structured output.</strong> The contract that prevents collisions also has to constrain <em>shape</em>. When agents emit free-form prose, the verify has nothing crisp to check and the integration is mush. When they emit against a schema — fixed frontmatter fields, a known note structure, typed props — the gate becomes mechanical and the cross-unit scan becomes trivial. Structured output is not a nicety; it is what makes the verify cheap enough to run on every fan-out. The ingest worked because each note had the same skeleton, so checking 205 of them was checking one of them, 205 times.</p>
 <p><strong>Adversarial verification.</strong> The most important pattern, and the one that protects you from your own machine, is that the verifier should be <em>trying to break the output</em>, not bless it. A self-improving harness left unsupervised overfits — it mints connections that are not there, the apophenia failure. The cure is out-of-sample validation, a holdout the generator never saw. In orchestration terms: never let the agent that produced the work also be the sole judge of whether it is correct. The build is adversarial because it is deterministic and indifferent. A separate review agent reading porter output with the explicit job of finding the broken nav key is adversarial because its incentive is to fail the work, not pass it. This is also the dependency test from <cite class="ref">Framework — Directing Intelligence You Don't Own (Managing Up Is the AI-Steering Playbook)</cite>: a harness you cannot verify is a black box you are hostage to. Keep the gate honest and keep yourself able to operate without it.</p>
 <p>Which brings it home. This book was written this way. Each chapter is a porter, fanned out against a shared spec — voice, length, the frameworks to ground in — running in parallel, then pulled through a verify for consistency and the cross-chapter invariants. The method is not describing the work from a safe distance. It <em>is</em> the work. Many small minds, one clear contract, one honest gate — and the leverage was never in any single one of them.</p>
-    
-  </article>
+  
+</article>
 
-  <article class="chapter" id="evals-are-the-product">
-    <header>
-      <p class="kicker">Chapter 6</p>
-      <h2>Evals Are the Product</h2>
-    </header>
-    <p>You have been building toward this chapter without naming it. Four times this year, in four unrelated places, you reached for the same move. You graded Claude Code's 5600C compliance output 96/100 across five weighted dimensions with auto-fail triggers. You built a citation verifier that stamps every legal reference <code>VERIFIED / EXISTS / NOT_FOUND / CONTENT_MISMATCH</code> against its primary source and refuses to ship on failure. You built Crucible, which ranks an idea on a seven-dimension Success Score and explains why it landed where it did. You paired your synthetic RCM data with a harness that grades bot decisions against known-correct ground truth. You did not plan this convergence. Your hands kept finding the same primitive because the primitive is the point. That is the lesson of <cite class="ref">Framework — The Rubric Pattern (CS Tech's Trust Primitive)</cite>, and it is the spine of this chapter: <strong>you cannot ship what you cannot measure, so the thing that measures is the thing you are actually building.</strong></p>
+<article class="chapter">
+  <header>
+    <p class="kicker">Chapter 6</p>
+    <h2>Evals Are the Product</h2>
+  </header>
+  <p>You have been building toward this chapter without naming it. Four times this year, in four unrelated places, you reached for the same move. You graded Claude Code's 5600C compliance output 96/100 across five weighted dimensions with auto-fail triggers. You built a citation verifier that stamps every legal reference <code>VERIFIED / EXISTS / NOT_FOUND / CONTENT_MISMATCH</code> against its primary source and refuses to ship on failure. You built Crucible, which ranks an idea on a seven-dimension Success Score and explains why it landed where it did. You paired your synthetic RCM data with a harness that grades bot decisions against known-correct ground truth. You did not plan this convergence. Your hands kept finding the same primitive because the primitive is the point. That is the lesson of <cite class="ref">Framework — The Rubric Pattern (CS Tech's Trust Primitive)</cite>, and it is the spine of this chapter: <strong>you cannot ship what you cannot measure, so the thing that measures is the thing you are actually building.</strong></p>
 <p>Most teams treat evals as homework — a test suite you write after the feature, a chore you skip when the demo looks good. That instinct is exactly backwards for agents. A traditional program is deterministic; you can read the code and reason about whether it is correct. An agent is a stochastic function over an enormous input space, and &quot;it looked right when I tried it&quot; is not a correctness argument, it is a vibe. The output is not the product. The thing that decides whether the output is good enough to ship — fixed, weighted, explainable, checked against a ground truth — that is the product. Everything else is plumbing around it.</p>
 <h3>Don't Trust the Output — Trust the Thing That Grades It</h3>
 <p>The temptation with a capable model is to trust the output directly. It is fluent. It is confident. It cites things. And it is wrong often enough, in subtle enough ways, that &quot;trust the output&quot; is a strategy for shipping plausible garbage. The discipline that saves you is to never grade on faith. You build a rubric — a fixed set of dimensions, each weighted, each scored against something real — and you trust <em>that</em>.</p>
@@ -304,15 +283,15 @@
 <p>Make it concrete the way your own framework does. For Crucible, the holdout is not re-scoring high-scoring ideas — it is validating a sample of them against <em>real outcomes</em>: did the high-scoring ideas actually get traction? For the compliance rubric, the holdout is a human or DHSR review treated as the source of truth the rubric is measured against, plus a periodic re-audit of already-&quot;passing&quot; packets to catch real deficiencies the rubric let through. For the citation verifier, it is a random human spot-check and a running count of real-world error escapes. In every case the pattern is the same: ship a metric <em>and</em> an independent out-of-sample validation, and then watch the gap between them.</p>
 <p>That gap is your early-warning system. Track score-versus-reality drift on the holdout. As long as a high 5600C or Crucible score still predicts the real outcome it was built to proxy, the rubric is honest. The day that correlation starts to decay, you have proof the metric is being gamed, and you re-fit or re-spec before it costs you a client instead of after. Two more guards are worth keeping in the kit: hold your highest-stakes criteria partly opaque or rotating, so the rubric can't be reverse-engineered into a target; and treat your whole eval suite as a <strong>regression suite</strong> — every escaped error becomes a permanent test case, so the agent can never re-break something it already broke.</p>
 <p>Put the three frameworks together and you have the product discipline of this entire book. Build the rubric (<cite class="ref">Framework — The Rubric Pattern (CS Tech's Trust Primitive)</cite>) — that is what makes the output trustworthy. Expect it to be gamed (<cite class="ref">Framework — Goodhart's Law Is Overfitting (Every Scored System Needs an Out-of-Sample Guard)</cite>) — that is what keeps you honest about your own number. Guard it with a holdout (<cite class="ref">Framework — The Holdout Rule (Graded Systems Need Out-of-Sample)</cite>) — that is what lets you tell the difference between a system that <em>looks</em> rigorous and one that <em>is</em>. Evals, rubrics, holdouts, and regression suites are not the testing phase before the product. They are the product. The agent is just the thing you point them at.</p>
-    
-  </article>
+  
+</article>
 
-  <article class="chapter" id="generalization-is-compression">
-    <header>
-      <p class="kicker">Chapter 7</p>
-      <h2>Generalization Is Compression</h2>
-    </header>
-    <p>There is a moment in training a model that ought to feel like cheating. You give a network more capacity than it strictly needs, you feed it a finite pile of examples, and you ask it to do well on examples it has never seen. By any naive accounting this should be impossible — the network could simply store every training point and answer perfectly on those, learning nothing transferable at all. And sometimes that is exactly what it does. But when it works, when the thing actually generalizes, something quieter has happened underneath: the model has found a <em>shorter description</em> of the data than the data itself. It has compressed. The reason a generalizing model is valuable is the same reason a good explanation is valuable — it says more with less.</p>
+<article class="chapter">
+  <header>
+    <p class="kicker">Chapter 7</p>
+    <h2>Generalization Is Compression</h2>
+  </header>
+  <p>There is a moment in training a model that ought to feel like cheating. You give a network more capacity than it strictly needs, you feed it a finite pile of examples, and you ask it to do well on examples it has never seen. By any naive accounting this should be impossible — the network could simply store every training point and answer perfectly on those, learning nothing transferable at all. And sometimes that is exactly what it does. But when it works, when the thing actually generalizes, something quieter has happened underneath: the model has found a <em>shorter description</em> of the data than the data itself. It has compressed. The reason a generalizing model is valuable is the same reason a good explanation is valuable — it says more with less.</p>
 <p>This is the through-line of the whole book, and it is worth saying plainly before we get into the machinery: <strong>learning is compression</strong>. Not as a metaphor you bolt on afterward, but as the actual definition. A model that has memorized has stored the data. A model that has generalized has stored the <em>rule that produced the data</em> — which is almost always far smaller. You see this stated in your own notes as <cite class="ref">Compression Is the Through-Line — Memory, Books, Tokens, Intelligence (Dom's spark)</cite>: the spark that memory, books, tokens, and intelligence are all the same operation viewed from different angles. Compression is what they have in common. This chapter is the place where that spark earns its keep, because here it stops being poetic and becomes mechanical.</p>
 <h3>Fewer effective parameters, not fewer parameters</h3>
 <p>The first thing to get right is that &quot;shorter&quot; does not mean &quot;smaller architecture.&quot; A billion-parameter model can still find a compact rule, because what matters is not how many parameters the model <em>has</em> but how many it <em>effectively uses</em>. A model that needs all of its capacity to fit the training set has found no structure — it is a lookup table in a trench coat. A model that solves the same task while leaving most of its capacity quiet has found something real, because the part that does the work is small.</p>
@@ -327,15 +306,15 @@
 <p>The expertise curve has the identical shape, and that is not a coincidence — it is the same curve. You grind through a frustrating flat stretch where ability barely moves, accumulating representations that haven't yet reorganized into a rule. The learner who &quot;still sucks&quot; after weeks isn't talentless; they are pre-grok. The amateur who settles at &quot;good enough&quot; is the model with too little regularization pressure to ever make the jump — comfortable interpolation instead of the push toward generalization. The mechanism the literature suggests — weight decay, sustained pressure — has a human analog you already know: deliberate practice, spaced repetition, varied retrieval. Slightly-uncomfortable load, applied past the point it feels productive, is what triggers the snap.</p>
 <p>Which gives you a different relationship with the plateau. Discomfort is the <em>expected</em> signal during the memorization phase, so it is a useless stop condition — quitting on frustration is exiting one epoch before grokking. Set your kill-criterion by time-in-plateau instead, and treat the flat stretch as diagnostic of progress rather than its absence.</p>
 <p>Step back and the three frameworks are one claim wearing three costumes. Subtraction removes the capacity to memorize. Debiasing removes the noise you've already memorized. Grokking is the transition from having memorized to having compressed. All three are the system finding a shorter description — fewer effective parameters, generalizing to cases it never saw. That is what a model does when it learns, and, as the spark insists, it is what you do too. Compression is the through-line. Generalization is just compression that paid off.</p>
-    
-  </article>
+  
+</article>
 
-  <article class="chapter" id="attention-is-a-budget">
-    <header>
-      <p class="kicker">Chapter 8</p>
-      <h2>Attention Is a Budget</h2>
-    </header>
-    <p>You have been told the context window is large. A few hundred thousand tokens, maybe a million. It sounds like abundance, and that framing is the first trap. The window is not a warehouse you fill; it is a budget you spend. Every token you put in competes with every other token for the model's attention, and attention does not scale linearly with size. Past a point, adding more context makes the system <em>worse</em> — slower, more expensive, and, counterintuitively, dumber. The single discipline that separates agents that ship from demos that impress once is this: treating attention as a finite resource and engineering what gets to spend it.</p>
+<article class="chapter">
+  <header>
+    <p class="kicker">Chapter 8</p>
+    <h2>Attention Is a Budget</h2>
+  </header>
+  <p>You have been told the context window is large. A few hundred thousand tokens, maybe a million. It sounds like abundance, and that framing is the first trap. The window is not a warehouse you fill; it is a budget you spend. Every token you put in competes with every other token for the model's attention, and attention does not scale linearly with size. Past a point, adding more context makes the system <em>worse</em> — slower, more expensive, and, counterintuitively, dumber. The single discipline that separates agents that ship from demos that impress once is this: treating attention as a finite resource and engineering what gets to spend it.</p>
 <p>You already worked out the control law for this in another domain. In <cite class="ref">Framework — Run Attention Like a Leaky Bucket</cite> you noticed that the leaky-bucket rate limiter and good time-management advice are the same pattern applied to two overloaded servers — an API gateway and a human. The bucket converts bursty input into a fixed-rate output, and once it overflows, <em>the excess is dropped on purpose to protect the downstream service</em>. A context window is a third overloaded server. Tokens pour in from the user, from memory, from retrieval, from tool outputs — and the model can only attend to so many of them well. Run it open-loop, dumping everything in, and you get overflow. The only question is whether the overflow is something you designed or something that happens to you.</p>
 <h3>Where the budget leaks</h3>
 <p>The leak has two named failure modes, and once you can see them you cannot unsee them in a misbehaving agent. The first is <strong>lost-in-the-middle</strong>: models attend most reliably to the start and the end of their context and least reliably to the middle. Put the one instruction that matters in the center of a 200K-token blob and the model will skim past it — not because it can't read it, but because everything around it diluted the signal. The second is <strong>dilution</strong>: as you add more tokens, each individual token's share of attention shrinks. Ten relevant sentences in a clean 2K-token prompt get more effective attention than the same ten sentences buried in 100K tokens of &quot;context I had lying around.&quot; More input, less signal. This is exactly the bucket overflowing — the important old tokens spill out the top while you congratulate yourself on how much you poured in.</p>
@@ -350,15 +329,15 @@
 <h3>The mirror you already use</h3>
 <p>The reason this should feel familiar is that it is the same control law you run on yourself. The leaky-bucket framework drew the line directly: timeboxing is the drain rate, the capture inbox is the buffer that absorbs bursts, and the Eisenhower delete quadrant is deliberate overflow handling. You do not try to hold every open loop in your head at once — you'd saturate and burn out, which is what running open-loop looks like in a person. You externalize to a notes system (memory), you look things up when you need them rather than memorizing everything (retrieval), and you protect a small set of high-value slots for the work in front of you (the budget). An agent that manages its context window well is running your own focus discipline in silicon.</p>
 <p>This is why attention budgeting is a <em>core</em> production skill and not a tuning afterthought. The model is fixed; the only variable fully under your control is what you let into the window. Burnout for an agent looks like a 300K-token context where the model has quietly lost the thread three turns back — and the user wondering why it suddenly got stupid. The fix is never &quot;use a bigger window.&quot; The fix is the same one the framework prescribes for you: fix the output rate, let memory and retrieval absorb the variance, and pre-decide what to drop. Spend the budget, don't fill the bucket.</p>
-    
-  </article>
+  
+</article>
 
-  <article class="chapter" id="the-self-improving-harness">
-    <header>
-      <p class="kicker">Chapter 9</p>
-      <h2>The Self-Improving Harness</h2>
-    </header>
-    <p>Every chapter before this one described a part you build and then leave running: an ingestion pipeline, a retrieval layer, a writing engine. This chapter is about the form the stack takes when those parts stop being separate jobs and start feeding each other — when the system you built begins, quietly, to build itself. That is not a metaphor reaching for drama. The vault you are reading this out of is already doing it. It ingested the captures, derived your interests profile, generated the frameworks these chapters are made of, and then wrote a note describing its own creation. The highest form of the stack is a harness that improves its own scaffolding, and you happen to own a working one.</p>
+<article class="chapter">
+  <header>
+    <p class="kicker">Chapter 9</p>
+    <h2>The Self-Improving Harness</h2>
+  </header>
+  <p>Every chapter before this one described a part you build and then leave running: an ingestion pipeline, a retrieval layer, a writing engine. This chapter is about the form the stack takes when those parts stop being separate jobs and start feeding each other — when the system you built begins, quietly, to build itself. That is not a metaphor reaching for drama. The vault you are reading this out of is already doing it. It ingested the captures, derived your interests profile, generated the frameworks these chapters are made of, and then wrote a note describing its own creation. The highest form of the stack is a harness that improves its own scaffolding, and you happen to own a working one.</p>
 <p>The word that makes this precise is <em>harness</em>. A harness is the scaffolding around a raw model — the tools, prompts, control flow, the retry-and-memory loop — that turns a next-token predictor into something that gets work done. A hand-tuned harness is the normal case: you, the engineer, adjust the prompts and the control flow. A <em>self</em>-harness is the frontier case, the one your own captures formalized: a harness that optimizes its own scaffolding instead of waiting for you to do it. The minimal version is almost embarrassingly simple — plan, execute, read your own output, fix, and loop until the thing succeeds. <cite class="ref">Framework — The Brain Is a Self-Improving Harness (Sparks Explore, Neurons Consolidate)</cite> makes the claim this chapter rests on: that loop and your vault's weekly synthesis pass are <em>the same architecture</em>, just wearing different clothes.</p>
 <h3>Sparks Explore, Neurons Consolidate</h3>
 <p>The compounding comes from running two loops at two price points, not one loop at one. Cheap exploration casts a wide net; expensive consolidation keeps the best of what the net caught. In the vault these have names. <strong>Sparks</strong> are the explorer: five to ten cheap, two-line candidate connections per run, each just linking two notes with a one-line hypothesis, written into <code>sparks/</code> and tagged so they show up as the faint-pink scatter on the graph. Most are wrong, and that is the point — they are sampled widely and cheaply <em>because</em> most will be discarded. <strong>Neurons</strong> are the consolidator: the single best spark, promoted and expanded into a full framework note in <code>80-synthesis/</code>, the bold magenta nodes that thread between your amber topic clusters.</p>
@@ -370,15 +349,15 @@
 <h3>The Honest Guardrail</h3>
 <p>There is a failure mode you must design against, and it is not a technical bug — it is the system working too well. An unsupervised pattern-finder <em>will</em> overfit. Run it long enough with no check and it starts minting spurious connections, seeing signal in noise, wiring together notes that share nothing but a coincidence of vocabulary. This is apophenia, and it is the exact same failure as cognitive bias: a model that has learned the training data, including its accidents, too faithfully to generalize. The cure is the one every graded system needs — out-of-sample validation, a holdout the model never got to fit on.</p>
 <p>Which reframes the human triage entirely. It is tempting to read &quot;the human is the reward function&quot; as a bottleneck to automate away. It is the opposite. Your promote-or-delete gate is the <strong>regularizer</strong> — the holdout rule that keeps the harness honest. Automate the proposing. Automate the scoring. Never fully automate the gate, because the gate is what stops the loop from drifting into a hall of mirrors that confirms its own inventions. This is the same gate-before-release discipline the vault applies to revenue: a feature isn't done until its edge works end-to-end, and a connection isn't trusted until a human signs off. The right architecture for a self-improving harness is therefore not &quot;remove the human.&quot; It is <em>move the human to the one place where judgment is irreplaceable</em> — the promotion gate — and let cheap exploration and expensive consolidation do everything on either side of it. That is how a knowledge system compounds without rotting: it explores freely, consolidates ruthlessly, and submits its best work to a regularizer that has the standing to say no.</p>
-    
-  </article>
+  
+</article>
 
-  <article class="chapter" id="the-builders-stack">
-    <header>
-      <p class="kicker">Chapter 10</p>
-      <h2>The Builder's Stack</h2>
-    </header>
-    <p>Here is the whole book in one sentence: the model is ten percent, and you spend this entire book learning to build the other ninety. Every chapter you've read was a layer of that ninety — memory, retrieval, the graph, orchestration, evals, the attention budget, the self-improving loop. Now stack them and look at the shape of the thing you've assembled. It is not a clever prompt wrapped around a frontier API. It is a system, and the system is the product.</p>
+<article class="chapter">
+  <header>
+    <p class="kicker">Chapter 10</p>
+    <h2>The Builder's Stack</h2>
+  </header>
+  <p>Here is the whole book in one sentence: the model is ten percent, and you spend this entire book learning to build the other ninety. Every chapter you've read was a layer of that ninety — memory, retrieval, the graph, orchestration, evals, the attention budget, the self-improving loop. Now stack them and look at the shape of the thing you've assembled. It is not a clever prompt wrapped around a frontier API. It is a system, and the system is the product.</p>
 <h3>The assembled picture</h3>
 <p>Start from the bottom and build upward, because that's the order in which guarantees accumulate.</p>
 <p>At the floor sits the model — a commodity, deliberately. You proved this to yourself in <cite class="ref">Framework — Production AI System (10% Model, 90% Plumbing)</cite>: you saved a half-dozen separate infographics that all argued the same thing from different angles, and when you stitched them together the thesis was unambiguous. Frontier APIs and fine-tuning are table stakes. They are the part anyone can buy. So you stopped trying to win there.</p>
@@ -398,31 +377,8 @@
 <h3>Where this connects</h3>
 <p>This book never stood alone, and you should read it as one voice in a conversation with its siblings. The discipline you just learned — make the structure carry the guarantee — is a special case of something larger. <cite class="ref">The Pattern Beneath Everything (full book)</cite> is the argument that the same skeleton shows up across unrelated domains; an AI stack is one more place where feedback control, ranking, and out-of-sample testing recur. <cite class="ref">Physics for Builders (full book)</cite> is where the instinct comes from — conservation, equilibrium, the refusal to believe in free lunches, which is exactly why you don't trust a stuffed context window or an ungraded model. And <cite class="ref">Pricing the Future (full book)</cite> is where the stack meets the market: the ninety percent of plumbing is also where your differentiation, and your margin, actually live.</p>
 <p>So close the book and open a terminal. You have the map, you have the spec, and you have the only knowledge base you'd trust to test it on. The model is the easy ten percent. Go build the ninety.</p>
-    
-  </article>
+  
+</article>
 
-  <section id="license">
-    <h2>License &amp; Provenance</h2>
-    
-<p>&copy; 2026 Dom Sadarangani. Shared under the
-<a href="https://polyformproject.org/licenses/noncommercial/1.0.0/">PolyForm Noncommercial License 1.0.0</a>.</p>
-<p>In plain English: you may read, copy, share, and adapt this material for any
-noncommercial purpose, provided attribution stays intact. Commercial use requires
-the author&rsquo;s written permission. The full license text is at
-<a href="https://polyformproject.org/licenses/noncommercial/1.0.0/">polyformproject.org/licenses/noncommercial/1.0.0</a>.</p>
-<p class="notice"><code>Required Notice: Copyright (c) 2026 Dom Sadarangani (Domvault / The Agent Stack)</code></p>
-<h3>How this book was written</h3>
-<p>Plainly: AI wrote this book, on purpose. Each of the ten chapters was drafted end-to-end by a single AI agent &mdash; ten agents, one chapter each &mdash; running inside Dom&rsquo;s second brain (the Domvault) and grounded in its real notes: frameworks Dom wrote, and captures of what he had been reading. The book consolidates what Dom wrote and what he&rsquo;d been reading about; it is not new reporting, and it should not be read as if it were. Dom built the system, set the argument, and curated the result.</p>
-<p>The manuscript speaks to &ldquo;you&rdquo; because it was written by the brain, for its owner &mdash; and it is published as the engine wrote it. Its sibling volume, <a href="frameworks.html"><em>Compression Is the Through-Line</em></a>, collects the frameworks these chapters are built from. The vault&rsquo;s public face is the Domvault
-Constellation (<a href="https://dys5315.github.io/domvault/constellation/">dys5315.github.io/domvault/constellation</a>), where every
-node is content-addressed and signed so authorship is provable.</p>
-  </section>
-
-  <footer class="shelf">
-    <p class="kicker">Also on the shelf</p>
-    <p><a href="frameworks.html"><em>Compression Is the Through-Line</em></a> — the frameworks field guide.</p>
-  </footer>
-</main>
-<a class="toc-link" href="#toc">Contents</a>
 </body>
 </html>

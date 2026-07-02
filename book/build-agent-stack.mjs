@@ -1,192 +1,209 @@
 #!/usr/bin/env node
 /**
- * book/build.mjs — builds "Compression Is the Through-Line" from frameworks/.
+ * book/build-agent-stack.mjs — builds "The Agent Stack" from the single
+ * compiled manuscript in book/sources/the-agent-stack.md.
  *
- * Zero dependencies. Reads every published framework, groups chapters into
- * parts by primary galaxy, and emits:
- *   book/dist/index.html  — the web book (dark, cosmic, long-form reading)
- *   book/dist/print.html  — 6x9in print interior (black on white)
+ * Zero dependencies (shares book/lib/md.mjs with build.mjs). The manuscript
+ * is one file with `## Chapter N — Title` headings; this splits it into ten
+ * chapters and emits:
+ *   book/dist-agent-stack/index.html  — the web book (dark, cosmic, long-form)
+ *   book/dist-agent-stack/print.html  — 6x9in print interior (black on white)
  *
- * Usage: node book/build.mjs
+ * Usage: node book/build-agent-stack.mjs
  */
 
-import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseFrontmatter, escapeHtml, inline, mdToHtml } from './lib/md.mjs';
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const SRC = join(ROOT, 'frameworks');
-const DIST = join(dirname(fileURLToPath(import.meta.url)), 'dist');
+const HERE = dirname(fileURLToPath(import.meta.url));
+const SRC = join(HERE, 'sources', 'the-agent-stack.md');
+const DIST = join(HERE, 'dist-agent-stack');
 
 const BOOK = {
-  title: 'Compression Is the Through-Line',
-  subtitle: 'Frameworks for Seeing One Pattern Everywhere',
+  title: 'The Agent Stack',
+  subtitle: 'How to Build AI That Actually Ships',
   author: 'Dom Sadarangani',
-  source: 'Compiled from the Domvault Constellation',
+  source: 'Written by the Writing Engine of Dom’s second brain',
   sourceUrl: 'https://dys5315.github.io/domvault/constellation/',
   sourceUrlShort: 'dys5315.github.io/domvault/constellation',
   license: 'PolyForm Noncommercial 1.0.0',
   licenseUrl: 'https://polyformproject.org/licenses/noncommercial/1.0.0/',
-  requiredNotice: 'Required Notice: Copyright (c) 2026 Dom Sadarangani (Domvault / Constellation)',
+  requiredNotice:
+    'Required Notice: Copyright (c) 2026 Dom Sadarangani (Domvault / The Agent Stack)',
   year: 2026,
+  // Sibling volume, served next to index.html in the deploy dir.
+  shelf: {
+    href: 'frameworks.html',
+    title: 'Compression Is the Through-Line',
+    desc: 'the frameworks field guide',
+  },
 };
 
-const THESIS_SLUG = 'compression-is-the-through-line';
-
 // ---------------------------------------------------------------------------
-// Load and organize chapters
+// Tiny LaTeX → HTML (covers exactly what the manuscript uses: one displayed
+// Kalman-gain fraction and inline single-letter variables like $Q$).
 // ---------------------------------------------------------------------------
 
-// Matches both per-file attribution footers used in the corpus:
-//   "*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
-//   "*Genericized example from the Domvault engine. Original mental model © Dom
-//    Sadarangani, shared under PolyForm Noncommercial 1.0.0.*"
-const FOOTER_RE = /\n---+\s*\n\s*\*Genericized [^\n]*PolyForm Noncommercial 1\.0\.0\.\*\s*$/;
-
-function loadChapters() {
-  const chapters = [];
-  const excluded = [];
-  for (const file of readdirSync(SRC).sort()) {
-    if (!file.endsWith('.md')) continue;
-    if (file === 'README.md') { excluded.push({ file, reason: 'directory index, not a framework' }); continue; }
-    const raw = readFileSync(join(SRC, file), 'utf8');
-    const { meta, body } = parseFrontmatter(raw);
-    if (String(meta.publish) !== 'true') {
-      excluded.push({ file, reason: `publish: ${meta.publish ?? 'missing'}` });
-      continue;
-    }
-    let text = body;
-    // Drop the H1 (duplicate of the frontmatter title) …
-    text = text.replace(/^\s*#\s+.*\r?\n/, '');
-    // … and the repeated per-file attribution footer (stated once, on the
-    // license page, instead of 52 times).
-    text = text.replace(FOOTER_RE, '\n');
-    // Split the epigraph (leading blockquote) from the body so both outputs
-    // can style it as an epigraph.
-    let epigraph = null;
-    const epi = text.match(/^\s*((?:>.*\r?\n?)+)/);
-    if (epi) {
-      epigraph = mdToHtml(epi[1]).replace(/^<blockquote>|<\/blockquote>$/g, '');
-      text = text.slice(epi[0].length);
-    }
-    chapters.push({
-      slug: file.replace(/\.md$/, ''),
-      title: meta.title,
-      galaxy: Array.isArray(meta.galaxy) ? meta.galaxy : [meta.galaxy].filter(Boolean),
-      origin: meta.origin,
-      epigraphHtml: epigraph,
-      bodyHtml: mdToHtml(text, { headingShift: 1 }), // source ## → h3
-    });
-  }
-  return { chapters, excluded };
+function texSpan(t) {
+  return t
+    .replace(/\\text\{([^}]*)\}/g, '$1')
+    .replace(/\\sigma/g, 'σ')
+    .replace(/\^2/g, '²')
+    .replace(/_\{([^}]*)\}/g, '<sub>$1</sub>')
+    .replace(/_([A-Za-z0-9])/g, '<sub>$1</sub>')
+    .trim();
 }
 
-function humanizeGalaxy(slug) {
-  return slug
-    .split('-')
-    .map((w) => (w === 'ai' ? 'AI' : w.charAt(0).toUpperCase() + w.slice(1)))
-    .join(' ');
+function displayMathHtml(tex) {
+  // Unwrap \text{} first so \frac arguments only nest braces one level deep.
+  let s = tex.trim().replace(/\\text\{([^}]*)\}/g, '$1');
+  const fracs = [];
+  s = s.replace(
+    /\\frac\{((?:[^{}]|\{[^{}]*\})*)\}\{((?:[^{}]|\{[^{}]*\})*)\}/g,
+    (_, num, den) => {
+      fracs.push(
+        `<span class="frac"><span class="num">${texSpan(num)}</span>` +
+          `<span class="den">${texSpan(den)}</span></span>`
+      );
+      return `FRAC${fracs.length - 1}END`;
+    }
+  );
+  s = texSpan(s);
+  s = s.replace(/FRAC(\d+)END/g, (_, i) => fracs[Number(i)]);
+  return `<div class="equation"><span class="math">${s}</span></div>`;
 }
 
-function organize(chapters) {
-  const thesis = chapters.find((c) => c.slug === THESIS_SLUG);
-  if (!thesis) throw new Error(`thesis chapter ${THESIS_SLUG} not found`);
-  const rest = chapters.filter((c) => c !== thesis);
+// ---------------------------------------------------------------------------
+// Parse the manuscript
+// ---------------------------------------------------------------------------
 
-  const byGalaxy = new Map();
-  for (const c of rest) {
-    const primary = c.galaxy[0] || 'frameworks';
-    if (!byGalaxy.has(primary)) byGalaxy.set(primary, []);
-    byGalaxy.get(primary).push(c);
-  }
+function slugify(title) {
+  return title
+    .toLowerCase()
+    .replace(/['’]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
 
-  const parts = [...byGalaxy.entries()]
-    .map(([slug, chs]) => ({
-      slug,
-      name: humanizeGalaxy(slug),
-      chapters: chs.sort((a, b) => a.title.localeCompare(b.title, 'en')),
-    }))
-    .sort(
-      (a, b) =>
-        b.chapters.length - a.chapters.length || a.name.localeCompare(b.name, 'en')
-    );
+function chapterBodyToHtml(text) {
+  // Protect math from the Markdown pass, splice the rendered HTML back in.
+  const blocks = [];
+  text = text.replace(/\$\$([\s\S]+?)\$\$/g, (_, tex) => {
+    blocks.push(displayMathHtml(tex));
+    return `\n\nMATHBLOCK${blocks.length - 1}\n\n`;
+  });
+  const inlines = [];
+  text = text.replace(/\$([^$\n]+)\$/g, (_, tex) => {
+    inlines.push(`<em class="mvar">${texSpan(tex)}</em>`);
+    return `MATHINLINE${inlines.length - 1}`;
+  });
+  let html = mdToHtml(text); // manuscript sections use ### → h3 natively
+  html = html.replace(/<p>MATHBLOCK(\d+)<\/p>/g, (_, i) => blocks[Number(i)]);
+  html = html.replace(/MATHINLINE(\d+)/g, (_, i) => inlines[Number(i)]);
+  return html;
+}
 
-  // Sequential chapter numbers across the whole book (intro unnumbered).
-  let n = 0;
-  for (const part of parts) for (const c of part.chapters) c.number = ++n;
+function loadBook() {
+  const raw = readFileSync(SRC, 'utf8');
+  const { body } = parseFrontmatter(raw);
 
-  return { thesis, parts };
+  const heads = [...body.matchAll(/^## Chapter (\d+) — (.+)$/gm)];
+  if (!heads.length) throw new Error('no "## Chapter N — Title" headings found');
+
+  // Front section: title/subtitle (already in BOOK) + the engine's headnote.
+  const front = body.slice(0, heads[0].index);
+  const headMatch = front.match(/^(?:>.*\r?\n?)+/m);
+  const headnoteHtml = headMatch
+    ? mdToHtml(headMatch[0]).replace(/^<blockquote>|<\/blockquote>$/g, '')
+    : null;
+
+  const chapters = heads.map((m, idx) => {
+    const start = m.index + m[0].length;
+    const end = idx + 1 < heads.length ? heads[idx + 1].index : body.length;
+    let text = body.slice(start, end).trim();
+    // Drop the `---` separator that precedes the next chapter heading.
+    text = text.replace(/\n---+\s*$/, '').trim();
+    // Peel off a trailing per-chapter sources line (`---` + `*Sources: …*`).
+    let sourcesHtml = null;
+    const sm = text.match(/\n---+\s*\n(\*Sources:[^\n]*\*)\s*$/);
+    if (sm) {
+      sourcesHtml = inline(sm[1].replace(/^\*|\*$/g, ''));
+      text = text.slice(0, sm.index).trim();
+    }
+    return {
+      number: Number(m[1]),
+      title: m[2].trim(),
+      slug: slugify(m[2]),
+      bodyHtml: chapterBodyToHtml(text),
+      sourcesHtml,
+    };
+  });
+
+  return { headnoteHtml, chapters };
 }
 
 // ---------------------------------------------------------------------------
 // Shared fragments
 // ---------------------------------------------------------------------------
 
-const AI_NOTE =
-  `The thinking here is Dom&rsquo;s; the drafting was AI-assisted. Every chapter in this book ` +
-  `is marked <code>origin: ai-generated</code> in its source file: each framework was ` +
-  `genericized from Dom&rsquo;s private second brain by an AI agent working under his ` +
-  `direction, then curated by him for publication. The same is true of the software the book ` +
-  `came from &mdash; in the project&rsquo;s own words: &ldquo;I designed and directed it, but ` +
-  `an AI agent wrote most of the code.&rdquo;`;
+const PROVENANCE_1 =
+  `Plainly: AI wrote this book, on purpose. Each of the ten chapters was drafted ` +
+  `end-to-end by a single AI agent &mdash; ten agents, one chapter each &mdash; running ` +
+  `inside Dom&rsquo;s second brain (the Domvault) and grounded in its real notes: ` +
+  `frameworks Dom wrote, and captures of what he had been reading. The book consolidates ` +
+  `what Dom wrote and what he&rsquo;d been reading about; it is not new reporting, and it ` +
+  `should not be read as if it were. Dom built the system, set the argument, and curated ` +
+  `the result.`;
 
-function licenseBodyHtml() {
+const PROVENANCE_2 = (shelfLink) =>
+  `The manuscript speaks to &ldquo;you&rdquo; because it was written by the brain, for its ` +
+  `owner &mdash; and it is published as the engine wrote it. Its sibling volume, ` +
+  `${shelfLink}, collects the frameworks these chapters are built from.`;
+
+function licenseBodyHtml({ web }) {
+  const shelfLink = web
+    ? `<a href="${BOOK.shelf.href}"><em>${BOOK.shelf.title}</em></a>`
+    : `<em>${BOOK.shelf.title}</em>`;
   return `
-<p>&copy; ${BOOK.year} ${BOOK.author}. All chapters are shared under the
+<p>&copy; ${BOOK.year} ${BOOK.author}. Shared under the
 <a href="${BOOK.licenseUrl}">PolyForm Noncommercial License 1.0.0</a>.</p>
 <p>In plain English: you may read, copy, share, and adapt this material for any
 noncommercial purpose, provided attribution stays intact. Commercial use requires
 the author&rsquo;s written permission. The full license text is at
 <a href="${BOOK.licenseUrl}">polyformproject.org/licenses/noncommercial/1.0.0</a>.</p>
 <p class="notice"><code>${escapeHtml(BOOK.requiredNotice)}</code></p>
-<p>Each chapter was genericized from Dom&rsquo;s second brain and published as a
-framework in the Domvault Constellation
-(<a href="${BOOK.sourceUrl}">${BOOK.sourceUrlShort}</a>), where every node is
-content-addressed and signed so authorship is provable and forks carry lineage
-back to the origin.</p>
-<h3>A note on how this was written</h3>
-<p>${AI_NOTE}</p>`;
+<h3>How this book was written</h3>
+<p>${PROVENANCE_1}</p>
+<p>${PROVENANCE_2(shelfLink)} The vault&rsquo;s public face is the Domvault
+Constellation (<a href="${BOOK.sourceUrl}">${BOOK.sourceUrlShort}</a>), where every
+node is content-addressed and signed so authorship is provable.</p>`;
 }
 
 // ---------------------------------------------------------------------------
 // Web book (index.html)
 // ---------------------------------------------------------------------------
 
-function renderWeb({ thesis, parts }) {
-  const tocParts = parts
+function renderWeb({ headnoteHtml, chapters }) {
+  const toc = chapters
     .map(
-      (p, idx) => `
-      <li class="toc-part"><span class="label">Part ${idx + 1}</span> ${p.name}
-        <ol>
-          ${p.chapters
-            .map((c) => `<li><a href="#${c.slug}"><span class="n">${c.number}</span> ${inline(c.title)}</a></li>`)
-            .join('\n          ')}
-        </ol>
-      </li>`
+      (c) =>
+        `      <li><a href="#${c.slug}"><span class="n">${c.number}</span> ${inline(c.title)}</a></li>`
     )
     .join('\n');
 
-  const chapterHtml = (c, kicker) => `
-    <article class="chapter" id="${c.slug}">
-      <header>
-        <p class="kicker">${kicker}</p>
-        <h2>${inline(c.title)}</h2>
-      </header>
-      ${c.epigraphHtml ? `<blockquote class="epigraph">${c.epigraphHtml}</blockquote>` : ''}
-      ${c.bodyHtml}
-    </article>`;
-
-  const partsHtml = parts
+  const chaptersHtml = chapters
     .map(
-      (p, idx) => `
-    <section class="part" id="part-${p.slug}">
-      <div class="part-title">
-        <p class="kicker">Part ${idx + 1}</p>
-        <h1>${p.name}</h1>
-      </div>
-      ${p.chapters.map((c) => chapterHtml(c, `Chapter ${c.number} · ${p.name}`)).join('\n')}
-    </section>`
+      (c) => `
+  <article class="chapter" id="${c.slug}">
+    <header>
+      <p class="kicker">Chapter ${c.number}</p>
+      <h2>${inline(c.title)}</h2>
+    </header>
+    ${c.bodyHtml}
+    ${c.sourcesHtml ? `<p class="sources">${c.sourcesHtml}</p>` : ''}
+  </article>`
     )
     .join('\n');
 
@@ -249,27 +266,8 @@ function renderWeb({ thesis, parts }) {
   .cover .author { font-size: 1.1rem; margin: 0 0 .5rem; }
   .cover .compiled { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: .78rem; color: var(--muted); }
 
-  /* TOC */
-  #toc { border-top: 1px solid var(--line); padding-top: 2.5rem; margin-bottom: 4rem; }
-  #toc h2 { font-weight: 400; letter-spacing: .02em; }
-  #toc > ol { list-style: none; padding: 0; margin: 0; }
-  #toc .toc-part { margin: 1.6rem 0; font-size: 1.15rem; }
-  #toc .toc-part .label { margin-right: .6em; }
-  #toc .toc-part > ol { list-style: none; padding-left: 0; margin: .5rem 0 0; border-left: 1px solid var(--line); }
-  #toc .toc-part > ol li { font-size: .98rem; margin: .35rem 0; padding-left: 1rem; }
-  #toc .n { margin-right: .55em; color: var(--glow); }
-  #toc a { color: var(--fg); }
-  #toc a:hover { color: var(--accent); }
-  .toc-intro { font-size: 1.15rem; }
-  .toc-intro a, .toc-license a { color: var(--fg); }
-  .toc-license { margin-top: 1.6rem; font-size: 1.05rem; }
-
-  /* Parts & chapters */
-  .part-title { padding: 6rem 0 1rem; border-top: 1px solid var(--line); margin-top: 5rem; }
-  .part-title h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: 400; margin: .4rem 0 0; }
-  .chapter { margin-top: 5rem; }
-  .chapter header h2 { font-size: clamp(1.45rem, 4vw, 1.9rem); font-weight: 400; line-height: 1.25; margin: .4rem 0 1.2rem; }
-  .chapter h3 { font-size: 1.12rem; font-weight: 700; margin: 2.2rem 0 .6rem; color: var(--accent); }
+  /* Headnote (the engine's own preface blockquote) */
+  .headnote { margin: 0 0 4rem; }
   blockquote.epigraph {
     margin: 0 0 2rem;
     padding: .2rem 0 .2rem 1.2rem;
@@ -277,6 +275,22 @@ function renderWeb({ thesis, parts }) {
     color: var(--muted);
     font-style: italic;
   }
+
+  /* TOC */
+  #toc { border-top: 1px solid var(--line); padding-top: 2.5rem; margin-bottom: 4rem; }
+  #toc h2 { font-weight: 400; letter-spacing: .02em; }
+  #toc > ol { list-style: none; padding: 0; margin: 0; border-left: 1px solid var(--line); }
+  #toc > ol > li { font-size: 1.02rem; margin: .45rem 0; padding-left: 1rem; }
+  #toc .n { margin-right: .55em; color: var(--glow); }
+  #toc a { color: var(--fg); }
+  #toc a:hover { color: var(--accent); }
+  .toc-license, .toc-shelf { margin-top: 1.6rem !important; font-size: .98rem !important; }
+  .toc-license .label, .toc-shelf .label { margin-right: .6em; }
+
+  /* Chapters */
+  .chapter { margin-top: 5.5rem; border-top: 1px solid var(--line); padding-top: 3rem; }
+  .chapter header h2 { font-size: clamp(1.45rem, 4vw, 1.9rem); font-weight: 400; line-height: 1.25; margin: .4rem 0 1.2rem; }
+  .chapter h3 { font-size: 1.12rem; font-weight: 700; margin: 2.2rem 0 .6rem; color: var(--accent); }
   blockquote { margin: 1.5rem 0; padding-left: 1.2rem; border-left: 2px solid var(--line); color: var(--muted); }
   ul, ol { padding-left: 1.4rem; }
   li { margin: .4rem 0; }
@@ -284,12 +298,26 @@ function renderWeb({ thesis, parts }) {
   th, td { border: 1px solid var(--line); padding: .5rem .7rem; text-align: left; vertical-align: top; }
   th { background: var(--panel); font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: .78rem; letter-spacing: .05em; }
   strong { color: #fff; }
+  cite.ref { font-style: italic; color: var(--accent); }
+  .sources { margin-top: 2.5rem; font-size: .9rem; color: var(--muted); font-style: italic; }
+  em.mvar { font-family: Georgia, serif; }
+
+  /* Equation */
+  .equation { margin: 1.9rem 0; text-align: center; font-size: 1.06em; }
+  .equation .frac { display: inline-block; vertical-align: middle; text-align: center; margin: 0 .3em; }
+  .equation .frac .num { display: block; padding: 0 .55em .14em; border-bottom: 1px solid var(--muted); }
+  .equation .frac .den { display: block; padding: .14em .55em 0; }
+  .equation sub { font-size: .72em; }
 
   /* License */
   #license { margin-top: 7rem; border-top: 1px solid var(--line); padding-top: 2.5rem; }
   #license h2 { font-weight: 400; }
   #license h3 { font-size: 1.05rem; color: var(--accent); }
   #license .notice code { display: inline-block; padding: .5em .8em; }
+
+  /* Shelf footer */
+  .shelf { margin-top: 4rem; border-top: 1px solid var(--line); padding-top: 2rem; color: var(--muted); }
+  .shelf p { margin: .4rem 0; }
 
   /* Floating contents link */
   .toc-link {
@@ -318,24 +346,29 @@ function renderWeb({ thesis, parts }) {
     <p class="compiled">${BOOK.source} — <a href="${BOOK.sourceUrl}">${BOOK.sourceUrlShort}</a></p>
   </header>
 
+${headnoteHtml ? `  <section class="headnote">
+    <blockquote class="epigraph">${headnoteHtml}</blockquote>
+  </section>
+` : ''}
   <nav id="toc" aria-label="Table of contents">
     <h2>Contents</h2>
     <ol>
-      <li class="toc-intro"><span class="label">Introduction</span> <a href="#${thesis.slug}">${inline(thesis.title)}</a></li>
-${tocParts}
-      <li class="toc-license"><span class="label">Colophon</span> <a href="#license">License &amp; Attribution</a></li>
+${toc}
+      <li class="toc-license"><span class="label">Colophon</span> <a href="#license">License &amp; Provenance</a></li>
+      <li class="toc-shelf"><span class="label">Also on the shelf</span> <a href="${BOOK.shelf.href}"><em>${BOOK.shelf.title}</em> (${BOOK.shelf.desc})</a></li>
     </ol>
   </nav>
-
-  <section class="part" id="introduction">
-    ${chapterHtml(thesis, 'Introduction')}
-  </section>
-${partsHtml}
+${chaptersHtml}
 
   <section id="license">
-    <h2>License &amp; Attribution</h2>
-    ${licenseBodyHtml()}
+    <h2>License &amp; Provenance</h2>
+    ${licenseBodyHtml({ web: true })}
   </section>
+
+  <footer class="shelf">
+    <p class="kicker">Also on the shelf</p>
+    <p><a href="${BOOK.shelf.href}"><em>${BOOK.shelf.title}</em></a> — ${BOOK.shelf.desc}.</p>
+  </footer>
 </main>
 <a class="toc-link" href="#toc">Contents</a>
 </body>
@@ -347,36 +380,24 @@ ${partsHtml}
 // Print interior (print.html) — 6x9in, black on white
 // ---------------------------------------------------------------------------
 
-function renderPrint({ thesis, parts }) {
-  const chapterHtml = (c, kicker) => `
-  <article class="chapter">
-    <header>
-      <p class="kicker">${kicker}</p>
-      <h2>${inline(c.title)}</h2>
-    </header>
-    ${c.epigraphHtml ? `<blockquote class="epigraph">${c.epigraphHtml}</blockquote>` : ''}
-    ${c.bodyHtml}
-  </article>`;
-
-  const partsHtml = parts
+function renderPrint({ headnoteHtml, chapters }) {
+  const toc = chapters
     .map(
-      (p, idx) => `
-  <section class="part-page">
-    <p class="kicker">Part ${idx + 1}</p>
-    <h1>${p.name}</h1>
-  </section>
-${p.chapters.map((c) => chapterHtml(c, `Chapter ${c.number}`)).join('\n')}`
+      (c) => `    <li><span class="n">${c.number}</span> ${inline(c.title)}</li>`
     )
     .join('\n');
 
-  const tocParts = parts
+  const chaptersHtml = chapters
     .map(
-      (p, idx) => `
-    <li class="toc-part"><span class="kicker">Part ${idx + 1}</span> ${p.name}
-      <ol>
-        ${p.chapters.map((c) => `<li><span class="n">${c.number}</span> ${inline(c.title)}</li>`).join('\n        ')}
-      </ol>
-    </li>`
+      (c) => `
+<article class="chapter">
+  <header>
+    <p class="kicker">Chapter ${c.number}</p>
+    <h2>${inline(c.title)}</h2>
+  </header>
+  ${c.bodyHtml}
+  ${c.sourcesHtml ? `<p class="sources">${c.sourcesHtml}</p>` : ''}
+</article>`
     )
     .join('\n');
 
@@ -416,7 +437,7 @@ ${p.chapters.map((c) => chapterHtml(c, `Chapter ${c.number}`)).join('\n')}`
   }
 
   /* Front matter */
-  .half-title, .title-page, .copyright-page, .toc-page, .part-page {
+  .half-title, .title-page, .copyright-page, .toc-page, .epigraph-page {
     page-break-before: always; break-before: page;
   }
   .half-title { page-break-before: avoid; break-before: avoid; }
@@ -438,30 +459,36 @@ ${p.chapters.map((c) => chapterHtml(c, `Chapter ${c.number}`)).join('\n')}`
   /* TOC */
   .toc-page h2 { font-size: 15pt; margin-bottom: 1em; }
   .toc-page ol { list-style: none; margin: 0; padding: 0; }
-  .toc-page > ol > li { margin: .75em 0; }
-  .toc-page .toc-part { font-size: 11pt; }
-  .toc-page .toc-part .kicker { display: inline; margin-right: .6em; }
-  .toc-page .toc-part > ol { margin: .3em 0 0 1em; font-size: 9.5pt; }
-  .toc-page .toc-part > ol li { margin: .18em 0; }
+  .toc-page > ol > li { margin: .6em 0; font-size: 11pt; }
   .toc-page .n { display: inline-block; min-width: 1.6em; font-family: 'Courier New', Courier, monospace; font-size: 8pt; color: #444; }
 
-  /* Parts & chapters */
-  .part-page { text-align: center; }
-  .part-page h1 { margin-top: 3in; font-size: 20pt; }
+  /* Epigraph page (the engine's headnote) */
+  .epigraph-page blockquote {
+    margin: 2.2in 0 0; padding: 0 0 0 1em;
+    border-left: 1.5pt solid #000; font-style: italic; color: #222; font-size: 10pt;
+  }
+
+  /* Chapters */
   .chapter { page-break-before: always; break-before: page; }
   .chapter header { margin-bottom: 1.4em; }
   .chapter header h2 { font-size: 15pt; line-height: 1.25; margin: 0; }
   .chapter h3 { font-size: 11pt; font-weight: 700; margin: 1.6em 0 .5em; }
-  blockquote.epigraph {
-    margin: 0 0 1.6em; padding: 0 0 0 1em;
-    border-left: 1.5pt solid #000; font-style: italic; color: #222;
-  }
   blockquote { margin: 1em 0; padding-left: 1em; border-left: .75pt solid #777; color: #222; }
   ul, ol { padding-left: 1.3em; margin: .6em 0; }
   li { margin: .25em 0; }
   table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 8.5pt; page-break-inside: avoid; }
   th, td { border: .75pt solid #555; padding: .35em .5em; text-align: left; vertical-align: top; }
   th { font-family: 'Courier New', Courier, monospace; font-size: 7.5pt; letter-spacing: .05em; }
+  cite.ref { font-style: italic; }
+  .sources { margin-top: 1.8em; font-size: 8.5pt; color: #333; font-style: italic; }
+  em.mvar { font-style: italic; }
+
+  /* Equation */
+  .equation { margin: 1.4em 0; text-align: center; page-break-inside: avoid; }
+  .equation .frac { display: inline-block; vertical-align: middle; text-align: center; margin: 0 .3em; }
+  .equation .frac .num { display: block; padding: 0 .5em .1em; border-bottom: .75pt solid #000; }
+  .equation .frac .den { display: block; padding: .1em .5em 0; }
+  .equation sub { font-size: .72em; }
 </style>
 </head>
 <body>
@@ -478,19 +505,21 @@ ${p.chapters.map((c) => chapterHtml(c, `Chapter ${c.number}`)).join('\n')}`
 </section>
 
 <section class="copyright-page">
-  <div>${licenseBodyHtml()}</div>
+  <div>${licenseBodyHtml({ web: false })}</div>
 </section>
 
 <nav class="toc-page">
   <h2>Contents</h2>
   <ol>
-    <li class="toc-part"><span class="kicker">Introduction</span> ${inline(thesis.title)}</li>
-${tocParts}
+${toc}
   </ol>
 </nav>
 
-${chapterHtml(thesis, 'Introduction')}
-${partsHtml}
+${headnoteHtml ? `<section class="epigraph-page">
+  <blockquote>${headnoteHtml}</blockquote>
+</section>
+` : ''}
+${chaptersHtml}
 
 </body>
 </html>
@@ -501,22 +530,14 @@ ${partsHtml}
 // Main
 // ---------------------------------------------------------------------------
 
-const { chapters, excluded } = loadChapters();
-const org = organize(chapters);
+const book = loadBook();
 
 mkdirSync(DIST, { recursive: true });
-writeFileSync(join(DIST, 'index.html'), renderWeb(org));
-writeFileSync(join(DIST, 'print.html'), renderPrint(org));
+writeFileSync(join(DIST, 'index.html'), renderWeb(book));
+writeFileSync(join(DIST, 'print.html'), renderPrint(book));
 
-console.log(`Book: ${BOOK.title}`);
-console.log(`Introduction: ${org.thesis.title}`);
-for (const [i, p] of org.parts.entries()) {
-  console.log(`Part ${i + 1}: ${p.name} (${p.chapters.length} chapters)`);
-}
-console.log(`Total chapters: ${chapters.length} (1 introduction + ${chapters.length - 1} in parts)`);
-if (excluded.length) {
-  console.log('Excluded:');
-  for (const e of excluded) console.log(`  - ${e.file}: ${e.reason}`);
-}
+console.log(`Book: ${BOOK.title} — ${BOOK.subtitle}`);
+for (const c of book.chapters) console.log(`Chapter ${c.number}: ${c.title}`);
+console.log(`Total chapters: ${book.chapters.length}`);
 console.log(`Wrote ${join(DIST, 'index.html')}`);
 console.log(`Wrote ${join(DIST, 'print.html')}`);
