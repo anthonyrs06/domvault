@@ -68,7 +68,7 @@ const sourceEl = document.getElementById('source');
 document.getElementById('detailClose').onclick = () => { detail.style.display = 'none'; };
 // UI: scale dots/labels up on small screens so planets stay legible; PAD: enlarge tap targets on touch.
 const TOUCH = matchMedia('(pointer:coarse)').matches;
-let W,H,DPR,UI=1; const PAD = TOUCH ? 1.9 : 1;
+let W,H,DPR,UI=1; const PAD = TOUCH ? 2.6 : 1;
 function resize(){ DPR=devicePixelRatio||1; W=cv.width=innerWidth*DPR; H=cv.height=innerHeight*DPR;
   cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px';
   UI = Math.min(innerWidth,innerHeight) < 600 ? 1.7 : 1; }
@@ -99,7 +99,7 @@ function layout(){
 function dist(ax,ay,bx,by){ return Math.hypot(ax-bx,ay-by); }
 
 function draw(){
-  t+=0.006; ctx.clearRect(0,0,W,H);
+  t+=TOUCH?0.002:0.006; ctx.clearRect(0,0,W,H); // slow orbits on touch: moving dots are hard to tap
   // starfield
   ctx.fillStyle='#0a0d1e'; for(let i=0;i<140;i++){ const x=(i*73%W), y=(i*131%H);
     ctx.globalAlpha=0.3+0.3*Math.sin(t+i); ctx.fillRect(x,y,DPR,DPR); } ctx.globalAlpha=1;
@@ -189,8 +189,11 @@ function tipHTML(hit){
   const gals=(m.galaxy||[]).map(galaxyName).join(', ');
   const author=m.author?.display||m.author?.handle||'';
   const lineage=m.origin?' · 🌙 forked from another idea':'';
-  const sub=`Published note${gals?` in ${esc(gals)}`:''}${author?` · by ${esc(author)}`:''}${lineage} — tap for provenance & signature.`;
-  return `<div class="tt">🪐 ${esc(o.name)}</div><div class="ts">${sub}</div>`;
+  // Lead with the idea itself (the note's epigraph) so a browser learns what
+  // the planet is ABOUT without opening anything; provenance line follows.
+  const gist=m.summary?`<div class="ts" style="margin:4px 0 5px;color:#cdd4ff">${esc(m.summary.length>150?m.summary.slice(0,149).trimEnd()+'…':m.summary)}</div>`:'';
+  const sub=`Published note${gals?` in ${esc(gals)}`:''}${author?` · by ${esc(author)}`:''}${lineage} — tap for more.`;
+  return `<div class="tt">🪐 ${esc(o.name)}</div>${gist}<div class="ts">${sub}</div>`;
 }
 // Show the tip near (x,y) but always clamped inside the viewport.
 function placeTip(x,y){ const tw=tip.offsetWidth||200, th=tip.offsetHeight||44;
@@ -216,6 +219,14 @@ cv.addEventListener('touchend',()=>{ setTimeout(()=>{ tip.style.opacity=0; }, 90
 cv.addEventListener('click',e=>{
   const hit=pick(e.clientX,e.clientY);
   if(!hit){ // zoom out one level
+    // Touch mercy: a near-miss in star view selects the NEAREST planet within a
+    // finger-width instead of zooming out — moving dots are hard to tap exactly.
+    if(view.mode==='star' && TOUCH){
+      const mx=e.clientX*DPR, my=e.clientY*DPR; let best=null, bd=44*DPR;
+      for(const p of view.star.planets){ if(!p._x) continue;
+        const d0=dist(mx,my,p._x,p._y); if(d0<bd){ bd=d0; best=p; } }
+      if(best){ showPlanet(best); return; }
+    }
     if(view.mode==='star'){ view={mode:'galaxy',galaxy:view.star.gal}; }
     else if(view.mode==='galaxy'){ view={mode:'universe'}; }
   } else if(hit.type==='galaxy'){ view={mode:'galaxy',galaxy:hit.o}; }
@@ -232,6 +243,7 @@ function showPlanet(p){
   const price = m.price ? (m.price.amount+' '+(m.price.currency||'')+' → grants '+esc(m.price.grants_license||'')) : 'free';
   detailBody.innerHTML =
     '<div style="font-size:13px;font-weight:600;margin:0 18px 8px 0;">🪐 '+esc(m.title)+'</div>'+
+    (m.summary?'<div style="font-size:12px;line-height:1.6;color:#cdd4ff;margin:0 0 10px;">'+esc(m.summary)+'</div>':'')+
     row('author', '☀️ '+esc(m.author?.display||m.author?.handle||'—')+' <span style="color:#8b93c0">('+esc(m.author?.star||'')+')</span>')+
     row('license', esc(m.license||'—'))+
     row('lineage', lineage)+
@@ -276,6 +288,8 @@ fetch(REGISTRY.replace(/\/+$/,'')+'/universe')
       '⚪ Offline fallback'))
   );
 addEventListener('resize',()=>{ layout(); });
+// Test/debug hook (harmless in prod): lets e2e checks read real layout positions.
+window.__cosmos = { get data(){ return DATA; }, get view(){ return view; }, get dpr(){ return DPR; }, pick };
 </script>
 </body>
 </html>
