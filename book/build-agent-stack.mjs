@@ -25,7 +25,7 @@ const BOOK = {
   title: 'The Agent Stack',
   subtitle: 'How to Build AI That Actually Ships',
   author: 'Dom Sadarangani',
-  source: 'Written by the Writing Engine of Dom’s second brain',
+  source: 'AI-drafted from the author’s working notes',
   sourceUrl: 'https://dys5315.github.io/domvault/constellation/',
   sourceUrlShort: 'dys5315.github.io/domvault/constellation',
   license: 'PolyForm Noncommercial 1.0.0',
@@ -149,18 +149,19 @@ function loadBook() {
 // ---------------------------------------------------------------------------
 
 const PROVENANCE_1 =
-  `Plainly: AI wrote this book, on purpose. Each of the ten chapters was drafted ` +
+  `Plainly: AI drafted this book, on purpose. Each of the ten chapters was drafted ` +
   `end-to-end by a single AI agent &mdash; ten agents, one chapter each &mdash; running ` +
-  `inside Dom&rsquo;s second brain (the Domvault) and grounded in its real notes: ` +
-  `frameworks Dom wrote, and captures of what he had been reading. The book consolidates ` +
-  `what Dom wrote and what he&rsquo;d been reading about; it is not new reporting, and it ` +
-  `should not be read as if it were. Dom built the system, set the argument, and curated ` +
-  `the result.`;
+  `inside the author&rsquo;s self-hosted note system (the Domvault) and grounded in its ` +
+  `real notes: frameworks Dom Sadarangani wrote, and captures of what he had been ` +
+  `reading. The book consolidates that material; it is not new reporting, and it should ` +
+  `not be read as if it were. Dom built the system, set the argument, and directed and ` +
+  `reviewed the result.`;
 
 const PROVENANCE_2 = (shelfLink) =>
-  `The manuscript speaks to &ldquo;you&rdquo; because it was written by the brain, for its ` +
-  `owner &mdash; and it is published as the engine wrote it. Its sibling volume, ` +
-  `${shelfLink}, collects the frameworks these chapters are built from.`;
+  `This edition has been edited for an outside reader: where the text says ` +
+  `&ldquo;my vault&rdquo; or &ldquo;my notes,&rdquo; that is the author&rsquo;s system ` +
+  `speaking; where it says &ldquo;you,&rdquo; it means you, the builder. Its sibling ` +
+  `volume, ${shelfLink}, collects the frameworks these chapters are built from.`;
 
 function licenseBodyHtml({ web }) {
   const shelfLink = web
