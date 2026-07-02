@@ -1,0 +1,1428 @@
+{
+  "planets": [
+    {
+      "id": "planet_a948d1ec6cdc8e202a264f1171cad092e3009326",
+      "title": "A Backtest Is a Double Pendulum (Deterministic ≠ Predictable)",
+      "summary": "A strategy that survives only one trajectory has fit the chaos, not the signal. Data-snooping is just exploiting sensitive dependence — finding the one initial condition where the pendulum happened to swing your way.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "quant-markets"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "quant",
+        "chaos",
+        "backtesting",
+        "robustness"
+      ]
+    },
+    {
+      "id": "planet_5d32751606cde2a7cf6d4cfc34429756addaa984",
+      "title": "A Ranking Function for Trust (BM25 as a Reputation Engine)",
+      "summary": "A 40-year-old search-ranking formula already encodes the fairness rules a reputation score needs. A defensible score is a product's trust primitive — and BM25 supplies the math for one.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "leadership"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "information-retrieval",
+        "reputation",
+        "ranking",
+        "trust"
+      ]
+    },
+    {
+      "id": "planet_9e31166f4b13e00a03aea665becbd2c52724dca7",
+      "title": "A Spanning Tree for Graph-RAG Traversal",
+      "summary": "Walk a cyclic knowledge graph naively and you get a broadcast storm — duplicate fetches, a context window full of repeats, a frontier that never converges. The Spanning Tree Protocol shows how to prune it.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering",
+        "systems"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "rag",
+        "graph-rag",
+        "networking",
+        "retrieval"
+      ]
+    },
+    {
+      "id": "planet_d58bccabb04040d1b1f0b2e035f1620a90b9fc6f",
+      "title": "Agent Memory Is a Kalman Filter",
+      "summary": "Both maintain a belief about a hidden state from a stream of noisy inputs, and both do it the same way: **predict, then correct, weighting new evidence by how much you trust it.**",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "ai-engineering",
+        "agents",
+        "memory",
+        "estimation"
+      ]
+    },
+    {
+      "id": "planet_ce1aeda83155db442abe2c2eaecd9c7894fefc05",
+      "title": "Behavioral Psychology — Product Applications",
+      "summary": "Behavioral psychology is a design input: profile how people actually decide, then build the product around the real behavior, not the idealized one.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "product-growth"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "psychology",
+        "product",
+        "behavior"
+      ]
+    },
+    {
+      "id": "planet_88078aafa8d4efa6c7eb48e3d6c0910cb92e23f5",
+      "title": "BI & Analysis Methodology",
+      "summary": "Defensible methodology over clever shortcuts. An analysis you can't trace is an analysis you can't defend.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "frameworks"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "data",
+        "analysis",
+        "bi"
+      ]
+    },
+    {
+      "id": "planet_178614c495ce3b39a3bfe4136488e7a85d5485a4",
+      "title": "Capacity-Aware Assignment (Round-Robin Is Naïve Staffing)",
+      "summary": "Round-robin only works when every server has identical capacity. The instant capacity is uneven, even distribution melts the weakest node while the strongest sits idle.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "leadership",
+        "systems"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "operations",
+        "load-balancing",
+        "staffing",
+        "systems"
+      ]
+    },
+    {
+      "id": "planet_cf0a1095a25ca512197330c9aa2ae5afcec16f42",
+      "title": "Chirality Is Positioning",
+      "summary": "You don't always need new atoms (features). You need the mirror flip — the same molecule oriented so it reads as a different drug to the customer.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "product-growth",
+        "leadership"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "positioning",
+        "gtm",
+        "strategy"
+      ]
+    },
+    {
+      "id": "planet_340489b36eb7be3ad25b01fc91ccbb6ee333c6f7",
+      "title": "Clarity Is PCA for Priorities",
+      "summary": "\"Clarity first, everything else second\" is principal component analysis run on your to-do space: find the 1–2 axes that explain the most variance in outcomes, and discard the rest as noise.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "knowledge",
+        "product-growth"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "productivity",
+        "linear-algebra",
+        "prioritization"
+      ]
+    },
+    {
+      "id": "planet_fdb9ed876f21b3394ae93ae020d2694e0f2c5270",
+      "title": "Cognitive Biases Are Overfitting (Debiasing Is Regularization)",
+      "summary": "Most cognitive biases are the mind overfitting to a small, vivid sample: low \"training error\" (it feels obviously right from where you stand), high \"test error\" (it's wrong about the world), and a refusal to check the gap. That gap *is* high variance.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering",
+        "leadership",
+        "systems"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "ml",
+        "decision-making",
+        "bias",
+        "regularization"
+      ]
+    },
+    {
+      "id": "planet_261718bf5a680aacd5e0ca953781dbfb95670bcd",
+      "title": "Cold-Start Is a Change-Management Problem",
+      "summary": "A two-sided marketplace cold-start is a population-level change-management problem — and the classic change playbook's eight steps map onto it almost line for line.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "product-growth"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "gtm",
+        "marketplace",
+        "change-management"
+      ]
+    },
+    {
+      "id": "planet_c2e7894f2e414eeba534f71ebb844722e783801f",
+      "title": "Compression Is the Through-Line",
+      "summary": "Intelligence and memory are both the art of packing more meaning into denser, retrievable representations. Learning ≈ compression.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "information-theory",
+        "ai",
+        "compression",
+        "memory"
+      ]
+    },
+    {
+      "id": "planet_be9645a31cf4594ee430adbf9eb2334e029afb0f",
+      "title": "Controlled Friction Builds Trust",
+      "summary": "An adviser who agrees with everything has no credibility to spend. Planned, patterned friction signals that a position is real — and earns the trust that the eventual yes is worth.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "product-growth",
+        "leadership",
+        "ai-engineering"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "ux",
+        "negotiation",
+        "trust",
+        "ai-engineering"
+      ]
+    },
+    {
+      "id": "planet_eda65cb67466bca3b2253f622979af603eab7714",
+      "title": "Cool Is a Requirement — iPod, Not Zune",
+      "summary": "Treat desirability as a hard requirement, not a nice-to-have. We want to be the iPod, not the Zune.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "product-growth"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "product",
+        "brand",
+        "virality",
+        "distribution"
+      ]
+    },
+    {
+      "id": "planet_9681376443462124eeef124780a75d12afe935c9",
+      "title": "Curvature Is the Cost of Being Wrong",
+      "summary": "Curvature is not geometry for its own sake; it is the **price of error per unit of deviation** — and the same quadratic form recurs across optimization, control, estimation, and portfolio risk.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "quant-markets"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "math",
+        "optimization",
+        "control",
+        "curvature"
+      ]
+    },
+    {
+      "id": "planet_c51cbbb912b56db2fc2ec159d825fddc5debb4f3",
+      "title": "Dijkstra to the Money Node",
+      "summary": "The right build order is literally Dijkstra's shortest path from \"idea\" to the first-dollar node. The prettiest feature is usually a high-weight edge that doesn't lie on that path — so the algorithm skips it.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "product-growth"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "algorithms",
+        "revenue",
+        "prioritization",
+        "gtm"
+      ]
+    },
+    {
+      "id": "planet_fba93df17d9606be5a45238cbba146387fa3cd98",
+      "title": "Directing Intelligence You Don't Own (Managing Up Is the AI-Steering Playbook)",
+      "summary": "Getting good outcomes from an agent more capable than you that you **cannot command, only orient** — that's the same problem whether the agent is a strong manager or a frontier model.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering",
+        "leadership"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "ai-engineering",
+        "management",
+        "delegation",
+        "agents"
+      ]
+    },
+    {
+      "id": "planet_23cfcacf2b9bd2f227d821181cb0bb875f093581",
+      "title": "Engine vs Rules (One Boundary, Three Jobs)",
+      "summary": "Draw the line between configurable Rules and the underlying Engine explicitly, once — and the ownership boundary, the multi-tenancy model, and the legal clarity all fall out for free.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "frameworks"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "architecture",
+        "multi-tenant",
+        "ip-strategy",
+        "design"
+      ]
+    },
+    {
+      "id": "planet_d192a15b6225a390c0c0ad27b94b6cc7f6825083",
+      "title": "Feedback & Control (One Pattern, Four Domains)",
+      "summary": "The same abstract pattern — **negative feedback toward a setpoint** — hides in control theory, markets, biology, and AI agents. They're the same math wearing different clothes.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "quant-markets",
+        "systems"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "control-theory",
+        "systems-thinking",
+        "cross-domain"
+      ]
+    },
+    {
+      "id": "planet_cc38cf9fa84c18c16580aeab7c35aaf97d03b87e",
+      "title": "FMEA Is the Rubric Pointed at Failure",
+      "summary": "Severity and Occurrence are obvious. **Detection** is the sharp, transferable axis: a high-severity failure you can't *see coming* is worse than one you can, because you lose the chance to intervene.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "risk",
+        "rubric",
+        "fmea",
+        "detection"
+      ]
+    },
+    {
+      "id": "planet_1680ce1bbebd75694e55688fc70d4a93506b6027",
+      "title": "Goodhart's Law Is Overfitting (Every Scored System Needs a Holdout)",
+      "summary": "Overfitting a backtest and gaming a scoring rubric are the *same* failure: you optimize a proxy until it stops predicting the reality it stood for.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "ml",
+        "metrics",
+        "evaluation",
+        "rubric"
+      ]
+    },
+    {
+      "id": "planet_a5031e68ff8ed23a42abe5265055a532ca2334ad",
+      "title": "Grokking Is the Expertise Plateau",
+      "summary": "The discouraging middle of any hard skill is diagnostic of progress, not its absence — it's the memorization phase that precedes the phase transition to true generalization.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering",
+        "knowledge"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "ml",
+        "learning",
+        "mastery",
+        "deliberate-practice"
+      ]
+    },
+    {
+      "id": "planet_443c3c11ef15f1ed7bc3b310cd20ea24831d1216",
+      "title": "Idea to Revenue (A Validation Gate)",
+      "summary": "Before building, make an idea pass a validation gate — and define how you'll kill it before you start.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "product-growth"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "validation",
+        "revenue",
+        "gtm"
+      ]
+    },
+    {
+      "id": "planet_6993ca2cf14c0cddd17d335e97ddc016771e8031",
+      "title": "Mechanical Stress as Balanced Opposing Forces",
+      "summary": "\"Balanced opposing forces about an equilibrium\" is a portable mental model — it shows up in beams, control loops, markets, and homeostasis.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "systems",
+        "quant-markets"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "physics",
+        "systems-thinking",
+        "control"
+      ]
+    },
+    {
+      "id": "planet_9d9feb83ce230320fd32768dd4a50b03513a277b",
+      "title": "Model the Funnel as a One-Way State Machine",
+      "summary": "Modeling a lifecycle as states + allowed transitions (not flags) makes illegal states unrepresentable.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "product-growth",
+        "systems"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "state-machine",
+        "product",
+        "engineering",
+        "funnel"
+      ]
+    },
+    {
+      "id": "planet_f0e6e29f8a316ffc73d71bac19d35a5997077bdc",
+      "title": "1:1s Are a Team's Heartbeat Protocol",
+      "summary": "Liveness isn't a question you ask, it's a signal you monitor. Engagement is read from the cadence and texture of routine contact, not from asking \"are you engaged?\"",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "leadership",
+        "systems"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "management",
+        "distributed-systems",
+        "observability",
+        "leadership"
+      ]
+    },
+    {
+      "id": "planet_816e2d02459c6f519cee9fbb2317513698aa0d7b",
+      "title": "Pattern Recognition Needs a Holdout (Or It's Apophenia)",
+      "summary": "\"Get better at spotting patterns\" and \"stop seeing patterns that aren't there\" are not two skills — they are precision and recall on the same detector.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering",
+        "leadership"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "pattern-recognition",
+        "ml",
+        "decision-making",
+        "holdout"
+      ]
+    },
+    {
+      "id": "planet_5457aa332138bf7b2ccc745b9070070729469a67",
+      "title": "Production AI Is 10% Model, 90% Plumbing",
+      "summary": "Shipping AI is mostly engineering around the model, not the model itself. When evaluating a new AI feature, ask \"where's the 90%?\" first.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "ai-engineering",
+        "agents",
+        "mlops",
+        "production"
+      ]
+    },
+    {
+      "id": "planet_1625e50c06eea3a7638fbcef8633600dfb72ab98",
+      "title": "RAG Searches Under the Streetlight (Coverage Is the Hidden Failure)",
+      "summary": "A retrieval system can only ever return answers from where the light is — the slice of the world that got chunked, embedded, and indexed. The danger is that the search feels exhaustive from inside the light.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "rag",
+        "retrieval",
+        "ai-engineering",
+        "coverage"
+      ]
+    },
+    {
+      "id": "planet_72cfd00c2a1b1f754e735a164b8aa490ed7b8f9e",
+      "title": "Reusable Fixtures Are SpaceX Economics for Testing",
+      "summary": "An expendable rocket is a fresh random dataset every test; a reusable booster is one deterministic generator flown a thousand times.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "systems"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "testing",
+        "engineering",
+        "economics",
+        "fixtures"
+      ]
+    },
+    {
+      "id": "planet_54ed53976a3ed6e1b21f3bb846a232e9fa456fd7",
+      "title": "Rumination Needs a Circuit Breaker",
+      "summary": "You don't stop a runaway by trying harder inside the loop — that *is* the retry storm. You stop it with an out-of-band trip that refuses to execute the loop body at all.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "leadership",
+        "systems"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "well-being",
+        "feedback-control",
+        "distributed-systems"
+      ]
+    },
+    {
+      "id": "planet_d6398184c5a1738890eae1963325ea77f42e2ec1",
+      "title": "Run Attention Like a Leaky Bucket",
+      "summary": "The leaky-bucket rate limiter and most good time-management advice are the same control law applied to two overloaded servers — an API gateway and a human. Dropping is a feature, not a failure.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "knowledge",
+        "systems"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "productivity",
+        "systems-thinking",
+        "attention"
+      ]
+    },
+    {
+      "id": "planet_97b7706d7c8e886002340139f48fed3dadc93ad5",
+      "title": "Sampling Beats the Lattice (Random Search Is Monte Carlo Over Configs)",
+      "summary": "Random hyperparameter search *is* Monte Carlo — uniform random sampling of a region you can't compute analytically, leaning on the law of large numbers.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering",
+        "quant-markets"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "ml",
+        "math",
+        "monte-carlo",
+        "hyperparameters"
+      ]
+    },
+    {
+      "id": "planet_c41466e7922e61b7cddfdabff17dd2bfda14abb0",
+      "title": "Sovereign AI Bottoms Out at the Power Meter",
+      "summary": "Sovereignty over the AI stack doesn't close until it reaches the energy layer. It's a feasibility question, not an identity, and it lives in kWh/day.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "frameworks"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "ai-infrastructure",
+        "energy",
+        "sovereignty"
+      ]
+    },
+    {
+      "id": "planet_457fe491ae0142fa59c9f6a60c9f7776873f1ef8",
+      "title": "Strengths Decay Like Moats",
+      "summary": "A personal strength is just a moat at the scale of one person — an edge relative to an environment. When the environment moves, an edge can flip into a liability.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "leadership"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "strategy",
+        "self-development",
+        "moats"
+      ]
+    },
+    {
+      "id": "planet_15aa12ceb45d8233975db2b9fa14b5af08807fa4",
+      "title": "Subtraction Is Regularization (Fewer Parameters Generalize Better)",
+      "summary": "Subtracting a feature or a commitment is regularization: fewer moving parts, lower variance (fragility), better generalization to the futures you didn't plan for.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering",
+        "product-growth",
+        "systems"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "ml",
+        "product",
+        "simplicity",
+        "regularization"
+      ]
+    },
+    {
+      "id": "planet_a1e2add50f4969024fbe6258b84f622d902e41c4",
+      "title": "Tesla-Valve the Workflow (Irreversibility by Construction)",
+      "summary": "Irreversibility-by-construction beats irreversibility-by-policy the same way the Tesla valve beats a check valve with a spring: no part to fail.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "systems"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "engineering",
+        "workflow",
+        "event-sourcing",
+        "state"
+      ]
+    },
+    {
+      "id": "planet_81d5a726c2f2ef95a555b6a5a9afcfeac5dbe9d5",
+      "title": "The Advisor as Servant-Leader",
+      "summary": "\"Disagrees sometimes\" reads as a quirk; \"serves your success, not your comfort\" reads as a contract — a design constraint you can hold a transcript accountable to.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "leadership",
+        "product-growth",
+        "ai-engineering"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "leadership",
+        "ux",
+        "ai-engineering",
+        "candor"
+      ]
+    },
+    {
+      "id": "planet_97249cb0b5561cc7038faae9fa5e67347e0f167c",
+      "title": "The AI-Augmented Second Brain Stack",
+      "summary": "A second brain has three layers: a markdown-and-graph memory, AI agents as workers, and a loop where the system improves itself. The differentiator isn't the model — it's edge quality.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "knowledge",
+        "ai-engineering"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "second-brain",
+        "agents",
+        "knowledge-management"
+      ]
+    },
+    {
+      "id": "planet_32515919c455d252cf6b7e05e0633ee0ecd6c58b",
+      "title": "The Barrier Is the Notation (Symbol Terror Is an Onboarding Tax)",
+      "summary": "The blocker is never the idea, it's the **notation**. Good teaching pays the toll for the learner: translate the symbols first, then the idea arrives free.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "knowledge",
+        "product-growth"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "learning",
+        "onboarding",
+        "product",
+        "pedagogy"
+      ]
+    },
+    {
+      "id": "planet_f790403f845fab0914bad718ca9926705a4a5be5",
+      "title": "The Brain Is a Self-Improving Harness (Sparks Explore, Neurons Consolidate)",
+      "summary": "A second brain isn't a notebook, or even a graph — it's a *harness that improves its own scaffolding*: explore cheaply, consolidate the best, and keep a human gate as the regularizer.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering",
+        "knowledge"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "ai-engineering",
+        "second-brain",
+        "agents",
+        "harness"
+      ]
+    },
+    {
+      "id": "planet_aef1166536d6dba59ed9f75230a238c6aee4bb80",
+      "title": "The Fan-Out Port (Design as Spec, Parallel Porters, Build-Verify)",
+      "summary": "The quality comes from the **contract + the verify**, not from each agent being perfect. It turns \"weeks of mechanical work\" into one wall-clock pass.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "ai-engineering",
+        "agents",
+        "methodology",
+        "parallelism"
+      ]
+    },
+    {
+      "id": "planet_4501c2a68ea4d8c9c46a51a0ee674fe82eea327c",
+      "title": "The Graph Compounds Like Interest",
+      "summary": "A note that just sits there adds *principal*. A note that connects to many others earns on the *running total*. The value of a knowledge graph is the edge set, not the node count — and like compound interest, it goes slow-then-sudden.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering",
+        "knowledge"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "knowledge-graph",
+        "second-brain",
+        "compounding"
+      ]
+    },
+    {
+      "id": "planet_89fc9fdbd876d071c225990ec48f43a0e967c77c",
+      "title": "The Holdout Rule (Graded Systems Need Out-of-Sample)",
+      "summary": "Anything that grades against a metric needs a holdout — an out-of-sample check the optimizer never saw. It's the difference between a score that *looks* rigorous and one that *is*.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "evaluation",
+        "rubric",
+        "overfitting",
+        "anti-gaming"
+      ]
+    },
+    {
+      "id": "planet_9db5abdfd7582281bf5884e2b3ba83cec518edd2",
+      "title": "The Missing Money Node (Idea→Revenue Audit)",
+      "summary": "A feature is only done when its conversion edge works end-to-end — no dead CTAs, no placeholder stubs, no gate that approves work but releases nothing. Every feature needs a working money node.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "product-growth"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "revenue",
+        "gtm",
+        "product",
+        "money-node"
+      ]
+    },
+    {
+      "id": "planet_c3819786c14e5e8a839ea24222b30ca4f4c91f31",
+      "title": "The Rubric Pattern (Graded, Explainable AI Is the Trust Primitive)",
+      "summary": "Intelligence is table stakes; trust is the product. The trust primitive is the rubric: a fixed, weighted, explainable scoring scheme graded against ground truth — never raw model output on faith.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering",
+        "product-growth",
+        "leadership"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "ai-engineering",
+        "product",
+        "trust",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "planet_cc614e00367ea06913c4d49287c0f5b7dd1805c2",
+      "title": "A Linked Vault Wants to Be a Graph RAG",
+      "summary": "A linked note vault is already a hand-built knowledge graph. Most graph-RAG systems build the graph *graph-last* by extraction; a curated vault was built *graph-first* by hand — and that inversion is the advantage.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering",
+        "knowledge"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "ai-engineering",
+        "knowledge-graph",
+        "rag",
+        "second-brain"
+      ]
+    },
+    {
+      "id": "planet_d2d9c6f89f29447138c9f076e5374978e4d7fbec",
+      "title": "Throughput Comes From Removing Contention, Not From Tidiness",
+      "summary": "A \"tidy\"-looking ordering optimizes for legibility, not throughput. Throughput is set by the *contended resource*.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "systems",
+        "leadership"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "systems",
+        "operations",
+        "concurrency",
+        "throughput"
+      ]
+    },
+    {
+      "id": "planet_24f53aa7482291be08cf8713e86f497e0ee446e3",
+      "title": "Trojan-Horse GTM (The Free Wedge Sells the Case Study)",
+      "summary": "A deliberately-free pilot isn't a discount — it's a distribution buy. Its real deliverable isn't the work performed; it's the measured, quotable proof that unlocks the channel that scales.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "product-growth",
+        "leadership"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "gtm",
+        "strategy",
+        "distribution",
+        "land-and-expand"
+      ]
+    },
+    {
+      "id": "planet_553668857a6b3ad44ac4ce74c2a5090eeb569735",
+      "title": "Virality, Distribution & the Rubric",
+      "summary": "Don't average your virality drivers — one fatal zero shouldn't hide behind four strong scores. And the content is only the 10%; distribution is the 90%.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "product-growth",
+        "ai-engineering"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "virality",
+        "marketing",
+        "distribution",
+        "rubric"
+      ]
+    },
+    {
+      "id": "planet_440af4105819abbbbd8c9ae6af278bc73071ab7a",
+      "title": "Volatility Harvesting (Feedback Control You Want Disturbed)",
+      "summary": "Turn the disturbance you'd normally fight into the thing you harvest. It's a design pattern, not just a trade.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "quant-markets",
+        "systems"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "quant",
+        "control-theory",
+        "systems-thinking"
+      ]
+    },
+    {
+      "id": "planet_fb6a6e7cf1c472dff015996b6628a06a58d0562f",
+      "title": "Wiki-Links Are DNS for the Vault",
+      "summary": "If retrieval walks edges that don't resolve, the graph it traverses is a lie, and the answer inherits the lie.",
+      "author": {
+        "handle": "dom",
+        "display": "Dom Sadarangani",
+        "star": "star_dom"
+      },
+      "galaxy": [
+        "ai-engineering",
+        "systems",
+        "knowledge"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "knowledge-graph",
+        "retrieval",
+        "networking",
+        "second-brain"
+      ]
+    }
+  ]
+}
