@@ -1,22 +1,146 @@
 {
   "galaxies": [
-    { "id": "ai-engineering", "name": "AI Engineering", "color": "#7c5cff",
+    {
+      "id": "ai-engineering",
+      "name": "AI Engineering",
+      "color": "#7c5cff",
       "stars": [
-        { "handle": "dom", "display": "Dom", "planets": ["Graph-RAG Traversal", "Agent Memory = Kalman Filter", "10% Model 90% Plumbing", "Attention as a Leaky Bucket"] },
-        { "handle": "ava", "display": "Ava", "planets": ["Eval Rubrics", "Retrieval Blind Spots"] },
-        { "handle": "kai", "display": "Kai", "planets": ["Self-Improving Harness", "Compression = Intelligence"] }
+        {
+          "handle": "dom",
+          "display": "Dom",
+          "planets": [
+            "A Spanning Tree for Graph-RAG Traversal",
+            "Agent Memory Is a Kalman Filter",
+            "Cognitive Biases Are Overfitting (Debiasing Is Regularization)",
+            "Compression Is the Through-Line",
+            "Directing Intelligence You Don't Own (Managing Up Is the AI-Steering Playbook)",
+            "FMEA Is the Rubric Pointed at Failure",
+            "Goodhart's Law Is Overfitting (Every Scored System Needs a Holdout)",
+            "Grokking Is the Expertise Plateau",
+            "Pattern Recognition Needs a Holdout (Or It's Apophenia)",
+            "Production AI Is 10% Model, 90% Plumbing",
+            "RAG Searches Under the Streetlight (Coverage Is the Hidden Failure)",
+            "Sampling Beats the Lattice (Random Search Is Monte Carlo Over Configs)",
+            "Subtraction Is Regularization (Fewer Parameters Generalize Better)",
+            "The Brain Is a Self-Improving Harness (Sparks Explore, Neurons Consolidate)",
+            "The Fan-Out Port (Design as Spec, Parallel Porters, Build-Verify)",
+            "The Graph Compounds Like Interest",
+            "The Holdout Rule (Graded Systems Need Out-of-Sample)",
+            "The Rubric Pattern (Graded, Explainable AI Is the Trust Primitive)",
+            "A Linked Vault Wants to Be a Graph RAG",
+            "Wiki-Links Are DNS for the Vault"
+          ]
+        }
       ]
     },
-    { "id": "product-growth", "name": "Product & Growth", "color": "#ff5ca8",
+    {
+      "id": "product-growth",
+      "name": "Product Growth",
+      "color": "#ff5ca8",
       "stars": [
-        { "handle": "dom", "display": "Dom", "planets": ["Funnel as State Machine", "The Missing Money Node", "Trojan-Horse GTM"] },
-        { "handle": "mira", "display": "Mira", "planets": ["Cool Is a Requirement", "Price the Lift"] }
+        {
+          "handle": "dom",
+          "display": "Dom",
+          "planets": [
+            "Behavioral Psychology \u2014 Product Applications",
+            "Chirality Is Positioning",
+            "Cold-Start Is a Change-Management Problem",
+            "Controlled Friction Builds Trust",
+            "Cool Is a Requirement \u2014 iPod, Not Zune",
+            "Dijkstra to the Money Node",
+            "Idea to Revenue (A Validation Gate)",
+            "Model the Funnel as a One-Way State Machine",
+            "The Missing Money Node (Idea\u2192Revenue Audit)",
+            "Trojan-Horse GTM (The Free Wedge Sells the Case Study)",
+            "Virality, Distribution & the Rubric"
+          ]
+        }
       ]
     },
-    { "id": "quant-markets", "name": "Quant & Markets", "color": "#39d0d8",
+    {
+      "id": "leadership",
+      "name": "Leadership",
+      "color": "#ff8a5c",
       "stars": [
-        { "handle": "dom", "display": "Dom", "planets": ["Backtest = Double Pendulum", "Volatility Harvesting"] },
-        { "handle": "leo", "display": "Leo", "planets": ["Holdout Rule", "Goodhart = Overfitting"] }
+        {
+          "handle": "dom",
+          "display": "Dom",
+          "planets": [
+            "A Ranking Function for Trust (BM25 as a Reputation Engine)",
+            "Capacity-Aware Assignment (Round-Robin Is Na\u00efve Staffing)",
+            "1:1s Are a Team's Heartbeat Protocol",
+            "Rumination Needs a Circuit Breaker",
+            "Strengths Decay Like Moats",
+            "The Advisor as Servant-Leader"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quant-markets",
+      "name": "Quant Markets",
+      "color": "#39d0d8",
+      "stars": [
+        {
+          "handle": "dom",
+          "display": "Dom",
+          "planets": [
+            "A Backtest Is a Double Pendulum (Deterministic \u2260 Predictable)",
+            "Curvature Is the Cost of Being Wrong",
+            "Feedback & Control (One Pattern, Four Domains)",
+            "Volatility Harvesting (Feedback Control You Want Disturbed)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "knowledge",
+      "name": "Knowledge",
+      "color": "#ffd166",
+      "stars": [
+        {
+          "handle": "dom",
+          "display": "Dom",
+          "planets": [
+            "Clarity Is PCA for Priorities",
+            "Run Attention Like a Leaky Bucket",
+            "The AI-Augmented Second Brain Stack",
+            "The Barrier Is the Notation (Symbol Terror Is an Onboarding Tax)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "systems",
+      "name": "Systems",
+      "color": "#ef476f",
+      "stars": [
+        {
+          "handle": "dom",
+          "display": "Dom",
+          "planets": [
+            "Mechanical Stress as Balanced Opposing Forces",
+            "Reusable Fixtures Are SpaceX Economics for Testing",
+            "Tesla-Valve the Workflow (Irreversibility by Construction)",
+            "Throughput Comes From Removing Contention, Not From Tidiness"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "frameworks",
+      "name": "Frameworks",
+      "color": "#06d6a0",
+      "stars": [
+        {
+          "handle": "dom",
+          "display": "Dom",
+          "planets": [
+            "BI & Analysis Methodology",
+            "Engine vs Rules (One Boundary, Three Jobs)",
+            "Sovereign AI Bottoms Out at the Power Meter"
+          ]
+        }
       ]
     }
   ]

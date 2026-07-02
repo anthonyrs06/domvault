@@ -270,7 +270,7 @@ fetch(REGISTRY.replace(/\/+$/,'')+'/universe')
     start(data, '🟢 Live — '+planetCount+' planets from '+REGISTRY);
   })
   .catch(()=> fetch('mock/data.json').then(r=>r.json())
-    .then(d=> start(d, '🟡 Mock data (registry unreachable — start it with: npm run demo)'))
+    .then(d=> start(d, '🟡 Snapshot of Dom\'s published planets (live registry offline)'))
     .catch(()=> start(
       {galaxies:[{id:'demo',name:'Demo Galaxy',color:'#7c5cff',stars:[{handle:'you',display:'You',planets:['Open via a local server (npm run demo) to see real planets']}]}]},
       '⚪ Offline fallback'))
