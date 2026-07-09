@@ -1,12 +1,14 @@
 # book/ — the shelf
 
-Two full-length books built by the same zero-dependency pipeline
+Four full-length books built by the same zero-dependency pipeline
 (shared Markdown machinery in [`lib/md.mjs`](lib/md.mjs)):
 
 | Book | Source | Builder | Output dir |
 |------|--------|---------|------------|
 | *Compression Is the Through-Line* — Frameworks for Seeing One Pattern Everywhere | the 52 published frameworks in [`frameworks/`](../frameworks/) | `build.mjs` | `dist/` |
 | *The Agent Stack* — How to Build AI That Actually Ships | single compiled manuscript [`sources/the-agent-stack.md`](sources/the-agent-stack.md) (10 chapters, split on its `## Chapter N — Title` headings) | `build-agent-stack.mjs` | `dist-agent-stack/` |
+| *The Honesty Band* — Shipping AI That Never Overclaims | [`sources/honesty-band.md`](sources/honesty-band.md) (10 chapters, externalized from the vault original at `90-books/the-honesty-band/`) | `build-honesty-band.mjs` | `dist-honesty-band/` |
+| *The Legibility Machine* — How Standardized Data Creates Markets | [`sources/legibility-machine.md`](sources/legibility-machine.md) (10 chapters, externalized from the vault original at `90-books/the-legibility-machine/`) | `build-legibility-machine.mjs` | `dist-legibility-machine/` |
 
 Each output dir contains:
 
@@ -14,15 +16,17 @@ Each output dir contains:
 |--------|------------|
 | `index.html` | Self-contained web book (dark, long-form reading layout) |
 | `print.html` | Same content restructured as a 6×9 in print interior |
-| `interior.pdf` | Print-ready interior PDF (6×9 in, B&W) — frameworks: 108 pp, agent stack: 48 pp |
+| `interior.pdf` | Print-ready interior PDF (6×9 in, B&W) — frameworks: 108 pp, agent stack: 48 pp, honesty band: 54 pp, legibility machine: 53 pp |
 | `cover.pdf` / `cover-preview.png` | Flat one-piece cover (Lulu casewrap canvas) |
 | `cover-spec.md` | Cover spec + copy — Lulu casewrap **and** (agent stack) Amazon KDP case-laminate rails |
 
 ## Rebuild
 
 ```sh
-node book/build.mjs               # frameworks book → book/dist/
-node book/build-agent-stack.mjs   # The Agent Stack → book/dist-agent-stack/
+node book/build.mjs                      # frameworks book → book/dist/
+node book/build-agent-stack.mjs          # The Agent Stack → book/dist-agent-stack/
+node book/build-honesty-band.mjs         # The Honesty Band → book/dist-honesty-band/
+node book/build-legibility-machine.mjs   # The Legibility Machine → book/dist-legibility-machine/
 ```
 
 Zero dependencies. `build.mjs` re-reads `frameworks/` (files with
