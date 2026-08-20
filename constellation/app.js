@@ -9,7 +9,7 @@ import { DEFAULT_REGISTRY } from './registry.config.js';
 import { parseRoute, formatRoute, resolveRoute } from './routes.js';
 import { searchPlanets } from './search.js';
 import { mdToHtml } from './markdown.js';
-import { timelapseOrder, collectEdges } from './timelapse.js';
+import { simulateGrowth, simIgnitedCount, collectEdges } from './timelapse.js';
 import {
   loadState, saveState, discover, discoveredSet, planetKey,
   galaxyProgress, completion, computeRank, todaysPlanet, deriveTrails,
@@ -28,6 +28,8 @@ const reader = $('reader'), timelineEl = $('timeline');
 
 let renderer = null;
 let DATA = { galaxies: [] };
+let SIM = null; // simulated growth timeline, cached per dataset (intro + watch-it-grow)
+const getSim = () => SIM || (SIM = simulateGrowth(DATA));
 let view = { mode: 'universe', galaxy: null, star: null };
 let openPlanet = null;          // the planet whose reading panel is open
 let state = loadState(localStorage);
@@ -64,6 +66,7 @@ function upLevel() {
   else if (view.mode === 'galaxy') navigate({ kind: 'universe' });
 }
 function applyRoute(opts = {}) {
+  if (intro.active) finishIntro(true); // navigating away ends the loading cinematic
   const resolved = resolveRoute(parseRoute(location.hash), DATA, view) ||
     { view: { mode: 'universe', galaxy: null, star: null }, planet: null }; // broken link → home
   if (!resolved.timelapse && tl.active) exitTimelapseMode();
@@ -236,12 +239,13 @@ cv.addEventListener('dblclick', (e) => {
 });
 
 // ---------- TIME-LAPSE: watch the universe grow (#/timelapse) ----------
-const tl = { active: false, playing: false, t: 0, order: [], raf: 0, last: 0, DUR: 24000 };
+// v4: the replay is SIMULATED growth (timelapse.js simulateGrowth) — the real
+// per-planet dates are degenerate (one publish commit) — so the UI labels it
+// "growth, simulated" and shows no dates.
+const tl = { active: false, playing: false, t: 0, sim: null, raf: 0, last: 0, DUR: 27000 };
 function tlLabel() {
-  const n = Math.round(tl.t * tl.order.length);
-  const cur = tl.order[Math.max(0, n - 1)];
-  $('tlInfo').innerHTML = '<b>' + n + '</b> / ' + tl.order.length + ' ideas' +
-    (cur && cur.at ? ' · ' + esc(String(cur.at).slice(0, 10)) : '');
+  const n = tl.sim ? simIgnitedCount(tl.sim, tl.t) : 0;
+  $('tlInfo').innerHTML = '<b>' + n + '</b> / ' + (tl.sim ? tl.sim.planets.length : 0) + ' ideas';
 }
 function setTlT(t) {
   tl.t = Math.max(0, Math.min(1, t));
@@ -266,8 +270,8 @@ function enterTimelapseMode() {
   renderer.skipIntro && renderer.skipIntro();
   tip.style.opacity = 0; // no stale hover tips over the replay
   tl.active = true;
-  tl.order = timelapseOrder(DATA);
-  renderer.enterTimelapse(tl.order.map((o) => o.id));
+  tl.sim = getSim();
+  renderer.enterTimelapse(tl.sim, 'cinema');
   timelineEl.style.display = 'flex';
   tl.t = 0; tl.last = 0;
   tl.playing = !REDUCED; // reduced motion: scrub-only, no autoplay
@@ -290,6 +294,67 @@ $('tlPlay').onclick = () => {
 $('tlScrub').addEventListener('input', () => { tl.playing = false; setTlT((+$('tlScrub').value) / 1000); });
 $('tlExit').onclick = () => navigate({ kind: 'universe' });
 $('growBtn').onclick = () => navigate({ kind: 'timelapse' });
+
+// ---------- the LOADING EXPERIENCE: simulated growth as the default load ----------
+// The universe assembles itself in front of you while the page settles — one first
+// spark, the founding domain accretes, island domains ignite, edges lace, the first
+// cross-galaxy bridge surges, then the camera hands over seamlessly. LABELED
+// "growth, simulated" (the real publish dates are degenerate — this is a story, not
+// history). Skippable (click / Esc / skip button). Return visits get a 2–3s settle;
+// the full ~27s cinematic stays behind "watch it grow".
+const intro = { active: false, skipRequested: false, raf: 0, t: 0, last: 0, dur: 8200, sim: null, onDone: null };
+const introEl = $('intro'), introCap = $('introCap');
+function introCaption(t) {
+  const ph = intro.sim.phases;
+  if (t < ph.domains) return 'a first idea';
+  // no cross-galaxy links in this dataset → never claim bridging
+  if (intro.sim.firstBridge && t >= ph.bridge) return 'ideas begin to bridge';
+  return 'domains form';
+}
+function introFrame(now) {
+  if (!intro.active) return;
+  const dt = intro.last ? now - intro.last : 16;
+  intro.last = now;
+  intro.t = Math.min(1, intro.t + dt / intro.dur);
+  renderer.setTimelapseT(intro.t);
+  const cap = introCaption(intro.t);
+  if (introCap.textContent !== cap) introCap.textContent = cap;
+  if (intro.t >= 1) { finishIntro(); return; }
+  intro.raf = requestAnimationFrame(introFrame);
+}
+function showPreloadIntro() {
+  // shown over black BEFORE universe.json lands: starfield + the pulsing first spark
+  document.body.classList.add('introing');
+  introEl.style.display = 'block';
+  introCap.textContent = 'a first idea';
+}
+function runIntro(sim, dur, onDone) {
+  intro.active = true; intro.sim = sim; intro.dur = dur; intro.onDone = onDone;
+  intro.t = 0; intro.last = 0;
+  renderer.enterTimelapse(sim, 'intro');
+  showPreloadIntro();
+  if (intro.skipRequested) { finishIntro(); return; } // skipped while data was in flight
+  intro.raf = requestAnimationFrame(introFrame);
+}
+// suppressDone: applyRoute ends the intro itself and then resolves the new route
+function finishIntro(suppressDone) {
+  if (!intro.active) return;
+  intro.active = false;
+  cancelAnimationFrame(intro.raf);
+  renderer.setTimelapseT(1);   // today's universe; the intro camera ends at the home pose
+  renderer.exitTimelapse();
+  document.body.classList.remove('introing');
+  introEl.style.display = 'none';
+  if (!state.introSeen) { state.introSeen = true; persist(); }
+  const cb = intro.onDone; intro.onDone = null;
+  if (cb && !suppressDone) cb();
+}
+// the overlay owns pointer events during the intro, so any click skips (and never
+// falls through to canvas navigation)
+introEl.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (intro.active) finishIntro(); else intro.skipRequested = true;
+});
 
 // ---------- tooltip ----------
 function galaxyName(id) { return GALAXY_CATALOG[id]?.name || String(id).replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()); }
@@ -396,6 +461,10 @@ addEventListener('keydown', (e) => {
   if (renderer && renderer.skipIntro) renderer.skipIntro();
   if (e.key === '/') { e.preventDefault(); q.focus(); return; }
   if (e.key === 'Escape') {
+    if (intro.active || document.body.classList.contains('introing')) { // skip the loading cinematic
+      if (intro.active) finishIntro(); else intro.skipRequested = true;
+      return;
+    }
     if (readerPlanet) navigate({ kind: 'planet', id: planetKey(readerPlanet) }); // pull back to space
     else if (tl.active) navigate({ kind: 'universe' });
     else if (panel.style.display !== 'none' && panel.style.display !== '') closePanel();
@@ -569,22 +638,47 @@ function normalize(data) {
 async function start(data, source) {
   DATA = normalize(data); sourceEl.textContent = source;
   titleIndex = null; // wiki-link resolution rebuilds lazily against this dataset
-  renderer = await bootRenderer();
+  SIM = null;        // the simulated growth timeline is a pure fn of this dataset
+  renderer = await rendererReady;
   window.__cosmos = { // test/debug hook (harmless in prod): e2e reads layout + picking
     get data() { return DATA; }, get view() { return view; },
     get dpr() { return renderer.dpr; }, pick: (x, y) => renderer.pick(x, y),
     get edges() { return collectEdges(DATA); },
+    get growth() { return getSim(); }, get introActive() { return intro.active; },
   };
   renderer.setData(DATA);
   initToday(); initTrails(); initTrailToggle();
   lastRankIdx = computeRank(state, DATA).index;
   refreshStats(); pushFx();
   const initial = parseRoute(location.hash);
-  renderer.start({ intro: initial.kind === 'universe' });
-  // keepIntro: the first route application must not cancel the establishing shot
-  applyRoute({ instant: initial.kind === 'universe', keepIntro: true });
+  if (WANT_CINEMATIC && initial.kind === 'universe' && renderer.enterTimelapse) {
+    // DEFAULT LOAD = the simulated growth cinematic (return visits: a short settle);
+    // the intro camera ends exactly at the home pose, then the route applies inertly
+    renderer.start({});
+    view = { mode: 'universe', galaxy: null, star: null }; renderCrumbs();
+    runIntro(getSim(), state.introSeen ? 2600 : 8200, () => {
+      applyRoute({ instant: true, keepIntro: true });
+      runOnboarding();
+    });
+  } else {
+    // no cinematic here (deep link / reduced motion / 2D fallback) — drop any overlay
+    document.body.classList.remove('introing'); introEl.style.display = 'none';
+    renderer.start({ intro: initial.kind === 'universe' });
+    // keepIntro: the first route application must not cancel the establishing shot
+    applyRoute({ instant: initial.kind === 'universe', keepIntro: true });
+    runOnboarding();
+  }
   addEventListener('resize', () => renderer.resize());
-  runOnboarding();
+}
+
+// The renderer boots IMMEDIATELY, in parallel with the data fetch, so the loading
+// experience starts over black (starfield + first spark) before universe.json lands.
+const WANT_CINEMATIC = parseRoute(location.hash).kind === 'universe' && !REDUCED;
+const rendererReady = bootRenderer();
+if (WANT_CINEMATIC) {
+  rendererReady.then((r) => {
+    if (r.startLoading && !renderer) { r.startLoading(); showPreloadIntro(); }
+  });
 }
 
 fetch(REGISTRY.replace(/\/+$/, '') + '/universe')

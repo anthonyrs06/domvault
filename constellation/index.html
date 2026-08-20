@@ -177,6 +177,22 @@
   #tlInfo b { color:var(--trail); }
   #tlExit { background:none; border:none; color:var(--muted); font-size:16px; padding:2px 4px; flex:none; }
   #tlExit:hover { color:var(--fg); }
+  /* honesty label: the replay is a simulated growth story, not real publish history */
+  #timeline .tsim { font:600 8.5px var(--head); letter-spacing:1.6px; text-transform:uppercase;
+    color:var(--muted); white-space:nowrap; }
+
+  /* ---- loading experience: simulated growth over black (skippable) ---- */
+  #intro { position:fixed; inset:0; z-index:65; display:none; cursor:pointer; }
+  #introCap { position:absolute; bottom:96px; left:0; right:0; text-align:center;
+    font:italic 400 20px/1.4 'Newsreader', Georgia, serif; color:#cdd4ff; letter-spacing:.4px;
+    text-shadow:0 1px 10px rgba(0,0,0,.85); }
+  #introSim { position:absolute; bottom:72px; left:0; right:0; text-align:center;
+    font:600 9.5px var(--head); letter-spacing:2.2px; text-transform:uppercase; color:var(--muted); }
+  #introSkip { position:absolute; bottom:22px; right:22px; padding:7px 14px; border-radius:99px;
+    font:600 11px var(--head); letter-spacing:.4px; color:var(--muted);
+    background:var(--glass); border:1px solid var(--line); }
+  #introSkip:hover { color:var(--fg); border-color:rgba(157,176,255,.45); }
+  body.introing #hud, body.introing #legend, body.introing #labels, body.introing #tip { visibility:hidden; }
 
   /* ---- 3D HTML labels ---- */
   #labels { position:fixed; inset:0; z-index:5; pointer-events:none; overflow:hidden; }
@@ -217,7 +233,8 @@
     #readerBody { font-size:15.5px; }
     #readerBody h1 { font-size:24px; }
     #timeline { bottom:8px; gap:8px; }
-    #timeline .tname { display:none; } /* the scrubber needs the width */
+    #timeline .tname { display:none; } /* the scrubber needs the width; the honesty label stays */
+    #introCap { font-size:17px; bottom:88px; }
   }
 </style>
 </head>
@@ -269,10 +286,16 @@
 </div>
 <div id="timeline" class="glass">
   <span class="tname">Watch it grow</span>
+  <span class="tsim">growth, simulated</span>
   <button id="tlPlay" type="button" aria-label="Play/pause">▶</button>
   <input id="tlScrub" type="range" min="0" max="1000" value="0" aria-label="Timeline position" />
   <span id="tlInfo"></span>
   <button id="tlExit" type="button" aria-label="Exit time-lapse">×</button>
+</div>
+<div id="intro">
+  <div id="introCap">a first idea</div>
+  <div id="introSim">growth, simulated</div>
+  <button id="introSkip" type="button">skip →</button>
 </div>
 <div id="tourbar" class="glass"></div>
 <div id="onboard"></div>

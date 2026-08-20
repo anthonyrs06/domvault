@@ -17,12 +17,17 @@ cd constellation && python3 -m http.server 8080
 ## The four pillars
 - **The edges are the show** — `registry-static/build.mjs` mines per-planet `links`
   from explicit references and distinctive title-phrase mentions across the corpus
-  (deterministic; see `links.test.ts`). Hovering a planet lights its 1–2 hop
-  neighborhood; sparks arc between not-yet-linked ideas on a schedule seeded per
-  session-minute (frozen under `prefers-reduced-motion`).
-- **Watch it grow** — `#/timelapse` replays the universe from earliest `published_at`
-  to today: planets ignite in order, edges lace in once both endpoints exist, the
-  camera pulls back as it grows. ~24s autoplay, scrubbable (`timelapse.js`).
+  (deterministic; see `links.test.ts`). Energy pulses travel the lines (brighter and
+  faster on cross-galaxy bridges); hovering a planet lights its 1–2 hop neighborhood
+  and raises the pulse rate; sparks arc between not-yet-linked ideas on a schedule
+  seeded per session-minute (frozen under `prefers-reduced-motion`).
+- **Watch it grow** — the replay is a SIMULATED growth story (`simulateGrowth` in
+  `timelapse.js`; the real publish dates are one degenerate commit): the most-connected
+  galaxy founds first, hubs ignite before leaves, edges lace strictly after both
+  endpoints, and the first cross-galaxy bridge gets a camera lean + bloom surge.
+  Labeled "growth, simulated" everywhere — never presented as real history. A sped-up
+  (~8s) run IS the default loading experience (skippable; return visits get a 2–3s
+  settle); `#/timelapse` plays the full ~27s cinematic, scrubbable.
 - **Free flight** — drag to orbit, scroll/pinch to fly, momentum easing, optional
   WASD. Hash routes are eased camera targets, not discrete walls; labels emerge
   with proximity (semantic zoom).
@@ -44,14 +49,21 @@ the registry per-visit with `?registry=<url>`. `window.__cosmos` exposes
 - `app.js` — UX layer: routing (`#/galaxy/<id>`, `#/star/<handle>`, `#/planet/<id>`,
   `#/read/<id>`, `#/timelapse`), fuzzy search (`/` to focus), reading panel + reader,
   time-lapse UI, keyboard nav, discovery game
-- `render3d.js` — the living-brain WebGL renderer (edge layer + hover neighborhoods,
-  sparks, free-flight camera, semantic-zoom labels, time-lapse, landing dive,
-  quality tiers + frame-time degrade)
+- `render3d.js` — the living-brain WebGL renderer, v4: ACES filmic + threshold bloom +
+  vignette (vendored r170 post-processing addons), FBM nebula planes, 30–60k shader
+  starfield with temperature tint + twinkle, seeded FBM planet surfaces with a real
+  day/night terminator, noise-animated sun coronas, pulse-animated edges — plus the
+  edge layer + hover neighborhoods, sparks with bloom trails, free-flight camera,
+  semantic-zoom labels, simulated-growth time-lapse (intro + cinema camera modes),
+  landing dive, quality tiers + frame-time degrade (degraded tier drops the composer)
 - `render2d.js` — 2D canvas fallback (feature-detected; v2-level, no fly/time-lapse)
 - `map.js` / `routes.js` / `search.js` / `game.js` / `timelapse.js` / `markdown.js` /
   `util.js` — pure modules, each covered by a `*.test.ts` beside it (`npm test` from
   the repo root; `links.test.ts` covers the miner in `registry-static/build.mjs`)
-- `vendor/three.module.js` — three.js r170, pinned + vendored (MIT, see THREE-LICENSE.md)
+- `vendor/three.module.js` — three.js r170, pinned + vendored (MIT, see THREE-LICENSE.md);
+  `vendor/postprocessing/` + `vendor/shaders/` — the matching r170 EffectComposer /
+  RenderPass / ShaderPass / UnrealBloomPass / OutputPass addons, imports rewritten to
+  the vendored module (still no CDN, no build step)
 
 ## The discovery layer
 Client-side only (one versioned localStorage key, `constellation.state.v1` — no accounts,
