@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Constellation — the universe of brains</title>
+<title>Constellation — a living brain you fly through</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet" />
 <style>
   :root {
     --bg:#05060e; --fg:#e9edff; --muted:#8b93c0; --line:rgba(150,162,222,.18);
@@ -124,6 +124,60 @@
     background:none; border:1px solid var(--line); color:var(--muted); }
   .obrow button.primary { background:rgba(157,176,255,.14); border-color:rgba(157,176,255,.5); color:var(--fg); }
 
+  /* ---- reading view: land on a planet, read the actual note ---- */
+  #reader { position:fixed; inset:0; z-index:55; display:none; opacity:0; transition:opacity .32s ease;
+    background:radial-gradient(120% 90% at 50% 0%, rgba(12,17,40,.94) 0%, rgba(5,6,14,.97) 60%, #04050c 100%);
+    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+  #reader.in { opacity:1; }
+  #readerScroll { height:100%; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+  #readerCol { max-width:660px; margin:0 auto; padding:64px 22px 120px; }
+  #readerBack { position:fixed; top:16px; left:16px; z-index:56; padding:7px 14px; border-radius:99px;
+    font:600 11.5px var(--head); letter-spacing:.3px; color:var(--accent);
+    background:var(--glass); border:1px solid rgba(157,176,255,.4); }
+  #readerBack:hover { color:var(--fg); border-color:rgba(157,176,255,.7); }
+  #readerHead .rmeta { margin-bottom:14px; }
+  #readerBy { margin-top:10px; color:var(--muted); font:500 12px var(--head); letter-spacing:.3px; }
+  #readerBody { font:16.5px/1.75 'Newsreader', Georgia, serif; color:#dee3fb; }
+  #readerBody h1 { font:600 30px/1.25 var(--head); letter-spacing:.2px; color:#f2f4ff; margin:0 0 14px; }
+  #readerBody h2 { font:600 19px/1.3 var(--head); color:#e8ecff; margin:30px 0 10px; }
+  #readerBody h3, #readerBody h4 { font:600 15px/1.3 var(--head); color:#e0e5fa; margin:24px 0 8px; }
+  #readerBody p { margin:0 0 14px; }
+  #readerBody blockquote { margin:0 0 18px; padding:12px 18px; border-left:2px solid var(--gold);
+    background:rgba(255,215,106,.05); border-radius:0 10px 10px 0; font-style:italic; color:#e9e2c8; }
+  #readerBody ul, #readerBody ol { margin:0 0 14px; padding-left:24px; }
+  #readerBody li { margin:5px 0; }
+  #readerBody code { font:13px ui-monospace, monospace; background:rgba(150,162,222,.14);
+    padding:1.5px 5px; border-radius:5px; color:#cfd9ff; }
+  #readerBody pre { background:rgba(5,7,18,.7); border:1px solid var(--line); border-radius:10px;
+    padding:12px 14px; overflow-x:auto; margin:0 0 16px; }
+  #readerBody pre code { background:none; padding:0; }
+  #readerBody hr { border:none; border-top:1px solid var(--line); margin:26px 0; }
+  #readerBody a { color:var(--accent); }
+  #readerBody a.wiki { color:var(--trail); text-decoration:none; border-bottom:1px dashed rgba(255,233,184,.5); }
+  #readerBody a.wiki:hover { border-bottom-style:solid; }
+  #readerBody strong { color:#f0f3ff; }
+  #readerFoot { margin-top:36px; padding-top:18px; border-top:1px solid var(--line); }
+  #readerFoot h3 { font:600 11px var(--head); letter-spacing:1.4px; text-transform:uppercase; color:var(--muted); margin:0 0 10px; }
+  #readerFoot .rlinks { display:flex; flex-wrap:wrap; gap:8px; }
+  #readerFoot .rlinks a { padding:6px 12px; border:1px solid rgba(255,233,184,.35); border-radius:99px;
+    color:var(--trail); font:600 11.5px var(--head); text-decoration:none; }
+  #readerFoot .rlinks a:hover { background:rgba(255,233,184,.1); border-color:rgba(255,233,184,.65); }
+  #readBtn { padding:6px 12px; margin-right:8px; font:600 11px var(--head); background:rgba(255,233,184,.12);
+    border:1px solid rgba(255,233,184,.45); border-radius:8px; color:var(--trail); }
+  #readBtn:hover { background:rgba(255,233,184,.2); }
+
+  /* ---- time-lapse timeline (watch it grow) ---- */
+  #timeline { position:fixed; bottom:34px; left:50%; transform:translateX(-50%); z-index:35;
+    display:none; align-items:center; gap:12px; padding:9px 12px 9px 12px; width:min(620px, calc(100vw - 28px)); }
+  #timeline .tname { font:600 11px var(--head); letter-spacing:1.1px; text-transform:uppercase; color:var(--trail); white-space:nowrap; }
+  #tlPlay { width:30px; height:30px; border-radius:50%; flex:none; font-size:11px;
+    background:rgba(255,233,184,.14); border:1px solid rgba(255,233,184,.5); color:var(--trail); }
+  #tlScrub { flex:1; accent-color:#ffe9b8; min-width:80px; }
+  #tlInfo { font:500 11px var(--head); color:var(--muted); white-space:nowrap; }
+  #tlInfo b { color:var(--trail); }
+  #tlExit { background:none; border:none; color:var(--muted); font-size:16px; padding:2px 4px; flex:none; }
+  #tlExit:hover { color:var(--fg); }
+
   /* ---- 3D HTML labels ---- */
   #labels { position:fixed; inset:0; z-index:5; pointer-events:none; overflow:hidden; }
   .lbl { position:absolute; left:0; top:0; white-space:nowrap; text-align:center;
@@ -143,6 +197,7 @@
   @media (prefers-reduced-motion: reduce) {
     #hud.pulse { animation:none; }
     #toast { transition:none; }
+    #reader { transition:none; }
   }
   /* Phones: HUD spans the top, the reading panel becomes a draggable bottom sheet so it
      never overlaps the HUD or runs off-screen, and the legend stays short above it. */
@@ -158,6 +213,11 @@
     #panelClose { font-size:24px; padding:6px; }
     #legend { bottom:10px; left:12px; right:12px; font-size:10px; }
     #tourbar { bottom:8px; width:calc(100% - 16px); justify-content:space-between; padding-left:12px; }
+    #readerCol { padding:64px 16px 90px; }
+    #readerBody { font-size:15.5px; }
+    #readerBody h1 { font-size:24px; }
+    #timeline { bottom:8px; gap:8px; }
+    #timeline .tname { display:none; } /* the scrubber needs the width */
   }
 </style>
 </head>
@@ -173,7 +233,7 @@
     </svg>
     Constellation
   </h1>
-  <p><b>Galaxies</b> are topics, <b>stars</b> are people's brains, <b>planets</b> are their published notes. Click to dive in; click empty space or a crumb to zoom out.</p>
+  <p>A living brain you fly through: <b>planets</b> are published ideas, and the <b>luminous lines</b> are the connections between them. Drag to orbit, scroll to fly, double-click a planet to land and read.</p>
   <div id="stats"></div>
   <div id="search">
     <input id="q" type="search" placeholder="Search planets…  ( / )" autocomplete="off" spellcheck="false" />
@@ -181,6 +241,7 @@
   </div>
   <div id="hudRow">
     <button id="todayChip" type="button"></button>
+    <button id="growBtn" type="button" title="Replay this brain growing from its first idea">▶ watch it grow</button>
     <button id="trailsBtn" type="button">Trails</button>
     <button id="trailToggle" type="button" title="Show/hide the trail of planets you've visited">✦ your constellation</button>
     <button id="shareBtn" type="button">Share map</button>
@@ -188,14 +249,30 @@
   </div>
   <div id="crumbs"></div>
 </div>
-<div id="legend">Each star is one person's brain. A planet appears only if its owner <b>opted in</b> to publish it. <span id="source">connecting…</span></div>
+<div id="legend">Each star is one person's brain; every line is a <b>mined connection</b> between two ideas — bright arcs bridge topics. A planet appears only if its owner <b>opted in</b> to publish it. <span id="source">connecting…</span></div>
 <div id="tip" class="glass"></div>
 <div id="toast" role="status"></div>
 <div id="panel" class="glass" style="display:none;">
   <div id="panelGrip"></div>
   <button id="panelClose" aria-label="Close">×</button>
   <div id="panelBody"></div>
-  <div id="panelFoot"><button id="copyLink" type="button">Copy link</button></div>
+  <div id="panelFoot"><button id="readBtn" type="button">Land &amp; read →</button><button id="copyLink" type="button">Copy link</button></div>
+</div>
+<div id="reader">
+  <button id="readerBack" type="button">← back to space</button>
+  <div id="readerScroll"><div id="readerCol">
+    <div id="readerHead"></div>
+    <article id="readerBody"></article>
+    <div id="readerBy"></div>
+    <div id="readerFoot"></div>
+  </div></div>
+</div>
+<div id="timeline" class="glass">
+  <span class="tname">Watch it grow</span>
+  <button id="tlPlay" type="button" aria-label="Play/pause">▶</button>
+  <input id="tlScrub" type="range" min="0" max="1000" value="0" aria-label="Timeline position" />
+  <span id="tlInfo"></span>
+  <button id="tlExit" type="button" aria-label="Exit time-lapse">×</button>
 </div>
 <div id="tourbar" class="glass"></div>
 <div id="onboard"></div>

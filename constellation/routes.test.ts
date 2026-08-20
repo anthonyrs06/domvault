@@ -59,3 +59,24 @@ test("star routes prefer the galaxy already in view (handles repeat across galax
   const r2 = resolveRoute({ kind: "star", id: "star_dom" }, DATA, null);
   assert.equal(r2!.view.star, DATA.galaxies[0].stars[0], "falls back to the first galaxy");
 });
+
+test("#/read/<id> resolves like a planet route plus the read flag (landing view)", () => {
+  const parsed = parseRoute(formatRoute({ kind: "read", id: "planet_k" }));
+  assert.equal(parsed.kind, "read");
+  const r = resolveRoute(parsed, DATA, null);
+  assert.equal(r!.view.mode, "star");
+  assert.equal(r!.planet.manifest.id, "planet_k");
+  assert.equal(r!.read, true);
+  assert.equal(resolveRoute({ kind: "read", id: "planet_missing" }, DATA, null), null);
+  // plain planet routes do NOT set the read flag
+  assert.ok(!resolveRoute({ kind: "planet", id: "planet_k" }, DATA, null)!.read);
+});
+
+test("#/timelapse parses and resolves to the universe with the timelapse flag", () => {
+  assert.equal(parseRoute("#/timelapse").kind, "timelapse");
+  assert.equal(formatRoute({ kind: "timelapse" }), "#/timelapse");
+  const r = resolveRoute({ kind: "timelapse" }, DATA, null);
+  assert.equal(r!.view.mode, "universe");
+  assert.equal(r!.timelapse, true);
+  assert.equal(r!.planet, null);
+});

@@ -1,11 +1,19 @@
-// render3d.js — the cinematic WebGL renderer (three.js, vendored at ./vendor — no CDN,
-// no build step). One continuous 3D world: parallax starfield shells, spiral particle
-// galaxies with layered nebula glow, suns, shaded planets with fresnel atmospheres and
-// orbital trails. The camera dollies between universe → galaxy → star → planet focus.
-// Same interface as render2d.js; all interaction/UX logic lives in app.js.
+// render3d.js — the living-brain WebGL renderer (three.js, vendored at ./vendor — no CDN,
+// no build step). One continuous 3D world you FLY through: parallax starfield shells,
+// spiral particle galaxies with layered nebula glow, suns, shaded planets — and the
+// point of the whole thing, the EDGES: luminous constellation lines between linked
+// ideas, bright arcing bridges where a connection crosses galaxies. Hovering a planet
+// lights its 1–2 hop neighborhood; sparks arc between not-yet-linked ideas on a
+// deterministic schedule; #/timelapse replays the universe growing.
+//
+// Camera is free flight (drag to orbit, scroll/pinch to fly, momentum, optional WASD);
+// hash routes remain eased fly-to TARGETS, not discrete walls. Labels are semantic-zoom:
+// they emerge with proximity instead of switching per mode.
+// Same interface as render2d.js plus optional v3 methods (app.js feature-detects them).
 
 import * as THREE from './vendor/three.module.js';
 import { mulberry32, hashStr, easeC } from './util.js';
+import { collectEdges } from './timelapse.js';
 
 const U_HOME = { pos: [0, 92, 238], look: [0, 0, 0] };
 const INTRO_FROM = [0, 210, 560];
@@ -17,7 +25,7 @@ const ECC = 0.93;            // slightly elliptical orbits
 export function createRenderer({ canvas, labelLayer, touch, reduced }) {
   const TOUCH = touch, REDUCED = reduced;
   const PAD = TOUCH ? 2.6 : 1;                 // enlarge pick targets on touch
-  const SPD = TOUCH ? 0.002 : 0.006;           // slow orbits on touch (hard to tap moving dots)
+  const SPD = TOUCH ? 0.0016 : 0.004;          // slow orbits — the graph, not orbits, is the spine
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   // Quality tier: coarse pointers start low; a frame-time probe can degrade further.
@@ -109,13 +117,14 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
   const pid = (p) => (p.manifest && p.manifest.id) || p.name;
 
   const worldGroup = new THREE.Group(); scene.add(worldGroup);
-  let gEntries = []; // [{g, grp, hit, stars:[{s, grp, sunWorld(), planets:[{p, k, mesh, hit, orbitR}], light}]}]
-  const planetById = new Map(); // id -> first render entry {mesh, star, gal}
+  let gEntries = []; // [{g, grp, hit, disc, glows, stars:[{s, grp, sunWorld(), planets:[...], light}]}]
+  const planetById = new Map(); // id -> first render entry {entry, sEntry, gEntry}
+  const entriesById = new Map(); // id -> EVERY pEntry (multi-galaxy planets render per galaxy)
   const sphereGeo = new THREE.SphereGeometry(0.24, 20, 14);
   const atmoGeo = new THREE.SphereGeometry(0.34, 20, 14);
 
   function clearWorld() {
-    worldGroup.clear(); gEntries = []; planetById.clear();
+    worldGroup.clear(); gEntries = []; planetById.clear(); entriesById.clear();
   }
   function buildWorld() {
     clearWorld();
@@ -146,26 +155,29 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
       const geo = new THREE.BufferGeometry();
       geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
       geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
-      grp.add(new THREE.Points(geo, new THREE.PointsMaterial({
+      const discMat = new THREE.PointsMaterial({
         size: 0.7, map: dotTex, vertexColors: true, transparent: true, opacity: 0.95,
         depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true,
-      })));
+      });
+      grp.add(new THREE.Points(geo, discMat));
 
       // layered nebula glow ("volumetric" feel from stacked offset sprites)
+      const glows = [];
       for (let k = 0; k < 3; k++) {
         const sp = new THREE.Sprite(additive(glowTex, g.color, 0.16 - k * 0.03));
         sp.scale.setScalar(34 + k * 14);
         sp.position.set((rnd() - 0.5) * 8, (rnd() - 0.5) * 3, (rnd() - 0.5) * 8);
-        grp.add(sp);
+        grp.add(sp); glows.push(sp);
       }
       const core = new THREE.Sprite(additive(glowTex, '#ffffff', 0.3)); core.scale.setScalar(10); grp.add(core);
+      glows.push(core);
 
       // invisible pick volume
       const hit = new THREE.Mesh(new THREE.SphereGeometry(GAL_R, 8, 8),
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
       hit.userData.pick = { type: 'galaxy', o: g }; grp.add(hit);
 
-      const gEntry = { g, grp, hit, stars: [] };
+      const gEntry = { g, grp, hit, discMat, glows, stars: [] };
       gEntries.push(gEntry);
 
       g.stars.forEach((s, j) => {
@@ -182,18 +194,18 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
           new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
         sHit.userData.pick = { type: 'star', o: s }; sGrp.add(sHit);
 
-        const sEntry = { s, grp: sGrp, hit: sHit, planets: [], light };
+        const sEntry = { s, grp: sGrp, hit: sHit, planets: [], light, sunGlow, sunCore };
         gEntry.stars.push(sEntry);
 
         const n = s.planets.length, span = n > 1 ? 7.0 / (n - 1) : 0;
         const atmo = atmosphereMat(g.color);
         s.planets.forEach((p, k) => {
           const orbitR = 2.0 + k * span;
-          // orbit trail (slightly elliptical)
+          // orbit trail — kept, but dimmer than v2: the link graph is the visual spine now
           const curve = new THREE.EllipseCurve(0, 0, orbitR, orbitR * ECC);
           const linePts = curve.getPoints(96).map((v) => new THREE.Vector3(v.x, 0, v.y));
           const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(linePts),
-            new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.07, depthWrite: false }));
+            new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.04, depthWrite: false }));
           sGrp.add(line);
           const mat = new THREE.MeshStandardMaterial({
             color: g.color, roughness: 0.5, metalness: 0.05,
@@ -206,26 +218,184 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
           pHit.userData.pick = { type: 'planet', o: p }; mesh.add(pHit);
           sGrp.add(mesh);
           if (p._ph === undefined) p._ph = k * 1.3;
-          const pEntry = { p, k, mesh, mat, hit: pHit, orbitR };
+          const pEntry = { p, k, mesh, mat, hit: pHit, orbitR, orbit: line };
           sEntry.planets.push(pEntry);
           if (!planetById.has(pid(p))) planetById.set(pid(p), { entry: pEntry, sEntry, gEntry });
+          if (!entriesById.has(pid(p))) entriesById.set(pid(p), []);
+          entriesById.get(pid(p)).push(pEntry);
         });
       });
     });
+    buildEdgeLayer();
     applyFx();
+  }
+
+  // ---- THE EDGES ARE THE SHOW: constellation lines between linked planets ----
+  // Same-galaxy links: subtle luminous threads. Cross-galaxy links: bright arcing
+  // bridges lifted above the plane (those are the interesting connections).
+  const edgeGroup = new THREE.Group(); scene.add(edgeGroup);
+  let edgeEntries = []; // [{a, b, cross, line, posAttr, segs, baseOp, mat}]
+  const adjacency = new Map(); // id -> Set(id)
+  function buildEdgeLayer() {
+    edgeGroup.clear(); edgeEntries = []; adjacency.clear();
+    for (const [a, b] of collectEdges(DATA)) {
+      const ra = planetById.get(a), rb = planetById.get(b);
+      if (!ra || !rb) continue;
+      if (!adjacency.has(a)) adjacency.set(a, new Set());
+      if (!adjacency.has(b)) adjacency.set(b, new Set());
+      adjacency.get(a).add(b); adjacency.get(b).add(a);
+      const cross = ra.gEntry !== rb.gEntry;
+      const segs = cross ? 32 : 12;
+      const pos = new Float32Array((segs + 1) * 3);
+      const col = new Float32Array((segs + 1) * 3);
+      const ca = new THREE.Color(ra.gEntry.g.color).lerp(new THREE.Color('#ffffff'), 0.35);
+      const cb = new THREE.Color(rb.gEntry.g.color).lerp(new THREE.Color('#ffffff'), 0.35);
+      const c = new THREE.Color();
+      for (let i = 0; i <= segs; i++) {
+        c.lerpColors(ca, cb, i / segs);
+        col.set([c.r, c.g, c.b], i * 3);
+      }
+      const geo = new THREE.BufferGeometry();
+      const posAttr = new THREE.BufferAttribute(pos, 3);
+      geo.setAttribute('position', posAttr);
+      geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+      const baseOp = cross ? 0.45 : 0.14;
+      const mat = new THREE.LineBasicMaterial({
+        vertexColors: true, transparent: true, opacity: baseOp,
+        blending: THREE.AdditiveBlending, depthWrite: false,
+      });
+      const line = new THREE.Line(geo, mat);
+      line.frustumCulled = false; // endpoints move every frame; skip stale-bounds culling
+      edgeGroup.add(line);
+      edgeEntries.push({ a, b, cross, line, posAttr, segs, baseOp, mat });
+    }
+  }
+  const EV_A = new THREE.Vector3(), EV_B = new THREE.Vector3(), EV_C = new THREE.Vector3();
+  const EV_1 = new THREE.Vector3(), EV_2 = new THREE.Vector3();
+  function updateEdges() {
+    for (const e of edgeEntries) {
+      const ra = planetById.get(e.a), rb = planetById.get(e.b);
+      if (!ra || !rb) continue;
+      if (!ra.entry.mesh.visible || !rb.entry.mesh.visible) { e.line.visible = false; continue; }
+      e.line.visible = true;
+      ra.entry.mesh.getWorldPosition(EV_A);
+      rb.entry.mesh.getWorldPosition(EV_B);
+      // quadratic bezier: bridges arc high above the plane, local threads barely lift
+      const lift = EV_A.distanceTo(EV_B) * (e.cross ? 0.24 : 0.10);
+      EV_C.addVectors(EV_A, EV_B).multiplyScalar(0.5); EV_C.y += lift;
+      for (let i = 0; i <= e.segs; i++) {
+        const t = i / e.segs;
+        EV_1.lerpVectors(EV_A, EV_C, t);
+        EV_2.lerpVectors(EV_C, EV_B, t);
+        EV_1.lerp(EV_2, t);
+        e.posAttr.array.set([EV_1.x, EV_1.y, EV_1.z], i * 3);
+      }
+      e.posAttr.needsUpdate = true;
+    }
+  }
+
+  // ---- hover neighborhood: light the 1–2 hop graph around the hot planet ----
+  let hood = null; // { l0:Set, l1:Set, l2:Set }
+  function setNeighborhood(planet) {
+    const id = planet && pid(planet);
+    if (!id || !adjacency.has(id)) { if (hood) { hood = null; applyHood(); } return; }
+    const l1 = adjacency.get(id);
+    const l2 = new Set();
+    for (const n of l1) for (const m of adjacency.get(n) || []) if (m !== id && !l1.has(m)) l2.add(m);
+    hood = { l0: new Set([id]), l1, l2 };
+    applyHood();
+  }
+  function applyHood() {
+    for (const e of edgeEntries) {
+      if (!hood) { e.mat.opacity = e.baseOp; continue; }
+      const touches0 = hood.l0.has(e.a) || hood.l0.has(e.b);
+      const in12 = (x) => hood.l0.has(x) || hood.l1.has(x) || hood.l2.has(x);
+      if (touches0) e.mat.opacity = 0.95;
+      else if (in12(e.a) && in12(e.b)) e.mat.opacity = Math.min(0.6, e.baseOp + 0.35);
+      else e.mat.opacity = e.baseOp * 0.25;
+    }
+    for (const [id, entries] of entriesById) {
+      const base = FX.discovered.has(id) ? 0.55 : 0.1;
+      let v = base;
+      if (hood) {
+        if (hood.l0.has(id)) v = 1.0;
+        else if (hood.l1.has(id)) v = 0.8;
+        else if (hood.l2.has(id)) v = 0.45;
+        else v = base * 0.6;
+      }
+      for (const pe of entries) pe.mat.emissiveIntensity = v;
+    }
+  }
+
+  // ---- sparks: shooting stars between NOT-yet-linked ideas ("watch it think") ----
+  // Deterministic: one PRNG seeded from the session minute drives every interval,
+  // pair choice, and ignition flash — no per-frame Math.random. Frozen under
+  // prefers-reduced-motion.
+  const sparkRnd = mulberry32(hashStr('spark:' + Math.floor(Date.now() / 60000)));
+  let sparks = [];        // active: {t0, dur, A, B, C, head, flashAtEnd, target}
+  let flashes = [];       // {sprite, t0, dur}
+  let nextSparkAt = 0;
+  function scheduleSpark(now) { nextSparkAt = now + 8000 + sparkRnd() * 7000; }
+  function spawnSpark(now) {
+    const ids = [...planetById.keys()].sort();
+    if (ids.length < 2) return;
+    // deterministic pair draw; skip already-linked pairs (a spark is a thought
+    // that HASN'T become an edge yet)
+    let a = null, b = null;
+    for (let tries = 0; tries < 12; tries++) {
+      const i = Math.floor(sparkRnd() * ids.length);
+      const j = Math.floor(sparkRnd() * ids.length);
+      if (i === j) continue;
+      if (adjacency.get(ids[i])?.has(ids[j])) continue;
+      a = ids[i]; b = ids[j]; break;
+    }
+    if (!a) return;
+    const ra = planetById.get(a), rb = planetById.get(b);
+    if (!ra.entry.mesh.visible || !rb.entry.mesh.visible) return;
+    const A = ra.entry.mesh.getWorldPosition(new THREE.Vector3());
+    const B = rb.entry.mesh.getWorldPosition(new THREE.Vector3());
+    const C = A.clone().add(B).multiplyScalar(0.5); C.y += A.distanceTo(B) * 0.3 + 6;
+    const head = new THREE.Sprite(additive(glowTex, '#ffffff', 0.9));
+    head.scale.setScalar(1.4); scene.add(head);
+    sparks.push({ t0: now, dur: 1500 + sparkRnd() * 500, A, B, C, head, flashAtEnd: sparkRnd() < 0.3, target: rb });
+  }
+  function updateSparks(now) {
+    if (REDUCED || tl) return;
+    if (!nextSparkAt) scheduleSpark(now);
+    if (now >= nextSparkAt) { spawnSpark(now); scheduleSpark(now); }
+    sparks = sparks.filter((sp) => {
+      const k = (now - sp.t0) / sp.dur;
+      if (k >= 1) {
+        sp.head.removeFromParent();
+        if (sp.flashAtEnd) ignitionFlash(sp.B, now, '#ffe9b8');
+        return false;
+      }
+      EV_1.lerpVectors(sp.A, sp.C, k); EV_2.lerpVectors(sp.C, sp.B, k); EV_1.lerp(EV_2, k);
+      sp.head.position.copy(EV_1);
+      sp.head.material.opacity = 0.9 * Math.sin(Math.PI * k); // ease in+out
+      return true;
+    });
+  }
+  function ignitionFlash(worldPos, now, color = '#ffffff') {
+    const f = new THREE.Sprite(additive(glowTex, color, 0.9));
+    f.position.copy(worldPos); f.scale.setScalar(0.5); scene.add(f);
+    flashes.push({ sprite: f, t0: now, dur: 520 });
+  }
+  function updateFlashes(now) {
+    flashes = flashes.filter((f) => {
+      const k = (now - f.t0) / f.dur;
+      if (k >= 1) { f.sprite.removeFromParent(); return false; }
+      f.sprite.scale.setScalar(0.5 + k * 6);
+      f.sprite.material.opacity = 0.9 * (1 - k);
+      return true;
+    });
   }
 
   // ---- discovery FX: brighter discovered planets, today's beacon, the personal trail ----
   let beacon = null, sunBeacon = null, beaconRef = null;
   let trailLine = null, trailNodes = null;
   function applyFx() {
-    for (const [id, ref] of planetById) {
-      const disc = FX.discovered.has(id);
-      for (const ge of gEntries) for (const se of ge.stars) for (const pe of se.planets) {
-        if (pid(pe.p) !== id) continue;
-        pe.mat.emissiveIntensity = disc ? 0.55 : 0.1;
-      }
-    }
+    applyHood(); // planet emissive baseline (discovered state) lives there now
     // today's planet beacon (pulsing ring; static under reduced motion)
     if (beacon) { beacon.removeFromParent(); sunBeacon.removeFromParent(); beacon = sunBeacon = null; beaconRef = null; }
     const today = FX.todayId && planetById.get(FX.todayId);
@@ -247,7 +417,7 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
   }
   function rebuildTrail() {
     if (trailLine) { trailLine.removeFromParent(); trailNodes.removeFromParent(); trailLine = trailNodes = null; }
-    if (!FX.showTrail || FX.trailIds.length < 1) return;
+    if (!FX.showTrail || FX.trailIds.length < 1 || tl) return;
     scene.updateMatrixWorld(true); // anchors need fresh world matrices before first render
     const anchors = [];
     for (const id of FX.trailIds) { const v = trailAnchor(id, new THREE.Vector3()); if (v) anchors.push(v.clone()); }
@@ -268,14 +438,16 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
     scene.add(trailNodes);
   }
 
-  // ---- HTML labels (crisp text > canvas sprites), rebuilt per view mode ----
+  // ---- HTML labels: ALL levels built once, SEMANTIC ZOOM decides visibility ----
+  // Instead of switching label sets per view mode, every label carries fade
+  // distances and emerges as the camera approaches (near, far) in world units.
   let labelEls = [];
   function clearLabels() { labelLayer.textContent = ''; labelEls = []; }
-  function addLabel(kindClass, html, getWorld, cssOffsetY = 0) {
+  function addLabel(kindClass, html, getWorld, cssOffsetY, fade) {
     const el = document.createElement('div');
     el.className = 'lbl ' + kindClass; el.innerHTML = html;
     labelLayer.appendChild(el);
-    labelEls.push({ el, getWorld, cssOffsetY });
+    labelEls.push({ el, getWorld, cssOffsetY, fade, op: -1 });
     return el;
   }
   function ringSvg(done, total) {
@@ -286,30 +458,21 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
   function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
   function rebuildLabels() {
     clearLabels();
-    if (view.mode === 'universe') {
-      for (const ge of gEntries) {
-        const prog = FX.progress.get(ge.g.id);
-        const sub = ge.g.stars.length + (ge.g.stars.length === 1 ? ' brain' : ' brains');
-        const ring = prog && prog.done > 0 ? `<span class="ring">${ringSvg(prog.done, prog.total)}<i>${prog.done}/${prog.total} explored</i></span>` : '';
-        addLabel('lbl-galaxy', `<b style="color:#f0f3ff">${esc(ge.g.name)}</b><span style="color:${ge.g.color}">${sub}</span>${ring}`,
-          (v) => v.setFromMatrixPosition(ge.grp.matrixWorld), 46);
-      }
-    } else if (view.mode === 'galaxy' && view.galaxy) {
-      const ge = gEntries.find((e) => e.g === view.galaxy);
-      if (ge) for (const se of ge.stars) {
+    for (const ge of gEntries) {
+      const prog = FX.progress.get(ge.g.id);
+      const sub = ge.g.stars.length + (ge.g.stars.length === 1 ? ' brain' : ' brains');
+      const ring = prog && prog.done > 0 ? `<span class="ring">${ringSvg(prog.done, prog.total)}<i>${prog.done}/${prog.total} explored</i></span>` : '';
+      // galaxy names live at a distance; they dissolve as you fly INTO the galaxy
+      addLabel('lbl-galaxy', `<b style="color:#f0f3ff">${esc(ge.g.name)}</b><span style="color:${ge.g.color}">${sub}</span>${ring}`,
+        (v) => v.setFromMatrixPosition(ge.grp.matrixWorld), 46, { showBeyond: 46, band: 18 });
+      for (const se of ge.stars) {
         const n = se.s.planets.length;
-        addLabel('lbl-star', `<b>${esc(se.s.display)}</b><span>${n} ${n === 1 ? 'planet' : 'planets'}</span>`,
-          (v) => v.setFromMatrixPosition(se.grp.matrixWorld), 30);
-      }
-    } else if (view.mode === 'star' && view.star) {
-      const ref = findStar(view.star);
-      if (ref) {
-        addLabel('lbl-star', `<b>${esc(ref.se.s.display)}'s brain</b>`,
-          (v) => v.setFromMatrixPosition(ref.se.grp.matrixWorld), -44);
-        for (const pe of ref.se.planets) {
+        addLabel('lbl-star', `<b>${esc(se.s.display)}</b><span>${n} ${n === 1 ? 'note' : 'notes'}</span>`,
+          (v) => v.setFromMatrixPosition(se.grp.matrixWorld), 30, { showWithin: 75, band: 25 });
+        for (const pe of se.planets) {
           const disc = FX.discovered.has(pid(pe.p));
           addLabel('lbl-planet' + (disc ? ' disc' : ''), esc(pe.p.name),
-            (v) => v.setFromMatrixPosition(pe.mesh.matrixWorld), -16);
+            (v) => v.setFromMatrixPosition(pe.mesh.matrixWorld), -16, { showWithin: 21, band: 7, entry: pe });
         }
       }
     }
@@ -319,12 +482,16 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
     return null;
   }
 
-  // ---- camera flights ----
+  // ---- FREE FLIGHT camera: drag orbits, scroll/pinch flies, momentum, WASD ----
   let flight = null, introFlight = null;
   const camDpr = () => renderer.getPixelRatio();
-  function flyTo(pos, look, dur = 1100) {
-    if (REDUCED || dur === 0) { camera.position.set(...pos); lookAt.set(...look); camera.lookAt(lookAt); flight = null; return; }
-    flight = { fromP: camera.position.clone(), toP: new THREE.Vector3(...pos), fromL: lookAt.clone(), toL: new THREE.Vector3(...look), t0: performance.now(), dur };
+  function flyTo(pos, look, dur = 1100, onDone = null) {
+    if (REDUCED || dur === 0) {
+      camera.position.set(...pos); lookAt.set(...look); camera.lookAt(lookAt); flight = null;
+      if (onDone) onDone();
+      return;
+    }
+    flight = { fromP: camera.position.clone(), toP: new THREE.Vector3(...pos), fromL: lookAt.clone(), toL: new THREE.Vector3(...look), t0: performance.now(), dur, onDone };
   }
   function targetFor(v) {
     if (v.mode === 'galaxy' && v.galaxy) {
@@ -343,6 +510,175 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
       return { pos: p.toArray(), look: S.toArray() };
     }
     return { pos: U_HOME.pos, look: U_HOME.look };
+  }
+
+  // user-input camera state (spherical offset around lookAt) + momentum
+  const sph = new THREE.Spherical();
+  const fwd = new THREE.Vector3(), rgt = new THREE.Vector3();
+  let vTheta = 0, vPhi = 0, vFly = 0;
+  const keys = new Set();
+  let dragging = false, dragged = false, px = 0, py = 0;
+  const pointers = new Map(); let pinchDist = 0;
+  function cancelFlights() { flight = introFlight = null; }
+  function syncSph() { sph.setFromVector3(EV_1.subVectors(camera.position, lookAt)); }
+  function applySph() {
+    camera.position.setFromSpherical(sph).add(lookAt);
+    camera.lookAt(lookAt);
+  }
+  canvas.addEventListener('pointerdown', (e) => {
+    pointers.set(e.pointerId, [e.clientX, e.clientY]);
+    if (pointers.size === 2) {
+      const [a, b] = [...pointers.values()];
+      pinchDist = Math.hypot(a[0] - b[0], a[1] - b[1]);
+    }
+    dragging = true; dragged = false; px = e.clientX; py = e.clientY;
+    try { canvas.setPointerCapture(e.pointerId); } catch { /* detached canvas in tests */ }
+  });
+  canvas.addEventListener('pointermove', (e) => {
+    if (!dragging || tl) return;
+    if (pointers.has(e.pointerId)) pointers.set(e.pointerId, [e.clientX, e.clientY]);
+    if (pointers.size === 2) {
+      // pinch-fly: two-finger spread dives in, squeeze pulls out
+      const [a, b] = [...pointers.values()];
+      const d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+      if (pinchDist > 0 && Math.abs(d - pinchDist) > 2) {
+        cancelFlights(); syncSph();
+        sph.radius = Math.max(2.5, Math.min(700, sph.radius * (pinchDist / d)));
+        applySph();
+        dragged = true;
+      }
+      pinchDist = d;
+      return;
+    }
+    const dx = e.clientX - px, dy = e.clientY - py;
+    if (!dragged && Math.hypot(e.clientX - px, e.clientY - py) < 5) return;
+    if (!dragged) { dragged = true; cancelFlights(); }
+    px = e.clientX; py = e.clientY;
+    syncSph();
+    sph.theta -= dx * 0.005;
+    sph.phi = Math.max(0.08, Math.min(Math.PI - 0.08, sph.phi - dy * 0.005));
+    vTheta = -dx * 0.005; vPhi = -dy * 0.005; // momentum carries the last gesture
+    applySph();
+  });
+  const endPointer = (e) => {
+    pointers.delete(e.pointerId);
+    if (pointers.size < 2) pinchDist = 0;
+    if (pointers.size === 0) dragging = false;
+  };
+  canvas.addEventListener('pointerup', endPointer);
+  canvas.addEventListener('pointercancel', endPointer);
+  // a real drag must not fall through to app.js's click-to-navigate
+  canvas.addEventListener('click', (e) => { if (dragged) { e.stopImmediatePropagation(); dragged = false; } }, true);
+  canvas.addEventListener('wheel', (e) => {
+    if (tl) return;
+    e.preventDefault();
+    cancelFlights(); syncSph();
+    const f = Math.exp(e.deltaY * 0.0012);
+    if (sph.radius * f < 2.5 && f < 1) {
+      // flying past the minimum orbit distance pushes the focus point forward —
+      // continuous flight instead of a zoom wall
+      camera.getWorldDirection(fwd);
+      lookAt.addScaledVector(fwd, 1.2);
+    } else {
+      sph.radius = Math.min(700, sph.radius * f);
+    }
+    vFly = e.deltaY * 0.0012;
+    applySph();
+  }, { passive: false });
+  // optional WASD (never required): glide the focus point in the camera plane
+  addEventListener('keydown', (e) => {
+    if (/^(INPUT|TEXTAREA)$/.test(document.activeElement?.tagName || '')) return;
+    if ('wasd'.includes(e.key)) keys.add(e.key);
+  });
+  addEventListener('keyup', (e) => keys.delete(e.key));
+  function updateFreeFlight(dt) {
+    if (tl) return;
+    const damp = Math.pow(0.92, dt / 16);
+    if (!dragging && !flight && !introFlight && (Math.abs(vTheta) > 0.0001 || Math.abs(vPhi) > 0.0001)) {
+      syncSph();
+      sph.theta += vTheta; sph.phi = Math.max(0.08, Math.min(Math.PI - 0.08, sph.phi + vPhi));
+      applySph();
+    }
+    vTheta *= damp; vPhi *= damp; vFly *= damp;
+    if (keys.size && !flight && !introFlight) {
+      camera.getWorldDirection(fwd); fwd.y = 0; fwd.normalize();
+      rgt.crossVectors(fwd, camera.up).normalize();
+      syncSph();
+      const step = Math.max(0.2, sph.radius * 0.012) * (dt / 16);
+      if (keys.has('w')) lookAt.addScaledVector(fwd, step);
+      if (keys.has('s')) lookAt.addScaledVector(fwd, -step);
+      if (keys.has('a')) lookAt.addScaledVector(rgt, -step);
+      if (keys.has('d')) lookAt.addScaledVector(rgt, step);
+      applySph();
+    }
+  }
+
+  // ---- TIME-LAPSE: replay the universe growing (#/timelapse) ----
+  // Driven from app.js: enterTimelapse(orderedIds) → setTimelapseT(t∈[0,1]) →
+  // exitTimelapse(). Planets ignite in order (with a flash on forward crossings),
+  // edges lace in once both endpoints exist, and the camera slowly pulls back.
+  let tl = null; // { idx: Map<id,slot>, n, t, lastCount }
+  function enterTimelapse(orderedIds) {
+    tl = { idx: new Map(orderedIds.map((id, i) => [id, i])), n: orderedIds.length, t: 0, lastCount: 0 };
+    cancelFlights();
+    if (trailLine) { trailLine.removeFromParent(); trailNodes.removeFromParent(); trailLine = trailNodes = null; }
+    if (beacon) { beacon.visible = false; sunBeacon.visible = false; }
+    labelLayer.style.opacity = 0.35; // galaxy names stay as faint wayfinding
+    setTimelapseT(0);
+  }
+  function setTimelapseT(t) {
+    if (!tl) return;
+    tl.t = Math.max(0, Math.min(1, t));
+    const count = Math.round(tl.t * tl.n);
+    const now = performance.now();
+    for (const [id, entries] of entriesById) {
+      const slot = tl.idx.get(id);
+      const on = slot !== undefined && slot < count;
+      if (on && !entries[0].mesh.visible && count > tl.lastCount && !REDUCED) {
+        ignitionFlash(entries[0].mesh.getWorldPosition(new THREE.Vector3()), now, planetById.get(id).gEntry.g.color);
+      }
+      for (const pe of entries) { pe.mesh.visible = on; pe.orbit.visible = on; }
+    }
+    // galaxies + suns fade up as their ideas arrive
+    for (const ge of gEntries) {
+      let gOn = 0, gTot = 0;
+      for (const se of ge.stars) {
+        let sOn = 0;
+        for (const pe of se.planets) { gTot++; if (pe.mesh.visible) { gOn++; sOn++; } }
+        const sf = se.planets.length ? sOn / se.planets.length : 1;
+        se.sunGlow.material.opacity = 0.1 + 0.45 * Math.min(1, sf * 3);
+        se.sunCore.material.opacity = 0.2 + 0.75 * Math.min(1, sf * 3);
+        se.light.intensity = 60 * (0.15 + 0.85 * Math.min(1, sf * 3));
+      }
+      const f = gTot ? gOn / gTot : 1;
+      ge.discMat.opacity = 0.1 + 0.85 * f;
+      ge.glows.forEach((sp, i) => { sp.material.opacity = (0.3 - i * 0.045) * (0.25 + 0.75 * f); });
+    }
+    tl.lastCount = count;
+    // cinematic pull-back: low and close over the first ignitions → wide establishing
+    // shot of the finished universe. Pure function of t, so scrubbing is exact.
+    const e = easeC(tl.t);
+    const r = 120 + 210 * e;
+    const th = -Math.PI / 2 + 0.85 * tl.t;
+    const ph = 1.22 - 0.34 * e;
+    lookAt.set(0, 0, 0);
+    camera.position.set(r * Math.sin(ph) * Math.sin(th), r * Math.cos(ph), r * Math.sin(ph) * Math.cos(th));
+    camera.lookAt(lookAt);
+  }
+  function exitTimelapse() {
+    if (!tl) return;
+    tl = null;
+    for (const entries of entriesById.values()) for (const pe of entries) { pe.mesh.visible = true; pe.orbit.visible = true; }
+    for (const ge of gEntries) {
+      ge.discMat.opacity = 0.95;
+      ge.glows.forEach((sp, i) => { sp.material.opacity = i < 3 ? 0.16 - i * 0.03 : 0.3; });
+      for (const se of ge.stars) {
+        se.sunGlow.material.opacity = 0.55; se.sunCore.material.opacity = 0.95; se.light.intensity = 60;
+      }
+    }
+    if (beacon) { beacon.visible = true; sunBeacon.visible = true; }
+    labelLayer.style.opacity = '';
+    applyFx();
   }
 
   // ---- per-frame update ----
@@ -368,11 +704,23 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
     }
   }
   function updateLabels() {
+    // semantic zoom: each label fades in/out around its distance thresholds
     for (const L of labelEls) {
-      L.getWorld(V); V.project(camera);
-      if (V.z > 1) { L.el.style.display = 'none'; continue; }
+      L.getWorld(V);
+      const d = V.distanceTo(camera.position);
+      let op = 1;
+      if (L.fade) {
+        if (L.fade.showBeyond !== undefined) op = (d - L.fade.showBeyond) / L.fade.band + 0.5;
+        if (L.fade.showWithin !== undefined) op = (L.fade.showWithin - d) / L.fade.band + 0.5;
+        op = Math.max(0, Math.min(1, op));
+      }
+      if (L.fade && L.fade.entry && !L.fade.entry.mesh.visible) op = 0; // timelapse: unborn
+      if (tl && L.fade && L.fade.showWithin !== undefined) op = 0;      // timelapse: wide shot only
+      V.project(camera);
+      if (V.z > 1 || op <= 0.02) { L.el.style.display = 'none'; L.op = 0; continue; }
       const x = (V.x * 0.5 + 0.5) * innerWidth, y = (-V.y * 0.5 + 0.5) * innerHeight + L.cssOffsetY;
       L.el.style.display = '';
+      if (Math.abs(op - L.op) > 0.02) { L.el.style.opacity = op.toFixed(2); L.op = op; }
       // edge-aware alignment so labels never run off-screen
       const align = x < innerWidth * 0.18 ? '0%' : x > innerWidth * 0.82 ? '-100%' : '-50%';
       L.el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) translate(${align},-50%)`;
@@ -406,8 +754,13 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
       sunBeacon.material.opacity = 0.18 + k * 0.2;
     }
     if (trailLine && !REDUCED && (trailTick++ % 3 === 0)) rebuildTrailPositions();
+    updateSparks(now);
+    updateFlashes(now);
+    updateFreeFlight(dt);
 
-    if (introFlight) {
+    if (tl) {
+      // camera fully owned by the replay (set in setTimelapseT)
+    } else if (introFlight) {
       const k = Math.min(1, (now - introFlight.t0) / introFlight.dur), e = easeC(k);
       camera.position.lerpVectors(introFlight.fromP, introFlight.toP, e);
       camera.lookAt(lookAt);
@@ -417,9 +770,10 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
       camera.position.lerpVectors(flight.fromP, flight.toP, e);
       lookAt.lerpVectors(flight.fromL, flight.toL, e);
       camera.lookAt(lookAt);
-      if (k >= 1) flight = null;
+      if (k >= 1) { const cb = flight.onDone; flight = null; if (cb) cb(); }
     } else camera.lookAt(lookAt);
 
+    updateEdges();
     renderer.render(scene, camera);
     annotate(); updateLabels();
   }
@@ -440,39 +794,59 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
     nAttr.needsUpdate = true;
   }
 
-  // ---- picking (raycast against the current view's hit volumes) ----
+  // ---- picking: proximity decides the level (free flight has no hard modes) ----
+  // Planets win when you're close enough to read them, stars next, galaxies only
+  // from outside their own volume — so clicking works at ANY camera position.
   const ray = new THREE.Raycaster(); const ndc = new THREE.Vector2();
-  function pickables() {
-    if (view.mode === 'universe') return gEntries.map((e) => e.hit);
-    if (view.mode === 'galaxy' && view.galaxy) {
-      const ge = gEntries.find((e) => e.g === view.galaxy);
-      return ge ? ge.stars.map((se) => se.hit) : [];
+  function pickLevel(hits, maxDist) {
+    for (const h of hits) if (h.distance <= maxDist && h.object.userData.pick) return h.object.userData.pick;
+    return null;
+  }
+  function pick(cssX, cssY) {
+    ndc.set((cssX / innerWidth) * 2 - 1, -(cssY / innerHeight) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    const pHits = [], sHits = [], gHits = [];
+    for (const ge of gEntries) {
+      gHits.push(ge.hit);
+      for (const se of ge.stars) { sHits.push(se.hit); for (const pe of se.planets) if (pe.mesh.visible) pHits.push(pe.hit); }
     }
-    if (view.mode === 'star' && view.star) {
-      const ref = findStar(view.star);
-      return ref ? ref.se.planets.map((pe) => pe.hit) : [];
+    const p = pickLevel(ray.intersectObjects(pHits, false), 40);
+    if (p) return p;
+    const s = pickLevel(ray.intersectObjects(sHits, false), 130);
+    if (s) return s;
+    for (const h of ray.intersectObjects(gHits, false)) {
+      const ge = gEntries.find((e) => e.hit === h.object);
+      // inside a galaxy you interact with its contents, not the disc itself
+      if (ge && camera.position.distanceTo(EV_1.setFromMatrixPosition(ge.grp.matrixWorld)) > GAL_R * 1.15) {
+        return h.object.userData.pick;
+      }
     }
-    return [];
+    return null;
   }
 
   let started = false;
   return {
     get quality() { return quality; },
     get dpr() { return camDpr(); },
+    get edgeCount() { return edgeEntries.length; },
     setData(data) { DATA = data; buildWorld(); rebuildLabels(); },
     setView(nv, opts = {}) {
       view = nv;
       if (!opts.keepIntro) introFlight = null; // navigation skips the establishing shot
-      if (!(opts.keepIntro && introFlight)) {
+      if (!(opts.keepIntro && introFlight) && !tl) {
         const t2 = targetFor(nv);
         flyTo(t2.pos, t2.look, opts.instant ? 0 : 1100);
       }
-      rebuildLabels();
     },
-    setHot(o) { hot = o; },
+    setHot(o) {
+      hot = o;
+      // hood lighting only makes sense for planets (galaxies have .stars, stars .planets)
+      setNeighborhood(o && !o.stars && !o.planets ? o : null);
+    },
     focusPlanet(p) {
       held = p;
-      if (p && view.mode === 'star') {
+      if (tl) return;
+      if (p) {
         const ref = planetById.get(pid(p));
         if (ref) {
           const P = new THREE.Vector3(); ref.entry.mesh.getWorldPosition(P);
@@ -483,17 +857,23 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
           const pos = P.clone().addScaledVector(dir, 4.5); pos.y += 4.5;
           flyTo(pos.toArray(), P.toArray(), 900);
         }
-      } else if (!p && view.mode === 'star') {
+      } else if (view.mode === 'star') {
         const t2 = targetFor(view); flyTo(t2.pos, t2.look, 900);
       }
     },
-    setFx(fx) { FX = { ...FX, ...fx }; applyFx(); rebuildLabels(); },
-    pick(cssX, cssY) {
-      ndc.set((cssX / innerWidth) * 2 - 1, -(cssY / innerHeight) * 2 + 1);
-      ray.setFromCamera(ndc, camera);
-      const hits = ray.intersectObjects(pickables(), false);
-      return hits.length ? hits[0].object.userData.pick : null;
+    // the LANDING: dive the camera onto the planet, then hand off to the reader
+    diveTo(p, onDone) {
+      if (tl) { if (onDone) onDone(); return; }
+      const ref = planetById.get(pid(p));
+      if (!ref) { if (onDone) onDone(); return; }
+      held = p;
+      const P = new THREE.Vector3(); ref.entry.mesh.getWorldPosition(P);
+      const dir = camera.position.clone().sub(P).normalize();
+      const pos = P.clone().addScaledVector(dir, 1.05);
+      flyTo(pos.toArray(), P.toArray(), REDUCED ? 0 : 1150, onDone);
     },
+    setFx(fx) { FX = { ...FX, ...fx }; applyFx(); rebuildLabels(); },
+    pick,
     nearestPlanet(cssX, cssY, maxCss) {
       if (view.mode !== 'star' || !view.star) return null;
       const dpr = camDpr(); const mx = cssX * dpr, my = cssY * dpr;
@@ -505,6 +885,7 @@ export function createRenderer({ canvas, labelLayer, touch, reduced }) {
       }
       return best;
     },
+    enterTimelapse, setTimelapseT, exitTimelapse,
     resize() {
       camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
       renderer.setSize(innerWidth, innerHeight);

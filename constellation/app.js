@@ -1,12 +1,15 @@
 // app.js — the Explorer's UX layer: data loading (live registry → mock snapshot →
 // inline demo; the Explorer ALWAYS renders), hash routing/deep links, search, the
-// reading panel, onboarding, keyboard nav, and the client-side discovery game.
-// Rendering is delegated to render3d.js (WebGL) or render2d.js (canvas fallback).
+// reading panel + full-screen landing reader, the time-lapse replay, onboarding,
+// keyboard nav, and the client-side discovery game. Rendering is delegated to
+// render3d.js (WebGL) or render2d.js (canvas fallback).
 
 import { mapUniverseToData, GALAXY_CATALOG } from './map.js';
 import { DEFAULT_REGISTRY } from './registry.config.js';
 import { parseRoute, formatRoute, resolveRoute } from './routes.js';
 import { searchPlanets } from './search.js';
+import { mdToHtml } from './markdown.js';
+import { timelapseOrder, collectEdges } from './timelapse.js';
 import {
   loadState, saveState, discover, discoveredSet, planetKey,
   galaxyProgress, completion, computeRank, todaysPlanet, deriveTrails,
@@ -21,6 +24,7 @@ const $ = (id) => document.getElementById(id);
 const cv = $('c'), tip = $('tip'), crumbs = $('crumbs'), sourceEl = $('source'), statsEl = $('stats');
 const panel = $('panel'), panelBody = $('panelBody'), q = $('q'), resultsEl = $('results');
 const toastEl = $('toast'), tourBar = $('tourbar'), obEl = $('onboard');
+const reader = $('reader'), timelineEl = $('timeline');
 
 let renderer = null;
 let DATA = { galaxies: [] };
@@ -62,9 +66,13 @@ function upLevel() {
 function applyRoute(opts = {}) {
   const resolved = resolveRoute(parseRoute(location.hash), DATA, view) ||
     { view: { mode: 'universe', galaxy: null, star: null }, planet: null }; // broken link → home
+  if (!resolved.timelapse && tl.active) exitTimelapseMode();
   view = resolved.view;
   kbIdx = -1;
+  if (resolved.timelapse) { hidePanel(); closeReader(); enterTimelapseMode(); renderCrumbs(); return; }
   renderer.setView(view, { instant: opts.instant, keepIntro: opts.keepIntro });
+  if (resolved.planet && resolved.read) { hidePanel(); openReader(resolved.planet); renderCrumbs(); return; }
+  closeReader();
   if (resolved.planet) openPanel(resolved.planet);
   else { hidePanel(); renderer.focusPlanet(null); }
   renderCrumbs();
@@ -123,6 +131,10 @@ function openPanel(p) {
     try { await navigator.clipboard.writeText(link); toast('Link copied'); }
     catch { prompt('Copy this link:', link); }
   };
+  // landing: full markdown ships in the manifest, so "Read" descends onto the planet
+  const readBtn = $('readBtn');
+  readBtn.style.display = m && m.content ? '' : 'none';
+  readBtn.onclick = () => navigate({ kind: 'read', id });
   panel.style.display = 'flex'; panel.style.transform = '';
 }
 function hidePanel() { panel.style.display = 'none'; openPlanet = null; }
@@ -147,6 +159,137 @@ $('panelClose').onclick = closePanel;
     y0 = null;
   }, { passive: true });
 }
+
+// ---------- LAND ON A PLANET: the full-screen reading view (#/read/<id>) ----------
+// The camera dives onto the planet, then the typeset markdown cross-fades in.
+// Wiki-links (and mined connections) that resolve to another planet are links
+// that fly you there — ideas navigating to ideas.
+let readerPlanet = null;
+let titleIndex = null; // norm(title)/slug → planet id
+const normTitle = (s) => String(s).toLowerCase().replace(/[’‘']/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+function buildTitleIndex() {
+  titleIndex = new Map();
+  DATA.galaxies.forEach((g) => g.stars.forEach((s) => s.planets.forEach((p) => {
+    if (!p.manifest) return;
+    titleIndex.set(normTitle(p.name), p.manifest.id);
+    titleIndex.set(normTitle(p.name).replace(/ /g, '-'), p.manifest.id);
+  })));
+}
+function resolveWiki(target) {
+  if (!titleIndex) buildTitleIndex();
+  const t = normTitle(target);
+  return titleIndex.get(t) || titleIndex.get(t.replace(/ /g, '-')) || null;
+}
+function findPlanetById(id) {
+  for (const g of DATA.galaxies) for (const s of g.stars) {
+    const p = s.planets.find((p) => p.manifest && p.manifest.id === id);
+    if (p) return p;
+  }
+  return null;
+}
+function renderReader(p) {
+  const m = p.manifest || {};
+  const linked = (m.links || []).map(findPlanetById).filter(Boolean);
+  $('readerHead').innerHTML =
+    '<div class="rmeta">' + (m.galaxy || []).map(galaxyChip).join(' ') + '</div>';
+  $('readerBody').innerHTML = m.content
+    ? mdToHtml(m.content, resolveWiki)
+    : '<h1>' + esc(p.name) + '</h1><p class="dim">' + esc(m.summary || 'No content published for this note.') + '</p>';
+  $('readerFoot').innerHTML = linked.length
+    ? '<h3>Connected ideas</h3><div class="rlinks">' + linked.map((lp) =>
+      `<a href="#/read/${encodeURIComponent(lp.manifest.id)}">${esc(lp.name)}</a>`).join('') + '</div>'
+    : '';
+  $('readerBy').textContent = (m.author?.display || m.author?.handle || '') +
+    (m.published_at ? ' · ' + m.published_at.slice(0, 10) : '');
+}
+function openReader(p) {
+  const wasOpen = !!readerPlanet;
+  readerPlanet = p;
+  const isNew = discover(state, p);
+  if (isNew) { persist(); refreshGame(); } // a landing IS the discovery event
+  renderReader(p);
+  tip.style.opacity = 0; // a stale hover tip must not float over the page
+  const show = () => {
+    if (readerPlanet !== p) return; // navigated away mid-dive
+    reader.style.display = 'block';
+    requestAnimationFrame(() => reader.classList.add('in'));
+    $('readerScroll').scrollTop = 0;
+  };
+  if (wasOpen) { show(); if (renderer.diveTo) renderer.diveTo(p, null); }
+  else if (renderer.diveTo && !REDUCED) renderer.diveTo(p, show);
+  else show();
+}
+function closeReader() {
+  if (!readerPlanet) return;
+  readerPlanet = null;
+  reader.classList.remove('in');
+  setTimeout(() => { if (!readerPlanet) reader.style.display = 'none'; }, 320);
+}
+$('readerBack').onclick = () => {
+  // pull back to space: the planet route keeps the panel + star focus
+  if (readerPlanet) navigate({ kind: 'planet', id: planetKey(readerPlanet) });
+};
+cv.addEventListener('dblclick', (e) => {
+  if (!renderer) return;
+  const hit = renderer.pick(e.clientX, e.clientY);
+  if (hit && hit.type === 'planet' && hit.o.manifest) navigate({ kind: 'read', id: planetKey(hit.o) });
+});
+
+// ---------- TIME-LAPSE: watch the universe grow (#/timelapse) ----------
+const tl = { active: false, playing: false, t: 0, order: [], raf: 0, last: 0, DUR: 24000 };
+function tlLabel() {
+  const n = Math.round(tl.t * tl.order.length);
+  const cur = tl.order[Math.max(0, n - 1)];
+  $('tlInfo').innerHTML = '<b>' + n + '</b> / ' + tl.order.length + ' ideas' +
+    (cur && cur.at ? ' · ' + esc(String(cur.at).slice(0, 10)) : '');
+}
+function setTlT(t) {
+  tl.t = Math.max(0, Math.min(1, t));
+  renderer.setTimelapseT(tl.t);
+  $('tlScrub').value = String(Math.round(tl.t * 1000));
+  tlLabel();
+  $('tlPlay').textContent = tl.playing ? '❚❚' : '▶';
+}
+function tlFrame(now) {
+  if (!tl.active) return;
+  if (tl.playing) {
+    const dt = tl.last ? now - tl.last : 16;
+    setTlT(tl.t + dt / tl.DUR);
+    if (tl.t >= 1) tl.playing = false;
+  }
+  tl.last = now;
+  tl.raf = requestAnimationFrame(tlFrame);
+}
+function enterTimelapseMode() {
+  if (tl.active) return; // re-applying the same route must not restart the replay
+  if (!renderer.enterTimelapse) { toast('Time-lapse needs the WebGL renderer'); navigate({ kind: 'universe' }); return; }
+  renderer.skipIntro && renderer.skipIntro();
+  tip.style.opacity = 0; // no stale hover tips over the replay
+  tl.active = true;
+  tl.order = timelapseOrder(DATA);
+  renderer.enterTimelapse(tl.order.map((o) => o.id));
+  timelineEl.style.display = 'flex';
+  tl.t = 0; tl.last = 0;
+  tl.playing = !REDUCED; // reduced motion: scrub-only, no autoplay
+  setTlT(REDUCED ? 1 : 0);
+  tl.raf = requestAnimationFrame(tlFrame);
+}
+function exitTimelapseMode() {
+  if (!tl.active) return;
+  tl.active = false; tl.playing = false;
+  cancelAnimationFrame(tl.raf);
+  timelineEl.style.display = 'none';
+  renderer.exitTimelapse();
+}
+$('tlPlay').onclick = () => {
+  if (tl.t >= 1) { setTlT(0); tl.playing = true; }
+  else tl.playing = !tl.playing;
+  tl.last = 0;
+  setTlT(tl.t);
+};
+$('tlScrub').addEventListener('input', () => { tl.playing = false; setTlT((+$('tlScrub').value) / 1000); });
+$('tlExit').onclick = () => navigate({ kind: 'universe' });
+$('growBtn').onclick = () => navigate({ kind: 'timelapse' });
 
 // ---------- tooltip ----------
 function galaxyName(id) { return GALAXY_CATALOG[id]?.name || String(id).replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()); }
@@ -253,7 +396,9 @@ addEventListener('keydown', (e) => {
   if (renderer && renderer.skipIntro) renderer.skipIntro();
   if (e.key === '/') { e.preventDefault(); q.focus(); return; }
   if (e.key === 'Escape') {
-    if (panel.style.display !== 'none' && panel.style.display !== '') closePanel();
+    if (readerPlanet) navigate({ kind: 'planet', id: planetKey(readerPlanet) }); // pull back to space
+    else if (tl.active) navigate({ kind: 'universe' });
+    else if (panel.style.display !== 'none' && panel.style.display !== '') closePanel();
     else if (tour) exitTour();
     else upLevel();
     return;
@@ -295,12 +440,12 @@ function pushFx() {
 function refreshStats() {
   const c = completion(state, DATA);
   const brains = new Set(); DATA.galaxies.forEach((g) => g.stars.forEach((s) => brains.add(s.handle)));
-  const K = DATA.galaxies.length;
+  const nEdges = collectEdges(DATA).length; // the edges are the headline number
   const rank = computeRank(state, DATA);
   statsEl.innerHTML =
-    '<b>' + c.total + '</b> ' + (c.total === 1 ? 'planet' : 'planets') +
+    '<b>' + c.total + '</b> ' + (c.total === 1 ? 'idea' : 'ideas') +
+    ' · <b>' + nEdges + '</b> ' + (nEdges === 1 ? 'connection' : 'connections') +
     ' · <b>' + brains.size + '</b> ' + (brains.size === 1 ? 'brain' : 'brains') +
-    ' · <b>' + K + '</b> ' + (K === 1 ? 'galaxy' : 'galaxies') +
     (c.done > 0 ? ' · <b>' + c.pct + '%</b> explored' : '') +
     (c.done > 0 ? ' <span class="rank">' + esc(rank.name) + '</span>' : '');
 }
@@ -394,9 +539,9 @@ $('shareBtn').onclick = async () => {
 
 // ---------- onboarding: 3 dismissible coach marks, remembered in the state key ----------
 const OB_STEPS = [
-  ['Welcome to the Constellation', 'A universe of published second brains: <b>galaxies</b> are topics, <b>stars</b> are people, <b>planets</b> are their notes.'],
-  ['Navigate', 'Click a galaxy, then a star, then a planet to read it. Click empty space (or press Esc) to zoom back out. Press <b>/</b> to search.'],
-  ['Build your constellation', 'Planets you visit are added to <b>your constellation</b> — a luminous trail only you can see, saved on this device. Explore to rank up.'],
+  ['A living brain, not a catalog', 'Every planet is a published idea — and the <b>lines between them are the point</b>: mined connections between ideas. Bright arcs bridge different topics. Hover a planet to light up its neighborhood.'],
+  ['Fly, don’t click through menus', '<b>Drag</b> to orbit, <b>scroll or pinch</b> to fly. Click anything to glide there. <b>Double-click a planet to land on it</b> and read the actual note — Esc pulls you back to space. Press <b>/</b> to search.'],
+  ['Watch it think', 'Shooting sparks are connections forming. Press <b>▶ watch it grow</b> to replay this brain from its first idea. Every planet you land on joins <b>your constellation</b> — a trail only you can see.'],
 ];
 function runOnboarding() {
   if (state.onboarded) return;
@@ -423,10 +568,12 @@ function normalize(data) {
 }
 async function start(data, source) {
   DATA = normalize(data); sourceEl.textContent = source;
+  titleIndex = null; // wiki-link resolution rebuilds lazily against this dataset
   renderer = await bootRenderer();
   window.__cosmos = { // test/debug hook (harmless in prod): e2e reads layout + picking
     get data() { return DATA; }, get view() { return view; },
     get dpr() { return renderer.dpr; }, pick: (x, y) => renderer.pick(x, y),
+    get edges() { return collectEdges(DATA); },
   };
   renderer.setData(DATA);
   initToday(); initTrails(); initTrailToggle();
