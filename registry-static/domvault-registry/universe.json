@@ -858,6 +858,36 @@
       "content": "# Production AI Is 10% Model, 90% Plumbing\n\n> Shipping AI is mostly engineering around the model, not the model itself. When evaluating a new\n> AI feature, ask \"where's the 90%?\" first.\n\n## The connection\nSeveral independent sources argue the same thesis from different angles. Stitched together, they\nform a single mental model of what it takes to put an AI system into production:\n\n1. **The model is a commodity (the 10%).** Frontier APIs and fine-tuning are table stakes.\n   Differentiation lives elsewhere.\n2. **Plumbing = the 90%.** Retrieval and context, orchestration, tooling, deployment,\n   observability, evals, security — these are the layers that actually decide whether the system\n   works.\n3. **Know what's under the hood.** Understanding what happens on an API call and how a model\n   generates text keeps the abstraction honest.\n4. **Agents are where it breaks.** Most failures are operational, not model quality — the silent\n   killers of agents in production are infrastructure and control problems.\n5. **System design tests exactly this.** AI system-design questions reward the plumbing mindset,\n   not prompt cleverness.\n\n## Why it matters\nThis is the backbone for anything built on agents. The model choice is the smallest decision; the\nretrieval, evaluation, guardrails, and observability around it are where the work — and the\ndifferentiation — actually lives.\n\n## So what\n- When evaluating a new AI feature, ask \"where's the 90%?\" before arguing about which model to use.\n- Budget engineering time for evals, retries, guardrails, and observability up front, not as an\n  afterthought.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+      "title": "Proof Needs Time in the Barrel",
+      "summary": "You can raise the proof overnight. You cannot fake the years in wood. The barrel is a slow filter: it subtracts the harsh, keeps the signal, and writes a record into the liquid that a still cannot.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "whiskey"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "whiskey",
+        "patience",
+        "quality"
+      ],
+      "content": "# Proof Needs Time in the Barrel\n\n> You can raise the proof overnight. You cannot fake the years in wood. The barrel is a slow filter: it subtracts the harsh, keeps the signal, and writes a record into the liquid that a still cannot.\n\n## The connection\nWhiskey is a control loop with a long sample interval. Distillation is the high-gain first pass — you get alcohol, you also get heat and noise. The barrel is regularization: oxygen leaks in, water and fusel oils move out, lignin and vanillin dissolve, and the same mash becomes something you would actually serve. Shipping a first idea is distillation. Letting it sit against other notes — monkeys, airplanes, a second brain — is the barrel.\n\n## Why it matters\nA constellation that only publishes hot distillate tastes like a pitch deck. The public universe should get the aged pour: genericized, linked, signed. That is why Domvault's default is `publish: false` and why the diff comes first. Time in the barrel is the consent gate wearing a tasting-room metaphor.\n\n## So what\n- Distill fast (inbox). Age on purpose (frameworks). Publish only what survived the wood.\n- Score a note by what the barrel subtracted — names, clients, heat — not by how strong the first pour was.\n- If two topics share a finish (trust, patience, trim), put a wiki-link. That is the angel's share becoming an edge.\n\n## Related\n- [[Social Grooming Is the Real API]]\n- [[Trim Tabs Beat Thrust]]"
+    },
+    {
       "id": "planet_1625e50c06eea3a7638fbcef8633600dfb72ab98",
       "title": "RAG Searches Under the Streetlight (Coverage Is the Hidden Failure)",
       "summary": "A retrieval system can only ever return answers from where the light is — the slice of the world that got chunked, embedded, and indexed. The danger is that the search feels exhaustive from inside the light.",
@@ -1009,6 +1039,36 @@
         "hyperparameters"
       ],
       "content": "# Sampling Beats the Lattice (Random Search Is Monte Carlo Over Configs)\n\n> Random hyperparameter search *is* Monte Carlo — uniform random sampling of a region you can't\n> compute analytically, leaning on the law of large numbers.\n\n## The connection\nEstimating π by scattering random points in a square and counting hits inside the quarter-circle,\nand finding good hyperparameters by scattering random configs across the search space and keeping\nthe best cross-validation score, are the same algorithm. The reason random search beats grid\nsearch is the same reason darts beat a fixed lattice: in high dimensions most hyperparameters\nbarely matter, so a grid wastes its budget re-sampling the irrelevant axes at fixed values, while\nrandom sampling explores the *important* axes at many distinct values for the same number of\ntrials. Bayesian optimization is the next step — importance sampling that bends the throws toward\nwhere good models already appeared.\n\n## Why it matters\nFor a fixed compute budget, random beats grid for tuning, and Bayesian/Hyperband beats random once\nthe space is large or trials are expensive. The shared intuition — sampling estimates the shape of\nan intractable surface — also licenses Monte Carlo wherever a closed form is missing: option\npricing, risk simulation, integral estimation. One mental model, three domains.\n\n## So what\n- Make random (then Bayesian) the default tuner; reserve grid only for ≤2 cheap, known-important\n  hyperparameters.\n- Log-scale the sampling ranges for learning rate and regularization strength — sample the\n  exponent uniformly, not the value.\n- Reuse the \"sample the surface\" frame for any parameter sweep and any pricing/risk estimate\n  without a closed form.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+      "title": "Social Grooming Is the Real API",
+      "summary": "Primates don't scale a troop with a org chart. They scale it with who grooms whom — a living graph of small, costly favors that says who can be trusted when a leopard shows up.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "monkeys"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "monkeys",
+        "trust",
+        "networks"
+      ],
+      "content": "# Social Grooming Is the Real API\n\n> Primates don't scale a troop with a org chart. They scale it with who grooms whom — a living graph of small, costly favors that says who can be trusted when a leopard shows up.\n\n## The connection\nIn a macaque troop, grooming is not hygiene. It is the protocol: time spent picking nits is expensive, visible, and hard to fake, so the resulting graph is a better trust map than rank. Alliances form along grooming edges; isolation is a missing degree. The same pattern shows up in human systems that look \"informal\" until they fail — Slack DMs, the person who actually answers a 2am page, the whiskey poured before the hard conversation.\n\n## Why it matters\nMost products and orgs instrument the official API (tickets, titles, standups) and miss the grooming graph. That graph is where load actually routes. If you want a new topic, a new team, or a new star to join a universe, the first publish is a grooming move: a small, signed, opt-in gift that others can pull.\n\n## So what\n- Map the real edges: who helps whom when there is no ticket.\n- Treat a first published note the way a troop treats first grooming — costly enough to mean it, small enough to repeat.\n- When a node has no incoming grooms, it is not \"early.\" It is isolated. Go make an edge.\n\n## Related\n- [[Proof Needs Time in the Barrel]]\n- [[Trim Tabs Beat Thrust]]"
     },
     {
       "id": "planet_c41466e7922e61b7cddfdabff17dd2bfda14abb0",
@@ -1486,6 +1546,36 @@
         "throughput"
       ],
       "content": "# Throughput Comes From Removing Contention, Not From Tidiness\n\n> A \"tidy\"-looking ordering optimizes for legibility, not throughput. Throughput is set by the\n> *contended resource*.\n\n## The connection\nBack-to-front airplane boarding is the slowest method for the exact reason naive multithreading is\nslow: everyone contends for one shared resource (the aisle and overhead bin) at the same time, so\nthe work *serializes* even though many people could be acting at once. That's concurrency without\nparallelism — lots of \"active\" agents, one core. The fast boarding methods are **lock-free\nparallelism**: order passengers so adjacent ones never touch the same resource simultaneously,\nmaximizing how many bags get stowed in parallel. The deep point: a tidy-looking ordering (strict\nback-to-front) optimizes for legibility, not throughput. Throughput is set by the *contended\nresource* — keep it busy with non-conflicting work and you go fast; pile everyone onto it at once\nand ordering barely matters.\n\n## Why it matters\nThis is one rule spanning cabins, cores, pipelines, and teams — practical anywhere a queue feels\nslow despite \"being organized.\"\n\n## So what\n- To speed any pipeline, don't sort it neatly — **identify the contended resource and schedule to\n  keep it busy with non-conflicting work**. Tidiness is a red herring; contention is the\n  constraint.\n- Software: prefer lock-free / sharded designs where threads touch disjoint data over a single big\n  lock everyone queues on. CI: parallelize jobs that don't share a runner/artifact rather than\n  ordering them prettily.\n- Teams and ops: batch and interleave work so people aren't all blocked on the same shared step\n  (one reviewer, one system, one inbox). Find the single shared step and either shard it or stagger\n  arrivals — controlled interleaving beats orderly queuing.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+      "title": "Trim Tabs Beat Thrust",
+      "summary": "A jet can have all the thrust in the world and still fly crooked. The little tab on the elevator is what lets the airplane hold attitude without the pilot leaning on the stick for the whole flight.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "airplanes"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "airplanes",
+        "control",
+        "leverage"
+      ],
+      "content": "# Trim Tabs Beat Thrust\n\n> A jet can have all the thrust in the world and still fly crooked. The little tab on the elevator is what lets the airplane hold attitude without the pilot leaning on the stick for the whole flight.\n\n## The connection\nThrust gets you off the ground. Trim is what makes the flight sustainable. The same split shows up in a second brain: capture is thrust (more notes, more topics, more heat). Publish-and-link is trim — a tiny signed correction that lets the graph hold heading. Buckminster Fuller used the trim tab as a civics metaphor for the same reason: the smallest surface, placed at the hinge, turns the largest mass.\n\n## Why it matters\nJoining a public constellation by dumping a whole vault is more throttle. Joining with three opt-in planets — monkeys, whiskey, airplanes — is a trim tab. The universe does not need your entire brain. It needs a small, flyable attitude you can hold.\n\n## So what\n- Prefer one well-trimmed planet per topic over a cargo hold of unpublished heat.\n- When the graph yaws (topics that do not connect), add a trim edge, not another engine.\n- Fly the public map like a traffic pattern: opt in, show the diff, land, then go around if you need to unpublish.\n\n## Related\n- [[Social Grooming Is the Real API]]\n- [[Proof Needs Time in the Barrel]]"
     },
     {
       "id": "planet_24f53aa7482291be08cf8713e86f497e0ee446e3",

@@ -27,6 +27,17 @@ const fmList = (fm, key) => {
   return raw.slice(1, -1).split(',').map((s) => s.trim().replace(/^["']|["']$/g, '')).filter(Boolean);
 };
 
+const DEFAULT_AUTHOR = { handle: 'dom', display: 'Dom Sadarangani', star: 'star_dom' };
+
+/** Attribute a planet from note frontmatter; Dom is the default when handle/star/author are omitted. */
+export function authorFromFrontmatter(fm) {
+  return {
+    handle: fmField(fm, 'handle') || DEFAULT_AUTHOR.handle,
+    display: fmField(fm, 'author') || DEFAULT_AUTHOR.display,
+    star: fmField(fm, 'star') || DEFAULT_AUTHOR.star,
+  };
+}
+
 /** Parse one frameworks/*.md file into a doc, or null if unpublishable. */
 export function parseFramework(fn, txt) {
   const m = txt.match(/^---\n([\s\S]*?)\n---/);
@@ -159,7 +170,7 @@ export function buildUniverse(root) {
     id: d.planetId,
     title: d.title,
     summary: d.summary,
-    author: { handle: 'dom', display: 'Dom Sadarangani', star: 'star_dom' },
+    author: authorFromFrontmatter(d.fm),
     galaxy: fmList(d.fm, 'galaxy'),
     license: fmField(d.fm, 'license') || 'PolyForm-Noncommercial-1.0.0',
     links: [...adj.get(d.planetId)].sort(),
