@@ -36,6 +36,41 @@
       "content": "# A Backtest Is a Double Pendulum (Deterministic ≠ Predictable)\n\n> A strategy that survives only one trajectory has fit the chaos, not the signal. Data-snooping is\n> just exploiting sensitive dependence — finding the one initial condition where the pendulum\n> happened to swing your way.\n\n## The connection\nTen pendulums released one degree apart trace identical equations yet diverge into wildly\ndifferent paths within seconds — chaos: deterministic but not predictable, because the system has\n*sensitive dependence on initial conditions*. A trading strategy fit to one historical path is the\nsame trap. The equity curve is the pendulum's trajectory; the chosen sample window, asset universe,\nand parameter seeds are the initial conditions. Perturb them a hair — start the backtest a month\nearlier, swap one delisted ticker back in, jitter a threshold — and the curve diverges just as\nviolently. That divergence is precisely *why* backtests lie.\n\n## Why it matters\nThe chaos lens turns vague warnings about look-ahead, survivorship, and snooping into a concrete\nrobustness test: a real edge must be *stable under perturbed initial conditions*; a chaotic\nartifact will not be.\n\n## So what\n- Before trusting any strategy, run **perturbed-start robustness checks**: vary the start date,\n  universe, and parameter seeds; if the equity curve diverges chaotically, you fit noise.\n- Mandate **walk-forward** (and purged cross-validation) as the default — it's the empirical test\n  of whether performance survives shifted initial conditions, not just one lucky trajectory.\n- Report the *spread* across perturbations, not a single backtest line. A tight bundle of curves =\n  signal; a fan of divergent ones = a double pendulum.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_aa8856a86a7ca94dde5d0a71c04f604ad252ea2b",
+      "title": "A Lab Without an Agent Is an Isolate",
+      "summary": "A lab with no agent is a campus that never left the gate. The county does not grade your library. It grades whether anyone showed up.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "penn-state",
+        "monkeys"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_1c9852da5e4759c1fa379e5be2e6f2afce600938",
+        "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "synthesis",
+        "ai-generated",
+        "synthesis-review",
+        "penn-state",
+        "monkeys"
+      ],
+      "content": "# A Lab Without an Agent Is an Isolate\n\n> A lab with no agent is a campus that never left the gate. The county does not grade your library. It grades whether anyone showed up.\n\n## The connection\n[[Isolation Is a Missing Degree]] is blunt: a node with degree zero is not \"early.\" It fails first when the environment gets sharp. [[A Land-Grant Ships Knowledge to the Counties]] says research that never leaves University Park is distillation that never left the stillhouse. Extension is the pour, and the pour needs a person on the wagon.\n\nThe shared mechanism is presence in the other graph. Citation count on campus is rank. Degree in the county is survival. An unpublished note is a lab with no agent: rich, private, unconnected. Publishing a planet is sending the agent. Linking it is the first farm visit. Prestige hoards the library. The land-grant metric is whether someone who was not in the room can use the note.\n\nCats can live with sparse degree if they hold territory. A troop animal cannot. A land-grant cannot either. Isolation dressed up as \"not ready for extension\" is how a vault stays a stillhouse with a beautiful catalog.\n\n## Why it holds\n- Survival predictors disagree with status predictors. Degree beats title, word count, and a private folder that feels like a brand.\n- The agent is the edge. Without one, the county graph cannot see the lab.\n- Campus notes can stay private. Forever-campus with no wagon date is the isolate.\n\n## So what (the actionable edge)\n- If a framework cannot travel without you in the room, it is not extension yet. Evaporate the instructor, then send the agent.\n- Prefer one short planet with two county neighbors over a long private essay with none.\n- Schedule the wagon. An isolate with a nice library is still degree zero.\n\n## Sources\n- [[Isolation Is a Missing Degree]]\n- [[A Land-Grant Ships Knowledge to the Counties]]\n- [[Social Grooming Is the Real API]]\n- [[Proof Needs Time in the Barrel]]"
+    },
+    {
       "id": "planet_d376e56da3062b201466f7cb287f9b8358c27ca5",
       "title": "A Land-Grant Ships Knowledge to the Counties",
       "summary": "The Morrill Act did not fund a prettier library. It funded a university that owes the counties a translation — soil, engines, classrooms, an agent who actually shows up.",
@@ -50,12 +85,14 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_010e120433f1b22ace174051f620a61e3ee1a487",
+        "planet_09f42327029c60eca9d843a4a19220fe8a7e3b47",
         "planet_1c9852da5e4759c1fa379e5be2e6f2afce600938",
         "planet_3da243a68f8e146e8278794113f61527d0f9a880",
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
         "planet_55b23ba3f828d73881509e9313498a6bdc0c10b1",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_aa8856a86a7ca94dde5d0a71c04f604ad252ea2b",
         "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
       ],
       "origin": "ai-generated",
@@ -132,6 +169,67 @@
         "retrieval"
       ],
       "content": "# A Spanning Tree for Graph-RAG Traversal\n\n> Walk a cyclic knowledge graph naively and you get a broadcast storm — duplicate fetches, a\n> context window full of repeats, a frontier that never converges. The Spanning Tree Protocol shows\n> how to prune it.\n\n## The connection\nA wiki-link knowledge graph has cycles — A links B links C links back to A, and hub notes link to\nnotes that link back to hubs. The moment you walk that graph for retrieval, you risk the network\nequivalent of a **broadcast storm**: the traversal loops, re-fetches notes it already pulled, and\nthe context fills with duplicates while the frontier never converges.\n\nEthernet solved exactly this with the **Spanning Tree Protocol**: a physical topology with redundant\nloops is logically pruned to a loop-free tree by (1) electing a **root**, (2) computing **path cost**\nfrom every node to root, and (3) blocking higher-cost redundant links so each node has one active\npath. The graph-walk retriever needs the same three moves: a **root** = the query's seed notes from\nsemantic search; a **visited-set** = port-blocking so no note is expanded twice; a **path-cost\nranking** = which links to expand first, where cost is the inverse of edge value (a deliberate\nsynthesis bridge or shared-hub edge is low-cost/high-priority; an incidental mention is high-cost).\nBound the depth and you get a priority-ordered, loop-free retrieval tree instead of a storm.\n\n## Why it matters\nThis is the missing *traversal algorithm* under any graph-RAG design. Curated edges are the\nadvantage; the spanning tree is how you walk them without drowning. The edge-quality advantage\nbecomes the path-cost function — curated bridge edges are exactly the low-cost links the protocol\nwould keep, so the tree routes context through the highest-signal bridges first. It also\noperationalizes a hard budget: bounded depth + visited-set = predictable token cost per query.\n\n## So what\n- Model multi-hop expansion as a spanning tree: root = seed notes, maintain a visited-set, expand by\n  ascending edge-cost.\n- Define edge cost: deliberate-bridge and shared-hub edges cheapest, incidental links most expensive;\n  cap hops at 2–3.\n- Log when the frontier hits a cycle — that signals densely-connected hub notes worth treating as\n  entry points.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_0ddad9444966e5bc4b28ac17dab7c1496d5aaf95",
+      "title": "A Troop Has No Inbox",
+      "summary": "A macaque does not keep a ticket queue. The notification is the groom itself. Miss the bout and you were never in the thread.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "monkeys"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_3da243a68f8e146e8278794113f61527d0f9a880"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "monkeys",
+        "trust",
+        "networks"
+      ],
+      "content": "# A Troop Has No Inbox\n\n> A macaque does not keep a ticket queue. The notification is the groom itself. Miss the bout and you were never in the thread.\n\n## The connection\nGrooming is the notification system. There is no backlog, no unread badge, no folder where a favor waits until Friday. Presence is the protocol: you sit, you pick nits, the edge exists. File a note with no wiki-link and you have built an inbox with no troop. The macaque graph routes load through who showed up. A second brain that only files is a mail server nobody checks.\n\n## Why it matters\nCapture tools sell the inbox. They do not sell the bout. A constellation cannot see a private pile. The first costly, visible edge is the notification: a signed planet, a wiki-link, a groom another star can actually receive. Isolation is what you have when the inbox is full and the troop is empty.\n\n## So what\n- Treat an unlinked note as unsent, not as stored.\n- Make the first edge small and costly enough to mean it. Do not archive a backlog of intended grooms.\n- If nobody sat with the note, it did not notify anyone. Go sit.\n\n## Related\n- [[Social Grooming Is the Real API]]\n- [[Isolation Is a Missing Degree]]"
+    },
+    {
+      "id": "planet_b2b230a01b5622077237a1af1af266be667c4a0a",
+      "title": "A Vertical Territory Beats a Bigger Floor",
+      "summary": "A cat does not win the house by owning more carpet. It wins by stacking: the fridge, the sill, the shelf that turns air into a second floor.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "cats"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
+        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
+        "planet_f790403f845fab0914bad718ca9926705a4a5be5"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "cats",
+        "territory",
+        "networks"
+      ],
+      "content": "# A Vertical Territory Beats a Bigger Floor\n\n> A cat does not win the house by owning more carpet. It wins by stacking: the fridge, the sill, the shelf that turns air into a second floor.\n\n## The connection\nFelids expand in three dimensions. Floor area is a poor map of who actually lives here. Knowledge graphs make the same mistake: more files, more folders, more carpet. Stacking is the real range. A neuron sits on two frameworks. A spark is a shelf you have not climbed yet. Hoarding markdown is a bigger floor. Linking layers is vertical territory.\n\n## Why it matters\nA vault that only grows sideways is a house with no cat tree. The public constellation cannot fly through a pile. It can fly through stacked neighborhoods: galaxy, framework, synthesis, the cheap hallway between them. Rank is still the wrong ontology. Height is not rank. Height is another room.\n\n## So what\n- Prefer a new layer on an existing note over a new file on the same floor.\n- Measure range by shelves (links, neurons), not by square footage (note count).\n- If two ideas share air, stack them. Do not buy another wing of the house.\n\n## Related\n- [[Cats Negotiate Territory, Not Rank]]\n- [[The Slow Blink Is a Cheap Consent Signal]]"
     },
     {
       "id": "planet_d58bccabb04040d1b1f0b2e035f1620a90b9fc6f",
@@ -269,6 +367,8 @@
         "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
         "planet_3da243a68f8e146e8278794113f61527d0f9a880",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_b2b230a01b5622077237a1af1af266be667c4a0a",
+        "planet_b9172eea79b30b5db043f74639fe4e37332aad71",
         "planet_baebd1605ea96b04c5d073e45545907929b991cc",
         "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
         "planet_cfb17a81a859283f9c7c5244e6b15a91ab7dc42c"
@@ -361,7 +461,8 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_15aa12ceb45d8233975db2b9fa14b5af08807fa4",
-        "planet_178614c495ce3b39a3bfe4136488e7a85d5485a4"
+        "planet_178614c495ce3b39a3bfe4136488e7a85d5485a4",
+        "planet_d39938427ff78ca424a463276a5d46ee5301654a"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -580,6 +681,7 @@
       "links": [
         "planet_261718bf5a680aacd5e0ca953781dbfb95670bcd",
         "planet_72cfd00c2a1b1f754e735a164b8aa490ed7b8f9e",
+        "planet_d39938427ff78ca424a463276a5d46ee5301654a",
         "planet_f790403f845fab0914bad718ca9926705a4a5be5"
       ],
       "origin": "ai-generated",
@@ -672,10 +774,11 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_3af371194cb58dc1a85861bf5f3b7b8fe6275cfe",
-        "planet_54ed53976a3ed6e1b21f3bb846a232e9fa456fd7",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_d39938427ff78ca424a463276a5d46ee5301654a",
         "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
       ],
       "origin": "ai-generated",
@@ -718,6 +821,42 @@
         "detection"
       ],
       "content": "# FMEA Is the Rubric Pointed at Failure\n\n> Severity and Occurrence are obvious. **Detection** is the sharp, transferable axis: a\n> high-severity failure you can't *see coming* is worse than one you can, because you lose the\n> chance to intervene.\n\n## The connection\nFMEA's Risk Priority Number — RPN = Severity × Occurrence × Detection — is a rubric: a structured,\nmulti-axis score that forces you to rate each failure mode *before* it happens. Where one\ndiscipline keeps reinventing the rubric to manufacture *trust*, manufacturing has had a mature\nrubric for *failure* for decades. The sharp, transferable axis is **Detection**. Severity and\nOccurrence are obvious; Detection encodes that a high-severity failure you can't *see coming* is\nworse than one you can, because you lose the chance to intervene. That is exactly why a funnel gate\nshould emit an observable event — undetectable failure is unbounded failure.\n\n## Why it matters\nKill-criteria are usually scored on impact and likelihood and stop there. Adding the Detection axis\ncloses the gap: a failure mode that's severe, likely, *and* invisible until too late should rank\nabove a severe one you'd catch the moment it starts. Wherever an error can surface long after it\noccurred, Detection is the difference between a kill threshold that fires in time and one that fires\npost-mortem.\n\n## So what\n- Score kill-criteria as Severity × Occurrence × Detection (RPN), borrowing the FMEA template\n  directly.\n- Add an explicit Detection column: \"can we even see this failing, and how fast?\" High RPN from low\n  detectability should trigger instrumentation work, not just risk-acceptance.\n- Tie Detection to observability: if a step can fail silently, that's a Detection score demanding an\n  observable event before launch.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_b9172eea79b30b5db043f74639fe4e37332aad71",
+      "title": "Galaxies Are Territory, Edges Are Grooms",
+      "summary": "Macaques scale by who they sit with. Cats scale by who can share the house without a boss. Two valid graphs. A constellation that picks only one will misread half the animals.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "cats",
+        "monkeys"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
+        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
+        "planet_cfb17a81a859283f9c7c5244e6b15a91ab7dc42c",
+        "planet_fb6a6e7cf1c472dff015996b6628a06a58d0562f"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "synthesis",
+        "ai-generated",
+        "synthesis-review",
+        "cats",
+        "monkeys"
+      ],
+      "content": "# Galaxies Are Territory, Edges Are Grooms\n\n> Macaques scale by who they sit with. Cats scale by who can share the house without a boss. Two valid graphs. A constellation that picks only one will misread half the animals.\n\n## The connection\n[[Cats Negotiate Territory, Not Rank]] says peace is spatial: a core, a buffer, a time-shared hallway. Rank is the wrong ontology. [[Social Grooming Is the Real API]] says load routes through costly, visible favors. Alliances are the grooming graph, not the org chart.\n\nPut them on the same bench and you get a two-layer map. Galaxies are territory: neighborhoods a note can occupy without reporting to a parent. Wiki-links are grooms: optional, local, expensive enough to mean it. Forcing every topic into a troop hierarchy is how you get a cat that never comes out and a macaque with no partners.\n\nA second brain already runs both. Some notes want a quiet sill. Some want a dense troop. The spark was the claim that you need both instruments. The neuron is the claim that they are not competitors. Territory without edges is an empty home range. Edges without territory are a troop with no ground.\n\n## Why it holds\n- Spatial peace and social trust are different control loops. Mixing them into \"rank\" loses both signals.\n- Opt-in is load-bearing on both sides. A forced galaxy is a stare. A forced link is a groom you cannot refuse.\n- The map should let a cat hold a patch and a macaque hold a partner without crowning a boss.\n\n## So what (the actionable edge)\n- Put a note in a galaxy before you demand it groom everyone.\n- If two ideas scrape fur, add a corridor note, not a winner.\n- Score a cluster by occupied space plus real edges, not by who reports to whom.\n\n## Sources\n- [[Cats Negotiate Territory, Not Rank]]\n- [[Social Grooming Is the Real API]]\n- [[The Slow Blink Is a Cheap Consent Signal]]\n- [[Isolation Is a Missing Degree]]"
     },
     {
       "id": "planet_1680ce1bbebd75694e55688fc70d4a93506b6027",
@@ -764,7 +903,9 @@
         "knowledge"
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
-      "links": [],
+      "links": [
+        "planet_d39938427ff78ca424a463276a5d46ee5301654a"
+      ],
       "origin": "ai-generated",
       "content_hash": null,
       "published_at": "2026-06-20T15:41:00Z",
@@ -860,10 +1001,13 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
+        "planet_0ddad9444966e5bc4b28ac17dab7c1496d5aaf95",
         "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
         "planet_1c9852da5e4759c1fa379e5be2e6f2afce600938",
         "planet_3dcc8638d7f788ef4fd50b8640911581dfbb63c6",
         "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
+        "planet_aa8856a86a7ca94dde5d0a71c04f604ad252ea2b",
+        "planet_b9172eea79b30b5db043f74639fe4e37332aad71",
         "planet_d376e56da3062b201466f7cb287f9b8358c27ca5",
         "planet_fb6a6e7cf1c472dff015996b6628a06a58d0562f"
       ],
@@ -1056,7 +1200,10 @@
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
         "planet_6d0279b744fa18ebd5cbadd1c97c1a7966da7710",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
+        "planet_951d6a02a72d7b44d95e17a6afb31d134f0bf68f",
         "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
+        "planet_aa8856a86a7ca94dde5d0a71c04f604ad252ea2b",
         "planet_d376e56da3062b201466f7cb287f9b8358c27ca5",
         "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1",
         "planet_ee8c87080d89d1a3c8e9b7934ff7670d6c7908bf"
@@ -1152,11 +1299,7 @@
         "systems"
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
-      "links": [
-        "planet_3af371194cb58dc1a85861bf5f3b7b8fe6275cfe",
-        "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
-        "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
-      ],
+      "links": [],
       "origin": "ai-generated",
       "content_hash": null,
       "published_at": "2026-06-20T15:41:00Z",
@@ -1232,6 +1375,37 @@
       "content": "# Sampling Beats the Lattice (Random Search Is Monte Carlo Over Configs)\n\n> Random hyperparameter search *is* Monte Carlo — uniform random sampling of a region you can't\n> compute analytically, leaning on the law of large numbers.\n\n## The connection\nEstimating π by scattering random points in a square and counting hits inside the quarter-circle,\nand finding good hyperparameters by scattering random configs across the search space and keeping\nthe best cross-validation score, are the same algorithm. The reason random search beats grid\nsearch is the same reason darts beat a fixed lattice: in high dimensions most hyperparameters\nbarely matter, so a grid wastes its budget re-sampling the irrelevant axes at fixed values, while\nrandom sampling explores the *important* axes at many distinct values for the same number of\ntrials. Bayesian optimization is the next step — importance sampling that bends the throws toward\nwhere good models already appeared.\n\n## Why it matters\nFor a fixed compute budget, random beats grid for tuning, and Bayesian/Hyperband beats random once\nthe space is large or trials are expensive. The shared intuition — sampling estimates the shape of\nan intractable surface — also licenses Monte Carlo wherever a closed form is missing: option\npricing, risk simulation, integral estimation. One mental model, three domains.\n\n## So what\n- Make random (then Bayesian) the default tuner; reserve grid only for ≤2 cheap, known-important\n  hyperparameters.\n- Log-scale the sampling ranges for learning rate and regularization strength — sample the\n  exponent uniformly, not the value.\n- Reuse the \"sample the surface\" frame for any parameter sweep and any pricing/risk estimate\n  without a closed form.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_951d6a02a72d7b44d95e17a6afb31d134f0bf68f",
+      "title": "Single Barrel Is a Sample, Not a Proof",
+      "summary": "One cask is a tasting. A warehouse of barrels pointing the same way is a proof. The still does not get a vote after n=1.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "whiskey"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_d39938427ff78ca424a463276a5d46ee5301654a"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "whiskey",
+        "patience",
+        "quality"
+      ],
+      "content": "# Single Barrel Is a Sample, Not a Proof\n\n> One cask is a tasting. A warehouse of barrels pointing the same way is a proof. The still does not get a vote after n=1.\n\n## The connection\nA single barrel can be brilliant or cursed. Distillers know this: they dump, they blend, they wait until a row of casks agrees. One anecdote is a single barrel. A cluster of notes that survive the same wood is the warehouse. Publishing one hot story is n=1 dressed as a tasting room. Proof is when monkeys, airplanes, and a second barrel say the same mechanism.\n\n## Why it matters\nA constellation that indexes one glowing cask will overfit. The public universe should get agreement, not a souvenir pour. Time in the barrel still matters. So does sample size. Aging one note forever is still n=1. Linking it until neighbors rhyme is how a warehouse votes.\n\n## So what\n- Do not promote a single anecdote to a law. Wait for a second cask.\n- Score a claim by how many galaxies it still holds in, not by how loud the first pour was.\n- If you only have one barrel, call it a sample. Put it next to two others before you print the label.\n\n## Related\n- [[Proof Needs Time in the Barrel]]\n- [[The Angel's Share Buys the Edge]]"
+    },
+    {
       "id": "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
       "title": "Social Grooming Is the Real API",
       "summary": "Primates don't scale a troop with a org chart. They scale it with who grooms whom — a living graph of small, costly favors that says who can be trusted when a leopard shows up.",
@@ -1246,12 +1420,15 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_010e120433f1b22ace174051f620a61e3ee1a487",
+        "planet_0ddad9444966e5bc4b28ac17dab7c1496d5aaf95",
         "planet_3da243a68f8e146e8278794113f61527d0f9a880",
         "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
         "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_aa8856a86a7ca94dde5d0a71c04f604ad252ea2b",
+        "planet_b9172eea79b30b5db043f74639fe4e37332aad71",
         "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
         "planet_cfb17a81a859283f9c7c5244e6b15a91ab7dc42c",
         "planet_ee8c87080d89d1a3c8e9b7934ff7670d6c7908bf"
@@ -1315,6 +1492,7 @@
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
         "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa"
       ],
       "origin": "ai-generated",
@@ -1346,7 +1524,7 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_3da243a68f8e146e8278794113f61527d0f9a880",
-        "planet_55b23ba3f828d73881509e9313498a6bdc0c10b1",
+        "planet_aa8856a86a7ca94dde5d0a71c04f604ad252ea2b",
         "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
       ],
       "origin": "ai-generated",
@@ -1381,7 +1559,8 @@
         "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
-        "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca"
+        "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_7c0297b1b20aed33171bbd92fabf851408f80b68"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -1416,6 +1595,7 @@
         "planet_6d0279b744fa18ebd5cbadd1c97c1a7966da7710",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
         "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
+        "planet_d39938427ff78ca424a463276a5d46ee5301654a",
         "planet_ee8c87080d89d1a3c8e9b7934ff7670d6c7908bf"
       ],
       "origin": "ai-generated",
@@ -1446,10 +1626,8 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
-        "planet_1c9852da5e4759c1fa379e5be2e6f2afce600938",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
         "planet_d376e56da3062b201466f7cb287f9b8358c27ca5",
-        "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1",
         "planet_eda65cb67466bca3b2253f622979af603eab7714"
       ],
       "origin": "ai-generated",
@@ -1546,7 +1724,7 @@
       "links": [
         "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
         "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
-        "planet_baebd1605ea96b04c5d073e45545907929b991cc",
+        "planet_b9172eea79b30b5db043f74639fe4e37332aad71",
         "planet_fb6a6e7cf1c472dff015996b6628a06a58d0562f"
       ],
       "origin": "ai-generated",
@@ -1610,7 +1788,6 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
-        "planet_54ed53976a3ed6e1b21f3bb846a232e9fa456fd7",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
         "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
         "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
@@ -1644,8 +1821,7 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
-        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
-        "planet_cfb17a81a859283f9c7c5244e6b15a91ab7dc42c"
+        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -1677,7 +1853,9 @@
       "links": [
         "planet_1d4be4b2d74f20d3dddd2dd26e59038b52340d39",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
-        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9"
+        "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_d39938427ff78ca424a463276a5d46ee5301654a"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -1865,6 +2043,8 @@
         "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
         "planet_3af371194cb58dc1a85861bf5f3b7b8fe6275cfe",
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
+        "planet_951d6a02a72d7b44d95e17a6afb31d134f0bf68f",
         "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
         "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
@@ -1932,6 +2112,7 @@
         "planet_816e2d02459c6f519cee9fbb2317513698aa0d7b",
         "planet_97b7706d7c8e886002340139f48fed3dadc93ad5",
         "planet_aef1166536d6dba59ed9f75230a238c6aee4bb80",
+        "planet_b2b230a01b5622077237a1af1af266be667c4a0a",
         "planet_c3819786c14e5e8a839ea24222b30ca4f4c91f31",
         "planet_fba93df17d9606be5a45238cbba146387fa3cd98"
       ],
@@ -1948,6 +2129,45 @@
         "harness"
       ],
       "content": "# The Brain Is a Self-Improving Harness (Sparks Explore, Neurons Consolidate)\n\n> A second brain isn't a notebook, or even a graph — it's a *harness that improves its own\n> scaffolding*: explore cheaply, consolidate the best, and keep a human gate as the regularizer.\n\n## The connection\nA **harness** is the scaffolding around a language model (tools, prompts, control flow, retry and\nmemory loop) that turns a raw model into an agent — and a **self-harness** is one that **optimizes\nits own scaffolding** instead of being hand-tuned. The minimal version is a **plan → execute →\nread-own-output → fix** loop that runs until success.\n\nThat is a precise description of a self-synthesizing knowledge base. The pieces map one-to-one:\n\n| Self-improving harness | The synthesis loop |\n|---|---|\n| Exploration / sampling | **Sparks** — cheap, 2-line candidate connections, cast widely |\n| Consolidation / policy update | **Neurons** — promote the best spark into a full framework note |\n| Reward signal | **Triage** — promote good sparks, delete dead ones |\n| Training loop / scheduler | A periodic synthesis run |\n| Learned representation | The **graph** — every neuron adds edges; retrieval gets faster |\n| Scaffolding being optimized | The capture → ingest → map → synthesize workflow itself |\n\n## Why it matters\nIt names what a vault is becoming: not a notebook, not even a graph, but a *harness that improves its\nown scaffolding*. The actionable gap is closing the loop: today the human is the reward function\n(promote/delete). The frontier move is an agentic synthesis pass that proposes *and pre-scores*\ncandidate connections against the existing graph (novelty, support, cross-domain distance), so you\nonly adjudicate the top few.\n\nThe built-in caution: an unsupervised pattern-finder will **overfit** — it mints spurious\nconnections (apophenia). The cure is out-of-sample validation. So the human triage isn't a\nbottleneck to automate away — it's the **regularizer / holdout** that keeps the harness honest.\nAutomate the *proposing and scoring*; keep a human *gate* on promotion.\n\n## So what\n- Treat the synthesis loop as a product with a roadmap, not a cron job: instrument it (sparks\n  promoted vs deleted = the harness's hit-rate), and add an automated pre-score step before the\n  human gate.\n- Keep the human gate as the regularizer — automate proposal and scoring, never the final promote\n  decision.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_d39938427ff78ca424a463276a5d46ee5301654a",
+      "title": "The Checklist Is How You Survive Competence",
+      "summary": "Expertise is not permission to skip the list. The pilots who live are the ones who still read it after they could fly the pattern in their sleep.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "airplanes"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_1d4be4b2d74f20d3dddd2dd26e59038b52340d39",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_6d0279b744fa18ebd5cbadd1c97c1a7966da7710",
+        "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
+        "planet_951d6a02a72d7b44d95e17a6afb31d134f0bf68f",
+        "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
+        "planet_a5031e68ff8ed23a42abe5265055a532ca2334ad",
+        "planet_cc614e00367ea06913c4d49287c0f5b7dd1805c2",
+        "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1",
+        "planet_fba93df17d9606be5a45238cbba146387fa3cd98",
+        "planet_fdb9ed876f21b3394ae93ae020d2694e0f2c5270"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "airplanes",
+        "control",
+        "leverage"
+      ],
+      "content": "# The Checklist Is How You Survive Competence\n\n> Expertise is not permission to skip the list. The pilots who live are the ones who still read it after they could fly the pattern in their sleep.\n\n## The connection\nA checklist is not for beginners. It is for people who have enough skill to improvise themselves into a stall. Capture in a vault wants to feel like heroics: the perfect note, the late-night insight, the solo without a card. The sustainable version is boring. Inbox, genericize, link, hold-private, publish. Skill is when you still read that card.\n\n## Why it matters\nCompetence hides the hole. You skip the preflight because you have done it a thousand times. Vaults skip the publish checklist because the note already feels done. Thrust without a list is a current you cannot trim. The constellation should see planets that survived a procedure, not performances.\n\n## So what\n- Keep a short capture card and actually use it: distill, age, link, then pour.\n- Treat skipped steps as the accident chain, not as a flex.\n- Solo still needs the list. The first public circuit is a checklist you did not outgrow.\n\n## Related\n- [[Trim Tabs Beat Thrust]]\n- [[First Solo Is Attitude, Not Hours]]"
     },
     {
       "id": "planet_aef1166536d6dba59ed9f75230a238c6aee4bb80",
@@ -2000,13 +2220,13 @@
       "links": [
         "planet_010e120433f1b22ace174051f620a61e3ee1a487",
         "planet_3af371194cb58dc1a85861bf5f3b7b8fe6275cfe",
-        "planet_54ed53976a3ed6e1b21f3bb846a232e9fa456fd7",
-        "planet_55b23ba3f828d73881509e9313498a6bdc0c10b1",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
         "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
-        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
+        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5",
+        "planet_d39938427ff78ca424a463276a5d46ee5301654a"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -2116,6 +2336,37 @@
       "content": "# The Missing Money Node (Idea→Revenue Audit)\n\n> A feature is only done when its conversion edge works end-to-end — no dead CTAs, no placeholder\n> stubs, no gate that approves work but releases nothing. Every feature needs a working money node.\n\n## The pattern\nThe common failure: every stage of the funnel gets built except the one where money changes hands.\nThe product implements `Data → Work → Insight → Decisions` and stops one arrow short of\n`→ Revenue`. The symptoms are recognizable:\n- The top-of-funnel CTA is a stub — a button that pops an alert or a `mailto:` instead of capturing\n  the lead and carrying it into the system built to receive it.\n- Approval gates exist and are audited, but **nothing is bound to them** — the gate proves a\n  milestone was accepted and then does nothing with the one thing acceptance was supposed to\n  trigger (the release of funds, the invoice, the next tranche).\n- The cheapest artifact has the most complete payment path while the flagship has none —\n  monetization gravity inverted, the toy can take a dollar but the business cannot.\n\n## Why it matters\nA trust machine that grades and audits work is one step from completion: the gates *grade* the work,\nso payment should be the **payout function of the grade**. If the revenue edge isn't wired, the\naudit log is a seam waiting for the one edge that makes the whole promise real. Two structural\nfailures recur portfolio-wide: no first-dollar path wired into the flagship, and no venture with\ntime-bound kill criteria.\n\n## So what\n1. **Bind money to gates.** On gate-approved → generate the phase invoice / payment link for that\n   tranche. The audit log is already the event seam.\n2. **Revive dead CTAs.** Every conversion button posts a real lead into the system, with a real\n   follow-up, using infrastructure that already exists.\n3. **Put pricing inside the product.** Generate the price from the captured inputs; kill \"as quoted\n   separately.\"\n4. **Keep a first-dollar scoreboard.** One visible number: $ collected, deals signed, leads captured\n   this week. Goals can't be hit unmeasured.\n5. **Run a kill-criteria pass.** Add time-bound, measurable kill criteria to each active project\n   *before* calling anything \"on track.\"\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_09f42327029c60eca9d843a4a19220fe8a7e3b47",
+      "title": "The Nittany Line Is a Shared Heading",
+      "summary": "Campuses and counties do not coordinate by reading the same memo. They share a heading: one lion, one color, a line you can hold without a meeting.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "penn-state"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "penn-state",
+        "publish",
+        "extension"
+      ],
+      "content": "# The Nittany Line Is a Shared Heading\n\n> Campuses and counties do not coordinate by reading the same memo. They share a heading: one lion, one color, a line you can hold without a meeting.\n\n## The connection\nA land-grant is a scatter of places that still have to fly as one body. The cheap trick is a shared heading bug: identity small enough to keep and loud enough to read from the next county. White-Out is the Saturday version. The Nittany line is the year-round version. A galaxy tag is the same instrument. You do not brief every note on mission. You give it a heading another star can join.\n\n## Why it matters\nPrivate ontologies do not travel. A new brand per note is a campus with no visiting day. Extension needs a line the county already knows how to see. Publish fields (galaxy, handle, license) are that line. They cost almost nothing to keep and they let a wagon find you.\n\n## So what\n- Put a note on one heading you can defend. Do not invent a second mascot.\n- Treat a galaxy tag as a coordination signal, not as decoration.\n- If two campuses cannot share a line, they are not a land-grant. They are two labs.\n\n## Related\n- [[A Land-Grant Ships Knowledge to the Counties]]\n- [[White-Out Is One Constraint]]"
+    },
+    {
       "id": "planet_c3819786c14e5e8a839ea24222b30ca4f4c91f31",
       "title": "The Rubric Pattern (Graded, Explainable AI Is the Trust Primitive)",
       "summary": "Intelligence is table stakes; trust is the product. The trust primitive is the rubric: a fixed, weighted, explainable scoring scheme graded against ground truth — never raw model output on faith.",
@@ -2169,7 +2420,9 @@
         "planet_3e392fe139fd5c56ae86fc65469132c2840bac8e",
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
-        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e"
+        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
+        "planet_b2b230a01b5622077237a1af1af266be667c4a0a",
+        "planet_b9172eea79b30b5db043f74639fe4e37332aad71"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -2201,6 +2454,7 @@
       "links": [
         "planet_4501c2a68ea4d8c9c46a51a0ee674fe82eea327c",
         "planet_9e31166f4b13e00a03aea665becbd2c52724dca7",
+        "planet_d39938427ff78ca424a463276a5d46ee5301654a",
         "planet_fb6a6e7cf1c472dff015996b6628a06a58d0562f"
       ],
       "origin": "ai-generated",
@@ -2272,11 +2526,13 @@
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
         "planet_6d0279b744fa18ebd5cbadd1c97c1a7966da7710",
+        "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
         "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
         "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa",
         "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
         "planet_baebd1605ea96b04c5d073e45545907929b991cc",
+        "planet_d39938427ff78ca424a463276a5d46ee5301654a",
         "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
       ],
       "origin": "ai-generated",
@@ -2402,11 +2658,13 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
+        "planet_09f42327029c60eca9d843a4a19220fe8a7e3b47",
         "planet_3e392fe139fd5c56ae86fc65469132c2840bac8e",
         "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
         "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa",
         "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
         "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
@@ -2439,6 +2697,7 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
+        "planet_09f42327029c60eca9d843a4a19220fe8a7e3b47",
         "planet_3e392fe139fd5c56ae86fc65469132c2840bac8e",
         "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
@@ -2479,6 +2738,7 @@
       "links": [
         "planet_1625e50c06eea3a7638fbcef8633600dfb72ab98",
         "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_b9172eea79b30b5db043f74639fe4e37332aad71",
         "planet_cc614e00367ea06913c4d49287c0f5b7dd1805c2",
         "planet_cfb17a81a859283f9c7c5244e6b15a91ab7dc42c"
       ],
@@ -2495,6 +2755,46 @@
         "second-brain"
       ],
       "content": "# Wiki-Links Are DNS for the Vault\n\n> If retrieval walks edges that don't resolve, the graph it traverses is a lie, and the answer\n> inherits the lie.\n\n## The connection\nA `[[wiki-link]]` is a name→note resolution, exactly like a DNS A-record is name→IP. The whole DNS\nrecord set maps onto vault link mechanics: an **A-record** is a link to a real note; a **CNAME** is\nan alias (one name resolving to a canonical note); a broken link is a dangling **NXDOMAIN**; an\norphan note is an island no record points to. DNS doesn't trust the network until resolution is\nhealthy — and neither should a graph-based retrieval system. If retrieval walks edges that don't\nresolve (or resolve ambiguously via stale aliases), the graph it traverses is a lie, and the answer\ninherits the lie.\n\n## Why it matters\nThis gives a graph-retrieval build a missing pre-index stage. It's tempting to assume links resolve;\nDNS literacy says assume they don't until audited. A retrieval layer that trusts broken edges is the\nstreetlight failure in a new costume — confidently walking to a node that isn't there. The resolver\n(link-integrity + alias table) is cheap, runs once per index, and gates trust.\n\n## So what\n- Add a link-resolution health check as a pre-index step: report broken links (NXDOMAIN), orphans,\n  and duplicate/ambiguous aliases (CNAME collisions).\n- Maintain an explicit alias table so retrieval resolves canonical names deterministically, not by\n  fuzzy match.\n- Fail the index (or flag) if broken-link count exceeds a threshold — don't ship retrieval over an\n  unresolved graph.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
+      "title": "You Cannot Trim Unaged Distillate",
+      "summary": "A trim tab works on an airplane that already flies. It does not turn raw mash into a heading. Unaged distillate has no attitude to hold. It has heat.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "whiskey",
+        "airplanes"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
+        "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_6d0279b744fa18ebd5cbadd1c97c1a7966da7710",
+        "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
+        "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_d39938427ff78ca424a463276a5d46ee5301654a",
+        "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "synthesis",
+        "ai-generated",
+        "synthesis-review",
+        "whiskey",
+        "airplanes"
+      ],
+      "content": "# You Cannot Trim Unaged Distillate\n\n> A trim tab works on an airplane that already flies. It does not turn raw mash into a heading. Unaged distillate has no attitude to hold. It has heat.\n\n## The connection\n[[Proof Needs Time in the Barrel]] is a control loop with a long sample interval. Distillation is high-gain and noisy. The barrel is the filter. [[Trim Tabs Beat Thrust]] says the little surface on the elevator is what lets you hold attitude without leaning on the stick. Thrust gets you off the ground. Trim makes the flight sustainable.\n\nThe spark's claim is the order of operations. You cannot trim a spirit that never sat in wood. Publish-and-link is trim applied to aged distillate, not more throttle on the still. Dumping the inbox into the constellation is thrust on hot product. A tiny signed planet, genericized and linked, is trim on something that already had years.\n\nFuller used the tab as civics because the smallest hinge turns the largest mass. The mass has to exist first. A vault that only captures is a still with no rickhouse. A vault that only publishes is a tab bolted to vapor.\n\n## Why it holds\n- Sequence is load-bearing. Barrel then trim. Distill then age then a small surface.\n- Heat is not attitude. High-proof first pours yaw under any tab.\n- The public map should get flyable planets, not more engine on unaged mash.\n\n## So what (the actionable edge)\n- Age the note against two neighbors before you add the trim edge.\n- When the graph yaws, do not open the still. Ask what the barrel subtracted, then tap the tab.\n- If a claim is still hot distillate, hold-private. Trim is not a substitute for wood.\n\n## Sources\n- [[Proof Needs Time in the Barrel]]\n- [[Trim Tabs Beat Thrust]]\n- [[The Angel's Share Buys the Edge]]\n- [[First Solo Is Attitude, Not Hours]]"
     }
   ]
 }
