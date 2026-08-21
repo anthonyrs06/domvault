@@ -96,6 +96,23 @@ curl -X DELETE "$CONSTELLATION_REGISTRY/planets/<planet_id>" \
   -H "Authorization: Bearer $CONSTELLATION_TOKEN"
 ```
 
+## Public map (git-backed, after auto-publish lands)
+
+The hosted Explorer at https://dys5315.github.io/domvault/constellation/ reads the
+**static Vercel registry** (`https://domvault-registry.vercel.app`), not Fly.
+Fly (`https://domvault-registry.fly.dev`) is the live signed-POST registry and
+the long-term write path; it is also the flaky one. Until Fly reliably feeds the
+public map, new planets reach github.io through the `constellation-publish`
+Action on `main` (rebuild `universe.json`, commit, Vercel deploys).
+
+After that Action is on `main`, scan your vault and/or dispatch a note instead of
+opening another PR:
+
+    npx tsx scripts/publish-from-vault.ts /home/box/my-brain
+
+Add the dispatch flag to fire `repository_dispatch` (needs write on
+`dys5315/domvault`). Details: [`docs/11-auto-publish.md`](docs/11-auto-publish.md).
+
 ---
 
 See [`TERMS.md`](TERMS.md) for what the registry stores and the operator's responsibilities.
