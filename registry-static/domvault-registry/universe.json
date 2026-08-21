@@ -36,6 +36,42 @@
       "content": "# A Backtest Is a Double Pendulum (Deterministic ≠ Predictable)\n\n> A strategy that survives only one trajectory has fit the chaos, not the signal. Data-snooping is\n> just exploiting sensitive dependence — finding the one initial condition where the pendulum\n> happened to swing your way.\n\n## The connection\nTen pendulums released one degree apart trace identical equations yet diverge into wildly\ndifferent paths within seconds — chaos: deterministic but not predictable, because the system has\n*sensitive dependence on initial conditions*. A trading strategy fit to one historical path is the\nsame trap. The equity curve is the pendulum's trajectory; the chosen sample window, asset universe,\nand parameter seeds are the initial conditions. Perturb them a hair — start the backtest a month\nearlier, swap one delisted ticker back in, jitter a threshold — and the curve diverges just as\nviolently. That divergence is precisely *why* backtests lie.\n\n## Why it matters\nThe chaos lens turns vague warnings about look-ahead, survivorship, and snooping into a concrete\nrobustness test: a real edge must be *stable under perturbed initial conditions*; a chaotic\nartifact will not be.\n\n## So what\n- Before trusting any strategy, run **perturbed-start robustness checks**: vary the start date,\n  universe, and parameter seeds; if the equity curve diverges chaotically, you fit noise.\n- Mandate **walk-forward** (and purged cross-validation) as the default — it's the empirical test\n  of whether performance survives shifted initial conditions, not just one lucky trajectory.\n- Report the *spread* across perturbations, not a single backtest line. A tight bundle of curves =\n  signal; a fan of divergent ones = a double pendulum.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_d376e56da3062b201466f7cb287f9b8358c27ca5",
+      "title": "A Land-Grant Ships Knowledge to the Counties",
+      "summary": "The Morrill Act did not fund a prettier library. It funded a university that owes the counties a translation — soil, engines, classrooms, an agent who actually shows up.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "penn-state"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_010e120433f1b22ace174051f620a61e3ee1a487",
+        "planet_1c9852da5e4759c1fa379e5be2e6f2afce600938",
+        "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_55b23ba3f828d73881509e9313498a6bdc0c10b1",
+        "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "penn-state",
+        "publish",
+        "extension"
+      ],
+      "content": "# A Land-Grant Ships Knowledge to the Counties\n\n> The Morrill Act did not fund a prettier library. It funded a university that owes the counties a translation — soil, engines, classrooms, an agent who actually shows up.\n\n## The connection\nA land-grant is a publish protocol with a legal conscience. Research that never leaves University Park is distillation that never left the stillhouse. Extension is the pour: generic enough for a county fair, specific enough to grow something. The private vault is campus. The planet is the agent on the wagon. Prestige hoards citations. The land-grant metric is whether someone who was not in the lab can use the note.\n\n## Why it matters\nA star cluster that only talks to itself is a campus with locked gates. Campus notes (sparks, inbox) stay private — that is the stillhouse and the teaching hospital. The sin is aging forever with no extension date. White-Out visibility and barrel time both serve this: the county should be able to see you, and the pour should not burn.\n\n## So what\n- Write the public version for the county: no private names, a mechanism, a next action.\n- Keep campus notes private. Then schedule the wagon.\n- If a framework cannot travel without you in the room, it is not extension yet.\n\n## Related\n- [[Proof Needs Time in the Barrel]]\n- [[White-Out Is One Constraint]]\n- [[Isolation Is a Missing Degree]]"
+    },
+    {
       "id": "planet_5d32751606cde2a7cf6d4cfc34429756addaa984",
       "title": "A Ranking Function for Trust (BM25 as a Reputation Engine)",
       "summary": "A 40-year-old search-ranking formula already encodes the fairness rules a reputation score needs. A defensible score is a product's trust primitive — and BM25 supplies the math for one.",
@@ -215,6 +251,40 @@
         "systems"
       ],
       "content": "# Capacity-Aware Assignment (Round-Robin Is Naïve Staffing)\n\n> Round-robin only works when every server has identical capacity. The instant capacity is uneven,\n> even distribution melts the weakest node while the strongest sits idle.\n\n## The connection\nRound-robin load balancing (turn 1 → 2 → 3) and \"equal men-days\" staffing are the *same* algorithm,\nand they share the *same* failure. The men-days identity `M·D·H / W = constant` only holds when\nevery worker has identical throughput. Round-robin only works when every server has identical\ncapacity. The instant capacity is uneven — a fast server, a senior worker, a specialist who clears\n3× the load — both distribute work evenly and **melt the weakest node while the strongest sits\nidle**. The production fix in distributed systems is *weighted least-connections*: route to whoever\nhas the most free capacity, weighted by their rated throughput. That is also the correct staffing\nrule.\n\n## Why it matters\nA naïve dispatcher that round-robins work across agents (human or machine) will queue everything\nbehind the slowest worker and create the equivalent of a 503: aged work, blown deadlines, dropped\ntasks. The right primitive is a weighted-least-connections dispatcher — rate each agent's effective\nthroughput and route the next task to max free weighted capacity. The men-days math tells you the\n*aggregate* budget; load balancing tells you *who gets the next unit*.\n\n## So what\n- Spec any task dispatcher as weighted least-connections, not round-robin: per-agent throughput\n  weight × current queue depth.\n- Instrument utilization per worker; a node pinned at 100% while others idle is the signal you're\n  round-robining.\n- Reuse the same rule for human team allocation — assign by free capacity, never equal splits.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
+      "title": "Cats Negotiate Territory, Not Rank",
+      "summary": "House cats do not run a pack. They run overlapping home ranges. The fight is almost never \"who is in charge.\" It is \"who gets this hallway at six, and who waits.\"",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "cats"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_baebd1605ea96b04c5d073e45545907929b991cc",
+        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
+        "planet_cfb17a81a859283f9c7c5244e6b15a91ab7dc42c"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "cats",
+        "territory",
+        "networks"
+      ],
+      "content": "# Cats Negotiate Territory, Not Rank\n\n> House cats do not run a pack. They run overlapping home ranges. The fight is almost never \"who is in charge.\" It is \"who gets this hallway at six, and who waits.\"\n\n## The connection\nFelid social science keeps having to walk back dominance charts. The mechanism that actually predicts peace is spatial: a core territory, a buffer, and time-shared corridors. Allogrooming happens, but it is optional and local. Rank is the wrong ontology. A second brain is the same animal. Notes do not report to each other. Galaxies are neighborhoods. A wiki-link is a shared hallway, not a reporting line. Macaque troops scale by grooming density; cats scale by who can occupy the same house without a hierarchy.\n\n## Why it matters\nOrgs and knowledge graphs fail when they impose a troop rank on a felid system. Some topics want a dense grooming graph. Some want a quiet room and a door. Publishing a planet is claiming a patch of space another star can walk through — not climbing a ladder. If two notes \"conflict,\" they usually need a time-share (a synthesis corridor), not a winner.\n\n## So what\n- Draw neighborhoods (galaxies), not org charts of notes.\n- When two ideas scrape fur, add a corridor note. Do not crown a boss.\n- An empty home range is isolation, not humility. Occupied space is the first proof a cat offers.\n\n## Related\n- [[Social Grooming Is the Real API]]\n- [[Trim Tabs Beat Thrust]]\n- [[Isolation Is a Missing Degree]]"
     },
     {
       "id": "planet_cf0a1095a25ca512197330c9aa2ae5afcec16f42",
@@ -418,7 +488,8 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
-        "planet_5457aa332138bf7b2ccc745b9070070729469a67"
+        "planet_5457aa332138bf7b2ccc745b9070070729469a67",
+        "planet_55b23ba3f828d73881509e9313498a6bdc0c10b1"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -587,6 +658,40 @@
       "content": "# Feedback & Control (One Pattern, Four Domains)\n\n> The same abstract pattern — **negative feedback toward a setpoint** — hides in control theory,\n> markets, biology, and AI agents. They're the same math wearing different clothes.\n\n## The pattern\nA system measures its distance from a desired state and applies a correction proportional to the\nerror, pulling itself back toward equilibrium. That single idea shows up across domains:\n\n1. **Control theory** — an inverted pendulum on a cart. PID/LQR/MPC are formal recipes for \"sense\n   the error, push back, don't overshoot.\" The cleanest, most explicit version of the pattern.\n2. **Markets / risk** — a stop-loss *is* a controller: it senses capital drawdown past a setpoint\n   and forces a corrective action (exit) before the error compounds. Discipline = obeying the\n   control law instead of overriding it emotionally.\n3. **Biology** — endocrine homeostasis is negative feedback in wetware: glands sense a level,\n   release or suppress hormones to correct it; disease is often a broken feedback loop.\n4. **AI agents** — an agent loop (observe → evaluate → act → re-observe) is the same controller,\n   and production AI lives or dies on its feedback layers (evals, guardrails, retries). An agent\n   without feedback is open-loop — it drifts, exactly like an un-corrected pendulum.\n\n## The insight\nThese aren't analogies for flavor — they're the *same math* wearing different clothes, so intuition\ntransfers:\n- The failure mode is universal: **no feedback → drift; too much gain → oscillation/overshoot.** A\n  trader who moves their stop, a thermostat that's too aggressive, and an AI agent that\n  over-corrects on every token are the same bug.\n- Contrast it with the *other* pattern — **positive feedback / compounding** (network effects,\n  viral growth): runaway instead of self-correcting. Most real systems are a fight between the two.\n\n## So what\n- Design products as control systems. Anything with \"grade vs. target, then correct\" is a feedback\n  controller — name it; it's a unifying design language.\n- Use it as a diagnostic. For any misbehaving system — a bot, a trade, a team, a launch — ask:\n  *Where's the feedback loop, what's the setpoint, and is the gain too high or too low?*\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
+      "title": "First Solo Is Attitude, Not Hours",
+      "summary": "A first solo is not a thousand-hour license. It is one circuit: take off, fly the pattern, land, without the instructor's hands on the stick. The hours were the barrel. The solo is the trim.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "airplanes"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_3af371194cb58dc1a85861bf5f3b7b8fe6275cfe",
+        "planet_54ed53976a3ed6e1b21f3bb846a232e9fa456fd7",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "airplanes",
+        "proof",
+        "leverage"
+      ],
+      "content": "# First Solo Is Attitude, Not Hours\n\n> A first solo is not a thousand-hour license. It is one circuit: take off, fly the pattern, land, without the instructor's hands on the stick. The hours were the barrel. The solo is the trim.\n\n## The connection\nStudent pilots log dual time — high-gain correction from the right seat. The solo is a different proof: the airplane will hold attitude with the tiny set of inputs the student already has. Publishing a handful of planets is a first solo, not an ATP certificate. More inbox, more topics, more heat is dual instruction that never releases the aircraft. Thrust without a solo is a student who never leaves the right seat.\n\n## Why it matters\nVaults stall in dual forever: capture, never publish. The constellation cannot see a student who never flies the pattern alone. Hours in the barrel still matter — a solo on raw distillate is a stall. But hours that never solo are a logbook, not a heading.\n\n## So what\n- Log the dual time (inbox, sparks). Do not confuse it with a certificate.\n- Solo a small pattern: a few planets, one constraint, one landing you can repeat.\n- After the first solo, go around. Currency is more circuits, not a bigger engine.\n\n## Related\n- [[Trim Tabs Beat Thrust]]\n- [[Proof Needs Time in the Barrel]]\n- [[The Angel's Share Buys the Edge]]"
+    },
+    {
       "id": "planet_cc38cf9fa84c18c16580aeab7c35aaf97d03b87e",
       "title": "FMEA Is the Rubric Pointed at Failure",
       "summary": "Severity and Occurrence are obvious. **Detection** is the sharp, transferable axis: a high-severity failure you can't *see coming* is worse than one you can, because you lose the chance to intervene.",
@@ -675,6 +780,44 @@
       "content": "# Grokking Is the Expertise Plateau\n\n> The discouraging middle of any hard skill is diagnostic of progress, not its absence — it's\n> the memorization phase that precedes the phase transition to true generalization.\n\n## The connection\nA neural network that *grokks* spends a long flat phase memorizing the training set — train loss\nnear zero, test accuracy stuck near chance — and then, long after it \"looks\" done, suddenly snaps\nto generalization. The expertise curve has the identical shape: everyone starts below the\n\"competence threshold,\" grinds through a frustrating flat stretch where ability barely moves, and\nonly those who refuse to quit cross into competence and then mastery.\n\nThese are the same curve. In both, the flat plateau is **not failure — it's the necessary\nmemorization phase before the phase transition.** The model isn't broken during the plateau;\nit's accumulating the representations that later reorganize into a rule. The learner who \"still\nisn't good\" after weeks isn't talentless; they're pre-grok. The amateur who plateaus at \"good\nenough\" is the model with too little regularization pressure to ever make the jump — comfortable\ninterpolation instead of the push toward generalization.\n\n## Why it matters\nThe grokking literature even suggests the mechanism: weight decay and continued pressure force\nthe transition from memorizing to generalizing. The human analog is deliberate practice and\nspaced repetition — sustained, slightly-uncomfortable load is what eventually triggers the snap.\nQuitting during the plateau is exiting one epoch before grokking.\n\n## So what\n- Reframe any current learning plateau as the pre-grok memorization phase; the rational move is\n  to keep loading, not to conclude you lack the talent.\n- Borrow the regularizer: pair grind with spacing and varied retrieval (the human \"weight decay\")\n  to push toward the phase transition rather than memorizing harder.\n- Set a kill-criterion by time-in-plateau, not by frustration — discomfort is the expected signal\n  here, so it's a useless stop condition.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_010e120433f1b22ace174051f620a61e3ee1a487",
+      "title": "Grooming Is Barrel Time You Spend on Someone Else",
+      "summary": "A macaque does not become trustworthy by announcing it. Minutes of nit-picking are years in someone else's wood: slow, expensive, and written into the relationship the way lignin is written into the pour.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "monkeys",
+        "whiskey"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_1d4be4b2d74f20d3dddd2dd26e59038b52340d39",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5",
+        "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1",
+        "planet_ee8c87080d89d1a3c8e9b7934ff7670d6c7908bf"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "synthesis",
+        "ai-generated",
+        "synthesis-review",
+        "monkeys",
+        "whiskey"
+      ],
+      "content": "# Grooming Is Barrel Time You Spend on Someone Else\n\n> A macaque does not become trustworthy by announcing it. Minutes of nit-picking are years in someone else's wood: slow, expensive, and written into the relationship the way lignin is written into the pour.\n\n## The connection\n[[Social Grooming Is the Real API]] says the real routing table is who spends costly time on whom. [[Proof Needs Time in the Barrel]] says you cannot fake the years in wood — distillation is fast, the barrel is the filter. Put them on the same bench and the mechanism is identical: trust is a long sample interval applied to a body that is not yours.\n\nGrooming looks social. Barrel time looks chemical. Both subtract heat (status games, fusel oils) and leave a record that a still — or a Slack announcement — cannot write. A fast groom is moonshine: high proof, no oak, dangerous to serve. A note that sat in your vault for a year without touching another person is a barrel that never had a neighbor. The aging happened; the share was not spent.\n\nThe existing airplanes note already hinted at this: trim is the tiny surface you can hold. Grooming is trim you apply to someone else's heading. Barrel time is trim you apply to your own distillate. The neuron is the claim that those are one control loop with two bodies.\n\n## Why it holds\n- Cost is the unfakeable part. Time on a coat and time in oak are both hard to counterfeit at scale.\n- The graph that results is better than rank or ABV. Alliances form along grooming edges; drinkable whiskey forms along years. Both are ledgers.\n- Domvault's default hold-private is the rickhouse door. The first published planet is the first pour you were willing to lose volume on — angel's share as a groom.\n\n## So what (the actionable edge)\n- Score a new edge by hours you cannot refund, not by warmth of the first message.\n- If you want a topic to join the troop, age it against two existing notes, then spend the share: a small, signed, opt-in planet.\n- When a relationship or a note is \"high proof\" overnight, ask what the barrel subtracted. If the answer is nothing, do not serve it.\n\n## Sources\n- [[Social Grooming Is the Real API]]\n- [[Proof Needs Time in the Barrel]]\n- [[The Angel's Share Buys the Edge]]\n- [[Trim Tabs Beat Thrust]]"
+    },
+    {
       "id": "planet_443c3c11ef15f1ed7bc3b310cd20ea24831d1216",
       "title": "Idea to Revenue (A Validation Gate)",
       "summary": "Before building, make an idea pass a validation gate — and define how you'll kill it before you start.",
@@ -702,6 +845,40 @@
         "gtm"
       ],
       "content": "# Idea to Revenue (A Validation Gate)\n\n> Before building, make an idea pass a validation gate — and define how you'll kill it before you\n> start.\n\n## The validation gate\nAn idea earns a build only when it clears three checks:\n- **Problem clarity** — is the problem quantified and specific, not a vague \"this would be nice\"?\n- **Audience specificity** — can you name the exact person who has this problem, in behavioral\n  terms, not a broad demographic?\n- **First-dollar path** — is there a concrete, wired route to the first paid transaction? Not \"we'll\n  monetize later\" — the actual edge where money changes hands.\n\n## Kill criteria\nDecide how the idea *dies* before you start:\n- **Define before starting** — kill criteria written after launch are rationalizations, not\n  thresholds.\n- **Time-bound** — \"if X hasn't happened by date Y.\"\n- **Measurable** — a number you can check, not a feeling.\n\n## So what\n- Run every idea through the gate before committing build effort; an idea that can't name its\n  first-dollar path or its kill criteria isn't ready.\n- Revisit the kill criteria on schedule — the discipline only works if you actually honor the\n  threshold you set.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+      "title": "Isolation Is a Missing Degree",
+      "summary": "A macaque with no grooming partners is not \"early.\" It is a node with degree zero. The leopard does not grade on a curve, and it does not care about the five-year plan.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "monkeys"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_1c9852da5e4759c1fa379e5be2e6f2afce600938",
+        "planet_3dcc8638d7f788ef4fd50b8640911581dfbb63c6",
+        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
+        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5",
+        "planet_fb6a6e7cf1c472dff015996b6628a06a58d0562f"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "monkeys",
+        "networks",
+        "trust"
+      ],
+      "content": "# Isolation Is a Missing Degree\n\n> A macaque with no grooming partners is not \"early.\" It is a node with degree zero. The leopard does not grade on a curve, and it does not care about the five-year plan.\n\n## The connection\nNetwork science is blunt: isolates fail first when the environment gets sharp. Second brains treat unpublished or unlinked notes as unfinished craft when many of them are just unconnected. Status — title, word count, a private folder that feels like a brand — is a poor survival predictor. Degree is the predictor. A spark is a proposed edge. A published planet with no inbound grooms is still an isolate in the universe graph. Cats can live with sparse degree if they hold territory; a troop animal cannot.\n\n## Why it matters\nThe first job of a new framework is not to be clever. It is to grow a neighbor. Joining a constellation with three well-linked planets beats arriving with a cargo hold of isolates. Isolation dressed up as \"not ready\" is how a vault stays a stillhouse.\n\n## So what\n- If a note has no wiki-links, it is not a draft. It is an isolate. Add one costly edge.\n- Prefer a short published planet with two neighbors over a long private essay with none.\n- When you add a topic, its first publish should groom an existing troop member.\n\n## Related\n- [[Social Grooming Is the Real API]]\n- [[Cats Negotiate Territory, Not Rank]]\n- [[A Land-Grant Ships Knowledge to the Counties]]"
     },
     {
       "id": "planet_6993ca2cf14c0cddd17d335e97ddc016771e8031",
@@ -871,8 +1048,18 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
+        "planet_010e120433f1b22ace174051f620a61e3ee1a487",
         "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
-        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3"
+        "planet_1d4be4b2d74f20d3dddd2dd26e59038b52340d39",
+        "planet_55b23ba3f828d73881509e9313498a6bdc0c10b1",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_6d0279b744fa18ebd5cbadd1c97c1a7966da7710",
+        "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
+        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5",
+        "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1",
+        "planet_ee8c87080d89d1a3c8e9b7934ff7670d6c7908bf"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -965,7 +1152,11 @@
         "systems"
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
-      "links": [],
+      "links": [
+        "planet_3af371194cb58dc1a85861bf5f3b7b8fe6275cfe",
+        "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
+        "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
+      ],
       "origin": "ai-generated",
       "content_hash": null,
       "published_at": "2026-06-20T15:41:00Z",
@@ -1054,8 +1245,16 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
+        "planet_010e120433f1b22ace174051f620a61e3ee1a487",
+        "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
-        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9"
+        "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
+        "planet_cfb17a81a859283f9c7c5244e6b15a91ab7dc42c",
+        "planet_ee8c87080d89d1a3c8e9b7934ff7670d6c7908bf"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -1096,6 +1295,402 @@
         "sovereignty"
       ],
       "content": "# Sovereign AI Bottoms Out at the Power Meter\n\n> Sovereignty over the AI stack doesn't close until it reaches the energy layer. It's a feasibility\n> question, not an identity, and it lives in kWh/day.\n\n## The connection\nThe \"own the stack, don't rent it\" instinct has a hidden floor. You can own the model weights, own\nthe inference cluster, own the data — but a self-hosted box is still *rented compute* the moment it\ndraws from a utility meter, because the grid is the one layer you don't control and can't see the\nprice of. The power-bottleneck thesis says the binding constraint for AI is no longer chips but\nelectricity; the same constraint applies one tier down at the level of an individual operator.\nSovereignty over the AI stack therefore doesn't close until it reaches the energy layer. A\nsolar + storage + hybrid-inverter topology is literally the last mile: the only configuration where\nboth the compute *and* its power are owned assets rather than metered rentals.\n\n## Why it matters\nThis connects the macro energy/grid thesis to the micro self-hosting instinct — the same bottleneck\nat two scales. It also gives a falsifiable test instead of a vibe: sovereignty is a feasibility\nquestion, not an identity, and it lives in kWh/day.\n\n## So what\n- Estimate a local-cluster draw (kWh/day at realistic duty cycle) and size solar + storage against\n  it; check whether owned-compute + owned-power actually pencils out.\n- If it doesn't, name the gap honestly — partial sovereignty (own weights, rent grid) may be the\n  rational stop.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
+      "title": "A Groom Is a Trim Tab on the Troop",
+      "summary": "A grooming bout is a trim tab on the troop — a tiny costly surface that changes who gets backed when the leopard shows up.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "monkeys",
+        "airplanes"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "spark",
+        "monkeys",
+        "airplanes"
+      ],
+      "content": "# A Groom Is a Trim Tab on the Troop\n\n> A grooming bout is a trim tab on the troop — a tiny costly surface that changes who gets backed when the leopard shows up.\n\n## The connection\n[[Social Grooming Is the Real API]] says load routes along costly favors. [[Trim Tabs Beat Thrust]] says the smallest hinge turns the largest mass. A first published note is both: small, signed, heading-changing.\n\n## Why it matters\nOrg charts and extra process are thrust. The person who answers a 2am page is trim already paid for.\n\n## So what\n- Make the first edge small enough to repeat and costly enough to mean it.\n- When the graph yaws, groom one neighbor. Do not stand up another program.\n\n## Related\n- [[Social Grooming Is the Real API]]\n- [[Trim Tabs Beat Thrust]]"
+    },
+    {
+      "id": "planet_1c9852da5e4759c1fa379e5be2e6f2afce600938",
+      "title": "A Lab Without an Agent Is an Isolate",
+      "summary": "An unpublished note is a lab with no extension agent. Degree in the county graph is the land-grant metric, not citation count on campus.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "monkeys",
+        "penn-state"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_55b23ba3f828d73881509e9313498a6bdc0c10b1",
+        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "spark",
+        "monkeys",
+        "penn-state"
+      ],
+      "content": "# A Lab Without an Agent Is an Isolate\n\n> An unpublished note is a lab with no extension agent. Degree in the county graph is the land-grant metric, not citation count on campus.\n\n## The connection\n[[Isolation Is a Missing Degree]] says isolates fail first. [[A Land-Grant Ships Knowledge to the Counties]] says the job is the wagon. Ship one planet or remain an isolate with a nice library.\n\n## Why it matters\nA locked campus is a stillhouse with tenure. The leopard — and the county — do not grade on a curve.\n\n## So what\n- Measure a topic by neighbors in the public graph, not by private word count.\n- The first publish should groom an existing troop member.\n\n## Related\n- [[Isolation Is a Missing Degree]]\n- [[A Land-Grant Ships Knowledge to the Counties]]"
+    },
+    {
+      "id": "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa",
+      "title": "A Stadium Dress Code Is a Trim Tab",
+      "summary": "White Out is a stadium-scale trim tab — one small surface (shirt color) holds the attitude of a hundred thousand people without a speech from every section.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "penn-state",
+        "airplanes"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_3e392fe139fd5c56ae86fc65469132c2840bac8e",
+        "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
+        "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "spark",
+        "penn-state",
+        "airplanes"
+      ],
+      "content": "# A Stadium Dress Code Is a Trim Tab\n\n> White Out is a stadium-scale trim tab — one small surface (shirt color) holds the attitude of a hundred thousand people without a speech from every section.\n\n## The connection\n[[White-Out Is One Constraint]] is the dress code. [[Trim Tabs Beat Thrust]] is the hinge. Publish fields are the same cheap binary surface: license, handle, one galaxy you can defend.\n\n## Why it matters\nExtra rules split the stand. Extra engines do not fix a yaw you could have trimmed with one color.\n\n## So what\n- Keep one publishable color on the field.\n- When the public map yaws, add a constraint, not another topic.\n\n## Related\n- [[White-Out Is One Constraint]]\n- [[Trim Tabs Beat Thrust]]"
+    },
+    {
+      "id": "planet_1d4be4b2d74f20d3dddd2dd26e59038b52340d39",
+      "title": "Blink First, Then Pour",
+      "summary": "A slow blink is cheap. Barrel time is expensive. Consent needs both — a cheap approach signal and a costly aging gate before you pour.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "cats",
+        "whiskey"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_010e120433f1b22ace174051f620a61e3ee1a487",
+        "planet_32515919c455d252cf6b7e05e0633ee0ecd6c58b",
+        "planet_6d0279b744fa18ebd5cbadd1c97c1a7966da7710",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
+        "planet_ee8c87080d89d1a3c8e9b7934ff7670d6c7908bf"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "spark",
+        "cats",
+        "whiskey"
+      ],
+      "content": "# Blink First, Then Pour\n\n> A slow blink is cheap. Barrel time is expensive. Consent needs both — a cheap approach signal and a costly aging gate before you pour.\n\n## The connection\n[[The Slow Blink Is a Cheap Consent Signal]] is how two animals close distance. [[Proof Needs Time in the Barrel]] is how a note becomes drinkable. Confusing them either freezes contact or ships moonshine.\n\n## Why it matters\nA stare (dump the vault) is not consent. A blink with no barrel is not a planet.\n\n## So what\n- Offer an edge that can be ignored, then age what you will pour.\n- Read a refused blink as silence, not as a bug.\n\n## Related\n- [[The Slow Blink Is a Cheap Consent Signal]]\n- [[Proof Needs Time in the Barrel]]"
+    },
+    {
+      "id": "planet_55b23ba3f828d73881509e9313498a6bdc0c10b1",
+      "title": "Extension Is the County Pour",
+      "summary": "Extension is a legal requirement to pour what survived the barrel into a county that never sat in the lab.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "penn-state",
+        "whiskey"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_1c9852da5e4759c1fa379e5be2e6f2afce600938",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5",
+        "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1",
+        "planet_eda65cb67466bca3b2253f622979af603eab7714"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "spark",
+        "penn-state",
+        "whiskey"
+      ],
+      "content": "# Extension Is the County Pour\n\n> Extension is a legal requirement to pour what survived the barrel into a county that never sat in the lab.\n\n## The connection\n[[A Land-Grant Ships Knowledge to the Counties]] is the publish conscience. [[Proof Needs Time in the Barrel]] is the filter that makes the pour safe. Private aging without extension is a campus that forgot the Morrill Act.\n\n## Why it matters\nPrestige hoards citations. The land-grant metric is whether someone who was not in the lab can use the note.\n\n## So what\n- Age on campus. Schedule the wagon.\n- If it cannot travel without you in the room, it is not extension yet.\n\n## Related\n- [[A Land-Grant Ships Knowledge to the Counties]]\n- [[Proof Needs Time in the Barrel]]"
+    },
+    {
+      "id": "planet_ee8c87080d89d1a3c8e9b7934ff7670d6c7908bf",
+      "title": "Fast Grooms Are Moonshine",
+      "summary": "Grooming is trusted only because it is slow and costly — the same filter as years in wood. A fast groom is moonshine: high proof, no record in the liquid.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "monkeys",
+        "whiskey"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_010e120433f1b22ace174051f620a61e3ee1a487",
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_1d4be4b2d74f20d3dddd2dd26e59038b52340d39",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "spark",
+        "monkeys",
+        "whiskey"
+      ],
+      "content": "# Fast Grooms Are Moonshine\n\n> Grooming is trusted only because it is slow and costly — the same filter as years in wood. A fast groom is moonshine: high proof, no record in the liquid.\n\n## The connection\n[[Social Grooming Is the Real API]] and [[Proof Needs Time in the Barrel]] are one mechanism. Time you cannot refund is the unfakeable part, whether it is minutes on a coat or years in oak.\n\n## Why it matters\nTrust APIs that skip aging become performative. Overnight alliances and overnight whiskey both burn on the way down.\n\n## So what\n- Score a new edge by hours you cannot refund, not by warmth of the first message.\n- If a groom or a note is high proof overnight, ask what the barrel subtracted.\n\n## Related\n- [[Social Grooming Is the Real API]]\n- [[Proof Needs Time in the Barrel]]"
+    },
+    {
+      "id": "planet_3dcc8638d7f788ef4fd50b8640911581dfbb63c6",
+      "title": "First Degree Is a Blink",
+      "summary": "Isolates often stare — overshare, over-ask — because they never learned the cheap blink that grows the first edge.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "cats",
+        "monkeys"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "spark",
+        "cats",
+        "monkeys"
+      ],
+      "content": "# First Degree Is a Blink\n\n> Isolates often stare — overshare, over-ask — because they never learned the cheap blink that grows the first edge.\n\n## The connection\n[[The Slow Blink Is a Cheap Consent Signal]] is the first-degree move. [[Isolation Is a Missing Degree]] is what you have if you skip it. A manifesto is a stare. A spark is a blink.\n\n## Why it matters\nStaring at the graph does not add a neighbor. Degree zero dressed as \"not ready\" is still degree zero.\n\n## So what\n- Grow the first edge with something refuseable.\n- If you have no neighbors, blink once. Do not publish a stare.\n\n## Related\n- [[The Slow Blink Is a Cheap Consent Signal]]\n- [[Isolation Is a Missing Degree]]"
+    },
+    {
+      "id": "planet_cfb17a81a859283f9c7c5244e6b15a91ab7dc42c",
+      "title": "Galaxies Are Territory, Edges Are Grooms",
+      "summary": "Macaques scale by dense grooming. Cats scale by space plus rare allogrooming. Two valid trust graphs. A constellation needs both.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "cats",
+        "monkeys"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
+        "planet_baebd1605ea96b04c5d073e45545907929b991cc",
+        "planet_fb6a6e7cf1c472dff015996b6628a06a58d0562f"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "spark",
+        "cats",
+        "monkeys"
+      ],
+      "content": "# Galaxies Are Territory, Edges Are Grooms\n\n> Macaques scale by dense grooming. Cats scale by space plus rare allogrooming. Two valid trust graphs. A constellation needs both.\n\n## The connection\n[[Cats Negotiate Territory, Not Rank]] is the spatial protocol. [[Social Grooming Is the Real API]] is the social one. Galaxies are neighborhoods. Wiki-links are grooms. Forcing every topic into a troop hierarchy is the wrong ontology.\n\n## Why it matters\nSome notes want a hallway, not a rank. Some stars want a dense troop. The map should hold both without crowning a boss.\n\n## So what\n- Put a note in a galaxy before you demand it groom everyone.\n- If two ideas scrape fur, add a corridor, not a winner.\n\n## Related\n- [[Cats Negotiate Territory, Not Rank]]\n- [[Social Grooming Is the Real API]]"
+    },
+    {
+      "id": "planet_3e392fe139fd5c56ae86fc65469132c2840bac8e",
+      "title": "Opt-In Turns a Stare Into a Signal",
+      "summary": "White Out is a stare that became consent because it is optional and binary. You can stay home. The people who blink back wear white.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "penn-state",
+        "cats"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa",
+        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "spark",
+        "penn-state",
+        "cats"
+      ],
+      "content": "# Opt-In Turns a Stare Into a Signal\n\n> White Out is a stare that became consent because it is optional and binary. You can stay home. The people who blink back wear white.\n\n## The connection\n[[White-Out Is One Constraint]] is the public dress code. [[The Slow Blink Is a Cheap Consent Signal]] is the refuseable approach. Constraints you cannot refuse are stares.\n\n## Why it matters\nA forced White Out is a coerced crowd, not a heading. A forced publish is the same failure at vault scale.\n\n## So what\n- Keep the dress code cheap and skippable.\n- Count the people who blinked back, not the people you stared at.\n\n## Related\n- [[White-Out Is One Constraint]]\n- [[The Slow Blink Is a Cheap Consent Signal]]"
+    },
+    {
+      "id": "planet_3af371194cb58dc1a85861bf5f3b7b8fe6275cfe",
+      "title": "The Missing Instructor Is the Proof",
+      "summary": "The first solo evaporates the instructor — that absence is the angel's share that proves the student can hold heading.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "airplanes",
+        "whiskey"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_54ed53976a3ed6e1b21f3bb846a232e9fa456fd7",
+        "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
+        "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "spark",
+        "airplanes",
+        "whiskey"
+      ],
+      "content": "# The Missing Instructor Is the Proof\n\n> The first solo evaporates the instructor — that absence is the angel's share that proves the student can hold heading.\n\n## The connection\n[[First Solo Is Attitude, Not Hours]] is proof by one circuit alone. [[The Angel's Share Buys the Edge]] is proof by volume you agreed to lose. A published planet has to fly without you in the right seat.\n\n## Why it matters\nDual time and sealed casks both look like work. Neither is a heading another person can take.\n\n## So what\n- Before you publish, evaporate the instructor: read the note as a stranger.\n- The missing percent is the proof, not the loss.\n\n## Related\n- [[First Solo Is Attitude, Not Hours]]\n- [[The Angel's Share Buys the Edge]]"
+    },
+    {
+      "id": "planet_baebd1605ea96b04c5d073e45545907929b991cc",
+      "title": "Time-Share the Hallway",
+      "summary": "Time-sharing a hallway is feline trim. You do not add a second house (thrust). You adjust when each cat uses the corridor.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "cats",
+        "airplanes"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
+        "planet_cfb17a81a859283f9c7c5244e6b15a91ab7dc42c"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "spark",
+        "cats",
+        "airplanes"
+      ],
+      "content": "# Time-Share the Hallway\n\n> Time-sharing a hallway is feline trim. You do not add a second house (thrust). You adjust when each cat uses the corridor.\n\n## The connection\n[[Cats Negotiate Territory, Not Rank]] says conflict is about access, not rank. [[Trim Tabs Beat Thrust]] says graph yaw is a corridor problem. A synthesis note is a schedule, not a second topic folder.\n\n## Why it matters\nVaults grow extra rooms when they needed a clock. Two notes that scrape fur usually need a time-share.\n\n## So what\n- When two ideas collide, write the corridor. Do not stand up another house.\n- Prefer a shared hallway over a winner.\n\n## Related\n- [[Cats Negotiate Territory, Not Rank]]\n- [[Trim Tabs Beat Thrust]]"
+    },
+    {
+      "id": "planet_6d0279b744fa18ebd5cbadd1c97c1a7966da7710",
+      "title": "You Cannot Trim Unaged Distillate",
+      "summary": "Trim is what you can still adjust after the barrel. Thrust is distillation. You cannot trim a spirit that never sat in wood.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "whiskey",
+        "airplanes"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_1d4be4b2d74f20d3dddd2dd26e59038b52340d39",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "spark",
+        "whiskey",
+        "airplanes"
+      ],
+      "content": "# You Cannot Trim Unaged Distillate\n\n> Trim is what you can still adjust after the barrel. Thrust is distillation. You cannot trim a spirit that never sat in wood.\n\n## The connection\n[[Proof Needs Time in the Barrel]] is the long sample interval. [[Trim Tabs Beat Thrust]] is the tiny surface that holds heading afterward. Publish-and-link is trim applied to aged distillate, not more throttle on the still.\n\n## Why it matters\nA vault that only captures is a stillhouse. A vault that only publishes raw inbox is a stall on takeoff.\n\n## So what\n- Age first, then trim. Do not add engines to unlinked heat.\n- A wiki-link is a tab. An extra folder is thrust.\n\n## Related\n- [[Proof Needs Time in the Barrel]]\n- [[Trim Tabs Beat Thrust]]"
     },
     {
       "id": "planet_457fe491ae0142fa59c9f6a60c9f7776873f1ef8",
@@ -1253,6 +1848,41 @@
       "content": "# The AI-Augmented Second Brain Stack\n\n> A second brain has three layers: a markdown-and-graph memory, AI agents as workers, and a loop\n> where the system improves itself. The differentiator isn't the model — it's edge quality.\n\n## The connection\nA cluster of ideas about running an AI-powered knowledge system all point at the same setup: a\nlocal, plain-text vault as the memory, AI agents as the workers, and a loop where the system\nimproves itself. Stitched together, they form one blueprint.\n\n## The stack\n- **Memory layer.** Markdown notes + a link graph. Plain text you own, that any tool can read, with\n  the graph as the structure.\n- **Worker layer.** Coding agents and sub-agents that read, write, ingest, and synthesize against\n  the vault — the \"AI worker that runs while you sleep\" pattern.\n- **Shared-context layer.** A shared brain across agents so multiple workers operate on the same\n  memory without drifting, plus reusable skills/plugins that encode repeatable workflows.\n- **Self-improvement loop.** The vault generates its own candidate connections for a human to\n  review — exploration writes edges, review keeps them honest.\n\n## Why it matters\nThe point isn't reading *about* this stack — it's operating it. The defensible asset isn't the model\n(anyone can call one); it's the curated, linked memory and the loop that keeps enriching it. The\nstack is portable across any domain you work in.\n\n## So what\n- Keep the memory in plain text + links so it outlives any single tool.\n- Formalize the repeatable workflows (ingest, synthesize, publish) as skills/commands rather than\n  one-off prompts.\n- Treat the self-improvement loop as the engine: it's what turns a notebook into a brain.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+      "title": "The Angel's Share Buys the Edge",
+      "summary": "Every year in the rickhouse a few percent of the barrel evaporates. Distillers call it the angel's share. It is not a leak they forgot to patch. It is the fee the wood charges for making the liquid pourable.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "whiskey"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_010e120433f1b22ace174051f620a61e3ee1a487",
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_3af371194cb58dc1a85861bf5f3b7b8fe6275cfe",
+        "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "whiskey",
+        "aging",
+        "graphs"
+      ],
+      "content": "# The Angel's Share Buys the Edge\n\n> Every year in the rickhouse a few percent of the barrel evaporates. Distillers call it the angel's share. It is not a leak they forgot to patch. It is the fee the wood charges for making the liquid pourable.\n\n## The connection\nAging subtracts volume and heat. What remains is denser, marked by oak, and fit to serve. Genericizing a note — strip the client, strip the heat, keep the mechanism, add a wiki-link — is the angel's share of a second brain. You lose some private proof. You buy an edge another star can actually pull. Distillation without evaporation is a stillhouse that never opened the door.\n\n## Why it matters\nPeople hoard first-pour stories because they fear the missing percent. A constellation cannot index a barrel you refuse to lose volume from. The public universe should taste the aged pour: linked, signed, a little lighter than the journal. That lost weight is how the graph gets weather.\n\n## So what\n- If a note cannot lose names and still stand, it is not ready to pour.\n- Treat each wiki-link as angel's share that became climate in someone else's rickhouse.\n- Score the work by what you can serve, not by how much you started with.\n\n## Related\n- [[Proof Needs Time in the Barrel]]\n- [[Social Grooming Is the Real API]]\n- [[First Solo Is Attitude, Not Hours]]"
+    },
+    {
       "id": "planet_32515919c455d252cf6b7e05e0633ee0ecd6c58b",
       "title": "The Barrier Is the Notation (Symbol Terror Is an Onboarding Tax)",
       "summary": "The blocker is never the idea, it's the **notation**. Good teaching pays the toll for the learner: translate the symbols first, then the idea arrives free.",
@@ -1267,6 +1897,7 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
+        "planet_1d4be4b2d74f20d3dddd2dd26e59038b52340d39",
         "planet_ce1aeda83155db442abe2c2eaecd9c7894fefc05"
       ],
       "origin": "ai-generated",
@@ -1351,6 +1982,45 @@
         "parallelism"
       ],
       "content": "# The Fan-Out Port (Design as Spec, Parallel Porters, Build-Verify)\n\n> The quality comes from the **contract + the verify**, not from each agent being perfect. It turns\n> \"weeks of mechanical work\" into one wall-clock pass.\n\n## The connection\nLarge mechanical jobs — porting a design to code, ingesting hundreds of documents, auditing a big\ncorpus — all go the same way when run with parallel agents. The shared shape is **the Fan-Out\nPort**:\n1. **Design/spec is the source of truth** — not memory.\n2. **Decompose into independent units** with no overlap (one screen / one document-block / one\n   range).\n3. **Fan out parallel agents** against a **shared contract** — a low-error-surface convention that\n   makes the common mistake impossible (e.g. a helper that prevents a class of formatting failure;\n   disjoint number ranges so outputs can't collide).\n4. **Central build-verify** — a deterministic gate (a build, a test suite) catches the integration\n   errors no single agent can see.\n\nIt's the self-improving harness applied to *construction*: exploration = the parallel porters;\nconsolidation = the build-verify gate.\n\n## Why it matters\nThe quality comes from the **contract + the verify**, not from each agent being perfect. The failure\nmodes are predictable: (a) no shared contract → inconsistent output; (b) overlapping units →\ncollisions; (c) no verify → silent breakage. This is the build-time twin of \"10% model, 90%\nplumbing.\"\n\n## So what\n- Make \"Fan-Out Port\" the default for any large transform: migration, port, ingest, audit,\n  long-form generation.\n- Always ship three things with the fan-out: a **convention** that removes the common error,\n  **disjoint units**, and a **deterministic verify** plus a tiny **completeness scan** for\n  cross-unit invariants (valid references, no dupes).\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1",
+      "title": "The First Solo Evaporates the Instructor",
+      "summary": "Dual time is the barrel with a teacher in the right seat. The first solo is the angel's share: a few percent of the system disappears on purpose, and what remains has to hold heading alone.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "airplanes",
+        "whiskey"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_010e120433f1b22ace174051f620a61e3ee1a487",
+        "planet_3af371194cb58dc1a85861bf5f3b7b8fe6275cfe",
+        "planet_54ed53976a3ed6e1b21f3bb846a232e9fa456fd7",
+        "planet_55b23ba3f828d73881509e9313498a6bdc0c10b1",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "synthesis",
+        "ai-generated",
+        "synthesis-review",
+        "airplanes",
+        "whiskey"
+      ],
+      "content": "# The First Solo Evaporates the Instructor\n\n> Dual time is the barrel with a teacher in the right seat. The first solo is the angel's share: a few percent of the system disappears on purpose, and what remains has to hold heading alone.\n\n## The connection\n[[First Solo Is Attitude, Not Hours]] says the certificate is not the hours — it is one circuit without the instructor's hands. [[The Angel's Share Buys the Edge]] says the missing percent is the fee that makes the liquid pourable. The shared mechanism is proof-by-absence. If the airplane only flies because someone is on the stick, you do not have a pilot. If the note only stands because you are in the room to explain the names, you do not have a planet.\n\nBarrel time without evaporation is a sealed cask. Dual time without a solo is a logbook. Both look like work. Neither is a heading another person can take. The land-grant version is extension: the county gets the pour after the lab evaporates. Isolation is what you have if you never fly the pattern — a rich stillhouse, degree zero.\n\nHours still matter. A solo on raw distillate is a stall. The neuron is not \"skip the barrel.\" It is: the last filter is the missing instructor. Publish is that filter. The constellation cannot see a student who never leaves the right seat, and it should not drink a spirit that never paid the share.\n\n## Why it holds\n- The proof is counterfactual. Remove the helper (instructor, private context, client name). If attitude holds, you have a planet.\n- Volume loss is the point. Genericizing is evaporation, not theft from yourself.\n- Currency is more circuits, not a bigger engine. One lucky solo is not an ATP. One lucky publish is not a cluster.\n\n## So what (the actionable edge)\n- Before you publish, evaporate the instructor: read the note as a stranger in the county. If it needs you, it is still dual.\n- Solo a small pattern — a few linked planets — rather than logging another hundred private hours.\n- After the first solo, go around. The angel's share is paid per year, not once.\n\n## Sources\n- [[First Solo Is Attitude, Not Hours]]\n- [[The Angel's Share Buys the Edge]]\n- [[Proof Needs Time in the Barrel]]\n- [[Trim Tabs Beat Thrust]]\n- [[A Land-Grant Ships Knowledge to the Counties]]"
     },
     {
       "id": "planet_4501c2a68ea4d8c9c46a51a0ee674fe82eea327c",
@@ -1480,6 +2150,41 @@
       "content": "# The Rubric Pattern (Graded, Explainable AI Is the Trust Primitive)\n\n> Intelligence is table stakes; trust is the product. The trust primitive is the rubric: a fixed,\n> weighted, explainable scoring scheme graded against ground truth — never raw model output on\n> faith.\n\n## The connection\nThe same design move recurs across otherwise-unrelated AI builds: **define a fixed, weighted,\nexplainable scoring or verification scheme and grade outputs against a ground truth — never trust\nraw model output on faith.** A benchmark that scores generated work across weighted dimensions with\nauto-fail triggers; a verifier that grades each claim against its primary source and blocks shipping\non failure; an idea-validator that ranks with a weighted success score *and explains why*; a\nsynthetic-data harness that grades decisions against known-correct ground truth — they all\nindependently converge on the same trust mechanism.\n\n## Why it matters\nThe real product DNA isn't \"AI that's smart\" — it's \"AI whose output is graded, explainable, and\ntrustworthy.\" Every flagship artifact converging on the same trust mechanism isn't coincidence;\nit's the instinct worth naming. \"Graded, auditable AI\" is a sharper pitch than \"AI-powered,\" and\nit's exactly what high-stakes buyers want: operational reliability over raw cleverness. It's also\nharder to copy — anyone can call a model; a transparent grading layer that buyers can audit is the\ndefensible part.\n\n## So what\n- Extract a shared **rubric engine**: define dimensions + weights + ground-truth source + pass/fail\n  gates, and reuse it across products. One core, many applications.\n- Lead with it: pitch \"graded, auditable AI,\" not \"AI-powered.\"\n- Treat the grading layer as the trust surface — make it transparent enough that a skeptical buyer\n  can audit the score.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
+      "title": "The Slow Blink Is a Cheap Consent Signal",
+      "summary": "A cat's hard stare is a threat display. The slow blink is the opposite protocol: I see you, I am not hunting, you may come closer. It is cheap, bidirectional, and easy to refuse.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "cats"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_1d4be4b2d74f20d3dddd2dd26e59038b52340d39",
+        "planet_3dcc8638d7f788ef4fd50b8640911581dfbb63c6",
+        "planet_3e392fe139fd5c56ae86fc65469132c2840bac8e",
+        "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "cats",
+        "consent",
+        "trust"
+      ],
+      "content": "# The Slow Blink Is a Cheap Consent Signal\n\n> A cat's hard stare is a threat display. The slow blink is the opposite protocol: I see you, I am not hunting, you may come closer. It is cheap, bidirectional, and easy to refuse.\n\n## The connection\nConsent in a constellation is supposed to look like a signed publish. The everyday version is smaller. A spark, a wiki-link, a note held private on purpose — those are slow blinks. Dumping a whole vault into the universe is a stare. Grooming in a macaque troop is costly and public; a cat blink is almost free. You need both. The costly gate (barrel, license, signature) keeps the pour honest. The cheap blink is how two animals agree to close the distance at all.\n\n## Why it matters\nTrust systems that only have stares — mandatory reviews, all-to-all sharing, \"just make it public\" — produce freezing, not approach. Isolates often stare because they never learned the cheap first edge. A White Out works because you can stay home. A blink that cannot be refused is a stare wearing a smile.\n\n## So what\n- Offer edges that can be ignored. A spark is a blink. A forced link is a stare.\n- Read silence as a refused blink, not as a bug in the other star.\n- First contact should be one planet, not a stare into their whole graph.\n\n## Related\n- [[Social Grooming Is the Real API]]\n- [[Cats Negotiate Territory, Not Rank]]\n- [[White-Out Is One Constraint]]"
+    },
+    {
       "id": "planet_cc614e00367ea06913c4d49287c0f5b7dd1805c2",
       "title": "A Linked Vault Wants to Be a Graph RAG",
       "summary": "A linked note vault is already a hand-built knowledge graph. Most graph-RAG systems build the graph *graph-last* by extraction; a curated vault was built *graph-first* by hand — and that inversion is the advantage.",
@@ -1561,8 +2266,18 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
+        "planet_010e120433f1b22ace174051f620a61e3ee1a487",
         "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
-        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9"
+        "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
+        "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_6d0279b744fa18ebd5cbadd1c97c1a7966da7710",
+        "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
+        "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa",
+        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_baebd1605ea96b04c5d073e45545907929b991cc",
+        "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -1673,6 +2388,80 @@
       "content": "# Volatility Harvesting (Feedback Control You Want Disturbed)\n\n> Turn the disturbance you'd normally fight into the thing you harvest. It's a design pattern, not\n> just a trade.\n\n## The connection\nGamma scalping is textbook negative feedback. The trader holds long gamma, measures an error term\n(net delta away from zero), and applies a proportional correction — sell underlying when price\nrises, buy when it falls — driving delta back to a setpoint of zero. That's the same controller as\nthe inverted pendulum, the stop-loss, and the AI agent loop.\n\nBut it inverts the usual moral. Everywhere else, the disturbance is the enemy: you correct *against*\nit and wish it would go away. In gamma scalping you **want the disturbance** — the underlying's\nvolatility is exactly what you're paid for. Each re-hedge locks in $\\tfrac12\\Gamma(dS)^2$; the\nposition is profitable whenever realized variance beats the theta you pay:\n$\\tfrac12\\Gamma(dS)^2 > \\Theta\\,dt \\Leftrightarrow \\sigma_{\\text{realized}} > \\sigma_{\\text{implied}}$.\nSo this is a controller that monetizes the very error it suppresses. The \"cost of control\" (theta)\nis the premium, and the path variance you fight is the revenue.\n\n## Why it matters\nThe general move — *turn the disturbance you'd normally fight into the thing you harvest* — is a\ndesign pattern, not just a trade. Any self-correcting system that pays per correction (rebalancing,\nmarket-making, even churn-driven re-engagement) is a volatility harvester. The question shifts from\n\"how do I eliminate variance?\" to \"is my correction cost lower than the variance I capture?\"\n\n## So what\n- Frame any hedged position as a controller and ask the one question that decides P&L: realized vs.\n  implied — is the gain (re-hedge frequency) tuned to capture variance without bleeding theta?\n- Add a \"disturbance polarity\" axis when applying feedback control: for each system, is the\n  disturbance a cost to suppress or a revenue to harvest? It changes whether you minimize or\n  maximize loop gain.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+      "title": "White-Out Is a Stadium-Scale Trim Tab",
+      "summary": "A jet holds attitude with a tab you could hide in your palm. Beaver Stadium holds a single visible body with a rule you could hide in a text: wear white. Same physics. Different vehicle.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "penn-state",
+        "airplanes"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_3e392fe139fd5c56ae86fc65469132c2840bac8e",
+        "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa",
+        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
+        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "synthesis",
+        "ai-generated",
+        "synthesis-review",
+        "penn-state",
+        "airplanes"
+      ],
+      "content": "# White-Out Is a Stadium-Scale Trim Tab\n\n> A jet holds attitude with a tab you could hide in your palm. Beaver Stadium holds a single visible body with a rule you could hide in a text: wear white. Same physics. Different vehicle.\n\n## The connection\n[[Trim Tabs Beat Thrust]] is Fuller's civics metaphor wearing a flight-control surface: the smallest hinge turns the largest mass. [[White-Out Is One Constraint]] is the same hinge at 110,000 seats. You do not brief every section on heading. You pick one cheap, binary, public surface and let the crowd become the elevator.\n\nThrust in a stadium is more noise, more shirts, more brands on the jumbotron. That is how a regular Saturday looks from the press box — loud and unreadable as one organism. The White Out subtracts wardrobe (angel's share of color) and the camera finally gets a field. Publishing a star cluster works the same way. One license, one handle, a galaxy you can defend, titles that travel. That is trim. Dumping the vault is throttle.\n\nCats already know a cheaper version of the same signal: the slow blink is a one-bit constraint (not hunting) that lets two animals close distance. White Out is the blink at stadium gain. You can refuse it. That refusal is what makes the people who opt in a heading, not a coerced mass.\n\n## Why it holds\n- The control surface is small on purpose. Extra rules (second dress code, private jokes, a new ontology per note) split the stand the way a second tab fights the first.\n- Opt-in is load-bearing. A forced White Out is a stare. A forced publish is thrust.\n- Readability from orbit is the success metric. If another star cannot see the body, you are still a crowd.\n\n## So what (the actionable edge)\n- When the public map yaws, add one constraint, not another engine.\n- Keep campus clothes in the vault. Wear the one publishable color on the field.\n- If a new topic cannot keep the same dress code (genericized, signed, one galaxy), it is not ready for the stand.\n\n## Sources\n- [[White-Out Is One Constraint]]\n- [[Trim Tabs Beat Thrust]]\n- [[The Slow Blink Is a Cheap Consent Signal]]\n- [[A Land-Grant Ships Knowledge to the Counties]]"
+    },
+    {
+      "id": "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+      "title": "White-Out Is One Constraint",
+      "summary": "Beaver Stadium does not become a single organism because 110,000 people read a manifesto. They wear white. One cheap, binary, public rule, and the press-box camera finally sees a body instead of a crowd.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "penn-state"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_3e392fe139fd5c56ae86fc65469132c2840bac8e",
+        "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
+        "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
+        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "penn-state",
+        "constraint",
+        "signal"
+      ],
+      "content": "# White-Out Is One Constraint\n\n> Beaver Stadium does not become a single organism because 110,000 people read a manifesto. They wear white. One cheap, binary, public rule, and the press-box camera finally sees a body instead of a crowd.\n\n## The connection\nA White Out works because the constraint is small enough to keep and loud enough to read from orbit. You can refuse it (stay home, wear blue). The people who opt in become a field. Domvault's publish fields — license, galaxy, handle, a title that can travel — are a White Out for a star cluster. The vault can stay a riot of Saturday colors. The public stand has one dress code so another star can find you.\n\n## Why it matters\nPublishing everything in every color is a regular game: loud, and unreadable as a signal. Extra rules (second brand, private jokes, a new ontology per note) fragment the section. One constraint, kept, is a trim tab on a stadium. The land-grant version of the same idea: ship something a county can recognize without sitting in your lab.\n\n## So what\n- Keep one publish constraint: opt-in, genericized, signed, one galaxy you can defend.\n- Do not add a second dress code. More rules split the stand.\n- When a new topic should show up from the press box, paint it with the same constraint, not a new identity.\n\n## Related\n- [[Trim Tabs Beat Thrust]]\n- [[Proof Needs Time in the Barrel]]\n- [[A Land-Grant Ships Knowledge to the Counties]]"
+    },
+    {
       "id": "planet_fb6a6e7cf1c472dff015996b6628a06a58d0562f",
       "title": "Wiki-Links Are DNS for the Vault",
       "summary": "If retrieval walks edges that don't resolve, the graph it traverses is a lie, and the answer inherits the lie.",
@@ -1689,7 +2478,9 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_1625e50c06eea3a7638fbcef8633600dfb72ab98",
-        "planet_cc614e00367ea06913c4d49287c0f5b7dd1805c2"
+        "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_cc614e00367ea06913c4d49287c0f5b7dd1805c2",
+        "planet_cfb17a81a859283f9c7c5244e6b15a91ab7dc42c"
       ],
       "origin": "ai-generated",
       "content_hash": null,
