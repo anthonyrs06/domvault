@@ -36,6 +36,38 @@
       "content": "# A Backtest Is a Double Pendulum (Deterministic ≠ Predictable)\n\n> A strategy that survives only one trajectory has fit the chaos, not the signal. Data-snooping is\n> just exploiting sensitive dependence — finding the one initial condition where the pendulum\n> happened to swing your way.\n\n## The connection\nTen pendulums released one degree apart trace identical equations yet diverge into wildly\ndifferent paths within seconds — chaos: deterministic but not predictable, because the system has\n*sensitive dependence on initial conditions*. A trading strategy fit to one historical path is the\nsame trap. The equity curve is the pendulum's trajectory; the chosen sample window, asset universe,\nand parameter seeds are the initial conditions. Perturb them a hair — start the backtest a month\nearlier, swap one delisted ticker back in, jitter a threshold — and the curve diverges just as\nviolently. That divergence is precisely *why* backtests lie.\n\n## Why it matters\nThe chaos lens turns vague warnings about look-ahead, survivorship, and snooping into a concrete\nrobustness test: a real edge must be *stable under perturbed initial conditions*; a chaotic\nartifact will not be.\n\n## So what\n- Before trusting any strategy, run **perturbed-start robustness checks**: vary the start date,\n  universe, and parameter seeds; if the equity curve diverges chaotically, you fit noise.\n- Mandate **walk-forward** (and purged cross-validation) as the default — it's the empirical test\n  of whether performance survives shifted initial conditions, not just one lucky trajectory.\n- Report the *spread* across perturbations, not a single backtest line. A tight bundle of curves =\n  signal; a fan of divergent ones = a double pendulum.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_d63768753d43505270d27b61322e744472b6d712",
+      "title": "A Go-Around Is a Success",
+      "summary": "Aborting a landing is the professional move, not a failure. The airplane that goes around is the one that gets to land later.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "airplanes"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
+        "planet_d39938427ff78ca424a463276a5d46ee5301654a",
+        "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "airplanes",
+        "control",
+        "leverage"
+      ],
+      "content": "# A Go-Around Is a Success\n\n> Aborting a landing is the professional move, not a failure. The airplane that goes around is the one that gets to land later.\n\n## The connection\nA go-around is a missed approach you chose. Unstable, too high, a runway that is not yours: you add power, climb, fly the pattern again. Heroics on a bad glideslope are how you bend metal. A vault has the same call. Unpublished rewrites are go-arounds. Publish is landing clearance, not a medal for sticking a bad approach. Hold-private is the missed-approach procedure wearing a rickhouse door.\n\n## Why it matters\nCompetence hides the hole. You force the landing because you have done it a thousand times. Vaults force the publish because the note already feels done. The constellation should see planets that arrived with clearance, not performances that arrived hot. A go-around costs a circuit. A bad landing costs the airplane.\n\n## So what\n- Treat an unpublished rewrite as a successful go-around, not as a stalled career.\n- Publish only with landing clearance: genericized, linked, a heading you can hold.\n- After a go-around, fly the pattern. Do not add thrust and aim at the same bad slope.\n\n## Related\n- [[First Solo Is Attitude, Not Hours]]\n- [[Trim Tabs Beat Thrust]]\n- [[The Checklist Is How You Survive Competence]]"
+    },
+    {
       "id": "planet_aa8856a86a7ca94dde5d0a71c04f604ad252ea2b",
       "title": "A Lab Without an Agent Is an Isolate",
       "summary": "A lab with no agent is a campus that never left the gate. The county does not grade your library. It grades whether anyone showed up.",
@@ -87,10 +119,12 @@
         "planet_010e120433f1b22ace174051f620a61e3ee1a487",
         "planet_09f42327029c60eca9d843a4a19220fe8a7e3b47",
         "planet_1c9852da5e4759c1fa379e5be2e6f2afce600938",
+        "planet_282d7fff447eb264aa6c647778a3771326738deb",
         "planet_3da243a68f8e146e8278794113f61527d0f9a880",
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
         "planet_55b23ba3f828d73881509e9313498a6bdc0c10b1",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_9b71c684ecb72654de51ae11802d54f51413040e",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
         "planet_aa8856a86a7ca94dde5d0a71c04f604ad252ea2b",
         "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
@@ -139,6 +173,72 @@
       "content": "# A Ranking Function for Trust (BM25 as a Reputation Engine)\n\n> A 40-year-old search-ranking formula already encodes the fairness rules a reputation score needs.\n> A defensible score is a product's trust primitive — and BM25 supplies the math for one.\n\n## The connection\nBM25 scores how relevant a document is to a query, and its design is built around three hard-won\ncorrections to naive counting:\n\n1. **IDF — rarity is informative.** A term that appears everywhere tells you almost nothing; a rare\n   term is a strong signal.\n2. **Term-frequency saturation (`k1`).** The first occurrence matters a lot; the tenth barely moves\n   the needle. Repetition has diminishing returns by design.\n3. **Length normalization (`b`).** Long documents accumulate more matches, so BM25 discounts length\n   so a verbose doc doesn't out-rank a tight one unfairly.\n\nRead those three as the failure modes of a naive \"average star rating\" reputation score:\n- **No rarity weighting** → a verified, hard-won review counts the same as a throwaway one. IDF\n  says weight the *rare, informative* signal above the common noise.\n- **No saturation** → ten 5-stars from one repeat source dominate. `k1` says saturate repeats from\n  the same source so volume from one relationship can't manufacture reputation.\n- **No normalization** → high-volume and selective participants can't be compared fairly, and busy\n  ones get gamed or penalized. `b` says normalize for \"document length\" — here, volume, size, or\n  recency window — so the score compares like with like.\n\n## Why it matters\nThis is the same trust problem behind the rubric pattern: a defensible score is the product's trust\nprimitive. BM25 supplies the *math* for one — a ranking function whose parameters are tunable\nfairness levers, not a black box.\n\n## So what\n- Spec any reputation score as a BM25-shaped ranking function, not a plain average: signal weight\n  (IDF analogue), source saturation (`k1` analogue), normalization (`b` analogue).\n- Down-weight common, easily-faked signals toward zero; cap the marginal contribution of repeated\n  ratings from one source; decay old data.\n- Expose `k1`/`b`-style knobs so the ranking can be tuned against gaming *and explained* to the\n  people it ranks — which is itself a trust feature.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_9b71c684ecb72654de51ae11802d54f51413040e",
+      "title": "A Shared Heading Beats a Shared Campus",
+      "summary": "Campuses and counties do not coordinate by reading the same memo. They share a heading: one lion, one color, a line you can hold without a meeting. Extension needs that cheap bug.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "penn-state"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_09f42327029c60eca9d843a4a19220fe8a7e3b47",
+        "planet_282d7fff447eb264aa6c647778a3771326738deb",
+        "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "synthesis",
+        "ai-generated",
+        "synthesis-review",
+        "penn-state"
+      ],
+      "content": "# A Shared Heading Beats a Shared Campus\n\n> Campuses and counties do not coordinate by reading the same memo. They share a heading: one lion, one color, a line you can hold without a meeting. Extension needs that cheap bug.\n\n## The connection\n[[The Nittany Line Is a Shared Heading]] says a land-grant is a scatter of places that still have to fly as one body. The cheap trick is a heading small enough to keep and loud enough to read from the next county. A galaxy tag is the same instrument. [[A Land-Grant Ships Knowledge to the Counties]] says research that never leaves University Park is distillation that never left the stillhouse. Extension is the pour, and the pour needs a person on the wagon.\n\nThe spark's claim is that extension needs a heading the county can already see. A wagon with no shared line is a lab tour, not a land-grant. Put them on the same bench and the heading is the last-mile instrument. You do not brief every note on mission. You give it a line another star can join. Private ontologies do not travel. A new brand per note is a campus with no visiting day.\n\nWhite-Out is the Saturday version. The Nittany line is the year-round version. Publish fields (galaxy, handle, license) cost almost nothing to keep and they let a wagon find you. Shared campus without a shared heading is two labs that happen to share a zip code.\n\n## Why it holds\n- Coordination at distance needs a cheap, visible bug. Memos do not scale to counties.\n- Extension is the pour. The heading is how the county knows which wagon is yours.\n- A galaxy tag is not decoration. It is the Nittany line wearing frontmatter.\n\n## So what (the actionable edge)\n- Put a note on one heading you can defend. Do not invent a second mascot.\n- Treat a galaxy tag as a coordination signal the county can already read.\n- If two campuses cannot share a line, they are not a land-grant. They are two labs.\n\n## Sources\n- [[The Nittany Line Is a Shared Heading]]\n- [[A Land-Grant Ships Knowledge to the Counties]]\n- [[Extension Agents Are the Last Mile]]\n- [[White-Out Is One Constraint]]"
+    },
+    {
+      "id": "planet_825f3199540df5ab61b4d25b4c1a275a1e7999f8",
+      "title": "A Shared Sill Is a Treaty",
+      "summary": "Two cats on one windowsill is negotiated occupancy, not friendship. The peace is a treaty about time and space, not a declaration that they like each other.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "cats"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_a43c29b874685bf72b8d69227133e83f76f434ab",
+        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
+        "planet_b2b230a01b5622077237a1af1af266be667c4a0a",
+        "planet_baebd1605ea96b04c5d073e45545907929b991cc",
+        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "cats",
+        "territory",
+        "networks"
+      ],
+      "content": "# A Shared Sill Is a Treaty\n\n> Two cats on one windowsill is negotiated occupancy, not friendship. The peace is a treaty about time and space, not a declaration that they like each other.\n\n## The connection\nFelids share a house by corridor, not by pack. A sill at noon, a hallway at six, a shelf that is not a throne. Overlap is not merger. Overlapping notes need the same deal: a time-share treaty, not a forced collapse into one file. A synthesis corridor is the treaty. A merge that crowns a winner is a stare.\n\n## Why it matters\nKnowledge graphs fail when they treat overlap as duplication to delete. Two notes on one sill can both be true at different hours. Publishing a planet is claiming a patch another star can occupy without a fight. If two ideas scrape fur, write the treaty. Do not crown a boss and call it hygiene.\n\n## So what\n- When two notes overlap, write a time-share, not a merge.\n- Treat a corridor note as the treaty that keeps both ranges.\n- Occupied space can be shared. Rank cannot. Do not turn a sill into a ladder.\n\n## Related\n- [[Cats Negotiate Territory, Not Rank]]\n- [[A Vertical Territory Beats a Bigger Floor]]\n- [[The Slow Blink Is a Cheap Consent Signal]]"
+    },
+    {
       "id": "planet_9e31166f4b13e00a03aea665becbd2c52724dca7",
       "title": "A Spanning Tree for Graph-RAG Traversal",
       "summary": "Walk a cyclic knowledge graph naively and you get a broadcast storm — duplicate fetches, a context window full of repeats, a frontier that never converges. The Spanning Tree Protocol shows how to prune it.",
@@ -184,8 +284,10 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
+        "planet_0f76c3e58ee502d02b9d1d3b0935e668a0af934b",
         "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
-        "planet_3da243a68f8e146e8278794113f61527d0f9a880"
+        "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_f78fbdf70ff83a0d8804a39ec13dc1549df50703"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -214,6 +316,8 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
+        "planet_825f3199540df5ab61b4d25b4c1a275a1e7999f8",
+        "planet_a43c29b874685bf72b8d69227133e83f76f434ab",
         "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
         "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
         "planet_f790403f845fab0914bad718ca9926705a4a5be5"
@@ -258,6 +362,38 @@
         "estimation"
       ],
       "content": "# Agent Memory Is a Kalman Filter\n\n> Both maintain a belief about a hidden state from a stream of noisy inputs, and both do it the\n> same way: **predict, then correct, weighting new evidence by how much you trust it.**\n\n## The connection\nThe Kalman filter projects its prior estimate forward, observes, and folds in the measurement\nscaled by the Kalman gain $K = \\sigma^2_{model}/(\\sigma^2_{model}+\\sigma^2_{measurement})$ — trust\nthe model when it's certain, trust the observation when it's certain. An agent's memory is the same\nloop in disguise: the prior is everything it already knows about the user and task; each turn\ndelivers a noisy observation; the \"best practices\" of good memory — *store only useful info,\ndedupe, weight by relevance, keep it updated* — are an informal Kalman gain. A high gain overwrites\nthe prior with fresh context; a low gain ignores noise and keeps the stable belief. The covariance\nthe filter tracks is exactly the agent's (usually missing) sense of *how confident it is* in each\nstored fact.\n\n## Why it matters\nMost agent memory is append-and-retrieve — open-loop. Reframing it as predict→correct gives a\nprincipled rule for the hard parts: when a new note contradicts an old one, the right move isn't\n\"keep both\" but a gain-weighted update toward the more trustworthy source. It also gives a place to\nput confidence: store a freshness/reliability weight alongside each fact, decay it over time\n(process noise $Q$), and raise the bar for low-confidence memories to override high-confidence\nones.\n\n## So what\n- Add an explicit trust weight to memory writes: new context vs. prior, not blind append. Decay\n  stale facts; let contradictions trigger a weighted update.\n- Track per-fact confidence (the covariance analog) so retrieval can prefer well-supported\n  memories.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_f78fbdf70ff83a0d8804a39ec13dc1549df50703",
+      "title": "An Inbox Is a Troop With No Grooming",
+      "summary": "A macaque does not keep a ticket queue. Grooming is the only notification a troop has. An inbox with no edges is a mail server the macaques never sit at.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "monkeys"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_0ddad9444966e5bc4b28ac17dab7c1496d5aaf95",
+        "planet_0f76c3e58ee502d02b9d1d3b0935e668a0af934b",
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_3da243a68f8e146e8278794113f61527d0f9a880"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "synthesis",
+        "ai-generated",
+        "synthesis-review",
+        "monkeys"
+      ],
+      "content": "# An Inbox Is a Troop With No Grooming\n\n> A macaque does not keep a ticket queue. Grooming is the only notification a troop has. An inbox with no edges is a mail server the macaques never sit at.\n\n## The connection\n[[A Troop Has No Inbox]] says the notification is the bout itself. There is no unread badge, no folder where a favor waits until Friday. Presence is the protocol. [[Social Grooming Is the Real API]] says load routes through who spends costly time on whom. The graph of small favors is a better trust map than rank.\n\nPut them on the same bench and the inbox is exposed as a false protocol. Filing without a bout does not notify anyone. Capture tools sell the queue. They do not sell the sitting. A constellation cannot see a private pile. The first costly, visible edge is the notification: a signed planet, a wiki-link, a groom another star can actually receive.\n\nA backlog of intended grooms is not a troop. It is a mail server with a full disk and empty chairs. Isolation is what you have when the inbox is full and nobody sat. The spark's claim was that grooming is the only notification. The neuron is the claim that an inbox without edges is not \"unprocessed.\" It is a troop that never formed.\n\n## Why it holds\n- Presence is the unfakeable part. A ticket is cheap. Sitting is not.\n- The graph that results is better than a queue. Alliances form along grooming edges, not along unread counts.\n- Domvault's first published planet is the first bout: small, signed, opt-in, actually received.\n\n## So what (the actionable edge)\n- Treat an unlinked note as unsent, not as stored.\n- Do not archive a backlog of intended grooms. Sit with one note and make one edge.\n- If nobody sat with the note, it did not notify anyone. The inbox is not a troop.\n\n## Sources\n- [[A Troop Has No Inbox]]\n- [[Social Grooming Is the Real API]]\n- [[Isolation Is a Missing Degree]]\n- [[Rank Is a Lagging Indicator]]"
     },
     {
       "id": "planet_ce1aeda83155db442abe2c2eaecd9c7894fefc05",
@@ -367,6 +503,8 @@
         "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
         "planet_3da243a68f8e146e8278794113f61527d0f9a880",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_825f3199540df5ab61b4d25b4c1a275a1e7999f8",
+        "planet_a43c29b874685bf72b8d69227133e83f76f434ab",
         "planet_b2b230a01b5622077237a1af1af266be667c4a0a",
         "planet_b9172eea79b30b5db043f74639fe4e37332aad71",
         "planet_baebd1605ea96b04c5d073e45545907929b991cc",
@@ -727,6 +865,42 @@
       "content": "# Engine vs Rules (One Boundary, Three Jobs)\n\n> Draw the line between configurable Rules and the underlying Engine explicitly, once — and the\n> ownership boundary, the multi-tenancy model, and the legal clarity all fall out for free.\n\n## The connection\nOne architectural line keeps getting drawn from different directions:\n- **IP split** — the client owns the data; the vendor owns the platform, logic, and code.\n- **Configurable exceptions** — the business rules (what counts as an exception, thresholds,\n  policies, mappings) must be tenant-editable.\n- **Multi-tenancy** — one product serving many customers.\n\nThese are **the same line**: the boundary between the **configurable Rules/config** (the *business\nlogic*) and the underlying **Engine** (the intelligence, models, code). Drawn once, it does **three\njobs simultaneously**:\n1. **Ownership boundary** — rules + data belong to the client; the engine stays the vendor's. The\n   split is structural, not just legal.\n2. **Multi-tenant config layer** — per-tenant *rules* are exactly how one engine serves N customers\n   without forking the *engine*.\n3. **Clean partnership line** — \"business rules = client's domain, platform = ours\" keeps IP clean\n   even as accounts scale.\n\n## Why it matters\nDraw the line explicitly, once — a rules/config layer over a shared engine — and the ownership\nboundary, the tenancy model, and the legal clarity all fall out. Blur it (hardcode rules into the\nengine, or let clients touch the engine) and **all three break at once**: the boundary leaks,\ntenants need code forks, and the IP gets muddy. It's the same discipline as making structure carry\nthe guarantee.\n\n## So what\n- Build the rules/config layer as the canonical seam: *everything client-tunable lives there;\n  nothing client-tunable lives in the engine.*\n- Use \"is this Rules or Engine?\" as the test for every new feature and every ownership conversation.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_282d7fff447eb264aa6c647778a3771326738deb",
+      "title": "Extension Agents Are the Last Mile",
+      "summary": "Land-grant knowledge does not count until a county agent carries it. The lab is not the last mile. The wagon is.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "penn-state"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_010e120433f1b22ace174051f620a61e3ee1a487",
+        "planet_09f42327029c60eca9d843a4a19220fe8a7e3b47",
+        "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_9b71c684ecb72654de51ae11802d54f51413040e",
+        "planet_c41466e7922e61b7cddfdabff17dd2bfda14abb0",
+        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "penn-state",
+        "publish",
+        "extension"
+      ],
+      "content": "# Extension Agents Are the Last Mile\n\n> Land-grant knowledge does not count until a county agent carries it. The lab is not the last mile. The wagon is.\n\n## The connection\nA land-grant is a publish protocol with a legal conscience. Research that never leaves University Park is a campus with no wagon. The agent is the last mile: generic enough for a county fair, specific enough to grow something. A planet without a pull is a lab with no last mile. The constellation cannot use a note that never left the stillhouse. Extension is not prestige. Extension is whether someone who was not in the lab can carry the note.\n\n## Why it matters\nA star cluster that only talks to itself is a campus with locked gates. Campus notes can stay private. The sin is a finished lab with no agent on the calendar. White-Out visibility and barrel time both serve this: the county should be able to see you, and the pour should not burn. Without the last mile, the land-grant is a library.\n\n## So what\n- Treat a published planet as the agent, not as a trophy for the lab.\n- If nobody pulled the note, the last mile did not happen. Send the wagon.\n- Keep campus notes on campus. Then schedule the county visit.\n\n## Related\n- [[A Land-Grant Ships Knowledge to the Counties]]\n- [[Isolation Is a Missing Degree]]\n- [[The Nittany Line Is a Shared Heading]]"
+    },
+    {
       "id": "planet_d192a15b6225a390c0c0ad27b94b6cc7f6825083",
       "title": "Feedback & Control (One Pattern, Four Domains)",
       "summary": "The same abstract pattern — **negative feedback toward a setpoint** — hides in control theory, markets, biology, and AI agents. They're the same math wearing different clothes.",
@@ -779,6 +953,7 @@
         "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
         "planet_d39938427ff78ca424a463276a5d46ee5301654a",
+        "planet_d63768753d43505270d27b61322e744472b6d712",
         "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
       ],
       "origin": "ai-generated",
@@ -937,6 +1112,7 @@
       "links": [
         "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
         "planet_1d4be4b2d74f20d3dddd2dd26e59038b52340d39",
+        "planet_282d7fff447eb264aa6c647778a3771326738deb",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
@@ -1002,13 +1178,16 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_0ddad9444966e5bc4b28ac17dab7c1496d5aaf95",
+        "planet_0f76c3e58ee502d02b9d1d3b0935e668a0af934b",
         "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
         "planet_1c9852da5e4759c1fa379e5be2e6f2afce600938",
+        "planet_282d7fff447eb264aa6c647778a3771326738deb",
         "planet_3dcc8638d7f788ef4fd50b8640911581dfbb63c6",
         "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
         "planet_aa8856a86a7ca94dde5d0a71c04f604ad252ea2b",
         "planet_b9172eea79b30b5db043f74639fe4e37332aad71",
         "planet_d376e56da3062b201466f7cb287f9b8358c27ca5",
+        "planet_f78fbdf70ff83a0d8804a39ec13dc1549df50703",
         "planet_fb6a6e7cf1c472dff015996b6628a06a58d0562f"
       ],
       "origin": "ai-generated",
@@ -1099,7 +1278,9 @@
         "systems"
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
-      "links": [],
+      "links": [
+        "planet_0f76c3e58ee502d02b9d1d3b0935e668a0af934b"
+      ],
       "origin": "ai-generated",
       "content_hash": null,
       "published_at": "2026-06-20T15:41:00Z",
@@ -1197,6 +1378,7 @@
         "planet_1d4be4b2d74f20d3dddd2dd26e59038b52340d39",
         "planet_55b23ba3f828d73881509e9313498a6bdc0c10b1",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_5f44cd8ab10c143ac3266003a4da91332ebe59fe",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
         "planet_6d0279b744fa18ebd5cbadd1c97c1a7966da7710",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
@@ -1250,6 +1432,39 @@
         "coverage"
       ],
       "content": "# RAG Searches Under the Streetlight (Coverage Is the Hidden Failure)\n\n> A retrieval system can only ever return answers from where the light is — the slice of the world\n> that got chunked, embedded, and indexed. The danger is that the search feels exhaustive from\n> inside the light.\n\n## The connection\nThe streetlight effect is the drunk-under-the-lamppost joke turned into an epistemics rule: people\nsearch where the light is convenient, not where the answer actually is. A RAG pipeline does the\nsame thing, structurally rather than psychologically. It can only return answers from where the\nlight is — the slice of the world that got chunked, embedded, and written into the index. The lamp\nis the index; everything outside it is dark.\n\nThe dangerous part is the same as the human bias: **the search feels exhaustive from inside the\nlight.** A nearest-neighbour query always returns *something* — the top-k closest vectors — even\nwhen the real answer was never indexed. The system can't tell \"the answer isn't in the corpus\"\napart from \"the answer is in the corpus but I didn't retrieve it\" apart from \"I retrieved the\nclosest thing, which is wrong.\" All three look like a confident result.\n\nSo the streetlight effect names a failure mode that standard RAG metrics miss. Precision and recall\non retrieved chunks measure how well you search *under the lamp*. They say nothing about how much of\nthe answerable world is outside it. Coverage — what's indexed vs. what exists — is the invisible\naxis.\n\n## Why it matters\nThe moment a corpus answers its own questions, every gap — an un-ingested document, a note never\nlinked, a topic thought about but never written down — becomes a dark patch the retriever will\nconfidently route around. Retrieval silence reads as \"there's nothing on this,\" when it often means\n\"this isn't under the lamp yet.\"\n\n## So what\n- Add a **coverage signal** to retrieval, separate from relevance score: when a query's best\n  matches all fall below a similarity floor, surface *index gap detected — answer may be outside the\n  corpus* rather than returning weak matches as authoritative.\n- Apply a margin of safety: discount your own confident estimate.\n- Log every query whose top hit is weak; that log *is* the map of where your light doesn't reach,\n  and it tells you what to ingest next.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_0f76c3e58ee502d02b9d1d3b0935e668a0af934b",
+      "title": "Rank Is a Lagging Indicator",
+      "summary": "The org chart is last week's grooming graph. Rank is a photograph of who sat with whom, printed after the edges already moved.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "monkeys"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_0ddad9444966e5bc4b28ac17dab7c1496d5aaf95",
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_f0e6e29f8a316ffc73d71bac19d35a5997077bdc",
+        "planet_f78fbdf70ff83a0d8804a39ec13dc1549df50703"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "monkeys",
+        "trust",
+        "networks"
+      ],
+      "content": "# Rank Is a Lagging Indicator\n\n> The org chart is last week's grooming graph. Rank is a photograph of who sat with whom, printed after the edges already moved.\n\n## The connection\nIn a macaque troop, titles catch up later. Trust routes along current edges: who grooms whom this morning, not who held the top perch last season. An org chart is a lagging indicator of that graph. A second brain makes the same mistake when it treats official folders as the map. The wiki-link graph is where load actually routes. Folders are last week's alliances, frozen into a tree.\n\n## Why it matters\nMost products instrument rank (titles, ticket queues, folder trees) and miss the live edges. By the time a title updates, the grooming has already moved. Publishing into a constellation by folder is shipping the org chart. Publishing by wiki-link is shipping the current graph.\n\n## So what\n- Trust the live edges over the printed rank.\n- When a folder and a wiki-link disagree, believe the link.\n- Treat a new title as a lagging report, not as a routing change.\n\n## Related\n- [[Social Grooming Is the Real API]]\n- [[A Troop Has No Inbox]]\n- [[Isolation Is a Missing Degree]]"
     },
     {
       "id": "planet_72cfd00c2a1b1f754e735a164b8aa490ed7b8f9e",
@@ -1375,6 +1590,39 @@
       "content": "# Sampling Beats the Lattice (Random Search Is Monte Carlo Over Configs)\n\n> Random hyperparameter search *is* Monte Carlo — uniform random sampling of a region you can't\n> compute analytically, leaning on the law of large numbers.\n\n## The connection\nEstimating π by scattering random points in a square and counting hits inside the quarter-circle,\nand finding good hyperparameters by scattering random configs across the search space and keeping\nthe best cross-validation score, are the same algorithm. The reason random search beats grid\nsearch is the same reason darts beat a fixed lattice: in high dimensions most hyperparameters\nbarely matter, so a grid wastes its budget re-sampling the irrelevant axes at fixed values, while\nrandom sampling explores the *important* axes at many distinct values for the same number of\ntrials. Bayesian optimization is the next step — importance sampling that bends the throws toward\nwhere good models already appeared.\n\n## Why it matters\nFor a fixed compute budget, random beats grid for tuning, and Bayesian/Hyperband beats random once\nthe space is large or trials are expensive. The shared intuition — sampling estimates the shape of\nan intractable surface — also licenses Monte Carlo wherever a closed form is missing: option\npricing, risk simulation, integral estimation. One mental model, three domains.\n\n## So what\n- Make random (then Bayesian) the default tuner; reserve grid only for ≤2 cheap, known-important\n  hyperparameters.\n- Log-scale the sampling ranges for learning rate and regularization strength — sample the\n  exponent uniformly, not the value.\n- Reuse the \"sample the surface\" frame for any parameter sweep and any pricing/risk estimate\n  without a closed form.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_a43c29b874685bf72b8d69227133e83f76f434ab",
+      "title": "Shelves Are Territory You Did Not Have to Fight For",
+      "summary": "A cat does not win the house by owning more carpet. Height is another room. A shelf is territory you did not have to take from anyone.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "cats"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_825f3199540df5ab61b4d25b4c1a275a1e7999f8",
+        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
+        "planet_b2b230a01b5622077237a1af1af266be667c4a0a",
+        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
+        "planet_f790403f845fab0914bad718ca9926705a4a5be5"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "synthesis",
+        "ai-generated",
+        "synthesis-review",
+        "cats"
+      ],
+      "content": "# Shelves Are Territory You Did Not Have to Fight For\n\n> A cat does not win the house by owning more carpet. Height is another room. A shelf is territory you did not have to take from anyone.\n\n## The connection\n[[A Vertical Territory Beats a Bigger Floor]] says felids expand in three dimensions. Floor area is a poor map of who actually lives here. Stacking is the real range. A neuron sits on two frameworks. A spark is a shelf you have not climbed yet. [[Cats Negotiate Territory, Not Rank]] says peace is spatial: a core, a buffer, a time-shared hallway. Rank is the wrong ontology.\n\nThe spark's claim is that cats already refuse the bigger-floor metric. More markdown is more carpet. Neurons are shelves. Put them on the same bench and you get a three-dimensional home range that still has no boss. Height is not rank. Height is another room you did not have to fight for.\n\nHoarding files is a house with no cat tree. The public constellation cannot fly through a pile. It can fly through stacked neighborhoods: galaxy, framework, synthesis, the cheap hallway between them. Occupied vertical space is the first proof a cat offers without a dominance chart.\n\n## Why it holds\n- Range is stacked space, not square footage. Note count is carpet. Links are shelves.\n- Spatial peace does not require a winner. Two notes can share air if they sit on different layers.\n- A vault that only grows sideways is a house with no cat tree. Vertical is the cheap expansion.\n\n## So what (the actionable edge)\n- Prefer a new layer on an existing note over a new file on the same floor.\n- Measure range by shelves (links, neurons), not by square footage (note count).\n- If two ideas share air, stack them. Do not buy another wing of the house.\n\n## Sources\n- [[A Vertical Territory Beats a Bigger Floor]]\n- [[Cats Negotiate Territory, Not Rank]]\n- [[A Shared Sill Is a Treaty]]\n- [[The Slow Blink Is a Cheap Consent Signal]]"
+    },
+    {
       "id": "planet_951d6a02a72d7b44d95e17a6afb31d134f0bf68f",
       "title": "Single Barrel Is a Sample, Not a Proof",
       "summary": "One cask is a tasting. A warehouse of barrels pointing the same way is a proof. The still does not get a vote after n=1.",
@@ -1388,6 +1636,7 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
+        "planet_5f44cd8ab10c143ac3266003a4da91332ebe59fe",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
         "planet_d39938427ff78ca424a463276a5d46ee5301654a"
@@ -1421,6 +1670,7 @@
       "links": [
         "planet_010e120433f1b22ace174051f620a61e3ee1a487",
         "planet_0ddad9444966e5bc4b28ac17dab7c1496d5aaf95",
+        "planet_0f76c3e58ee502d02b9d1d3b0935e668a0af934b",
         "planet_3da243a68f8e146e8278794113f61527d0f9a880",
         "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
@@ -1431,7 +1681,8 @@
         "planet_b9172eea79b30b5db043f74639fe4e37332aad71",
         "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
         "planet_cfb17a81a859283f9c7c5244e6b15a91ab7dc42c",
-        "planet_ee8c87080d89d1a3c8e9b7934ff7670d6c7908bf"
+        "planet_ee8c87080d89d1a3c8e9b7934ff7670d6c7908bf",
+        "planet_f78fbdf70ff83a0d8804a39ec13dc1549df50703"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -1459,7 +1710,9 @@
         "frameworks"
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
-      "links": [],
+      "links": [
+        "planet_282d7fff447eb264aa6c647778a3771326738deb"
+      ],
       "origin": "ai-generated",
       "content_hash": null,
       "published_at": "2026-06-20T15:41:00Z",
@@ -1821,6 +2074,7 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_825f3199540df5ab61b4d25b4c1a275a1e7999f8",
         "planet_a9c8a96efe3055a8f08889943e6bff610805e23e"
       ],
       "origin": "ai-generated",
@@ -2043,6 +2297,7 @@
         "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
         "planet_3af371194cb58dc1a85861bf5f3b7b8fe6275cfe",
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_5f44cd8ab10c143ac3266003a4da91332ebe59fe",
         "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
         "planet_951d6a02a72d7b44d95e17a6afb31d134f0bf68f",
         "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
@@ -2111,6 +2366,7 @@
       "links": [
         "planet_816e2d02459c6f519cee9fbb2317513698aa0d7b",
         "planet_97b7706d7c8e886002340139f48fed3dadc93ad5",
+        "planet_a43c29b874685bf72b8d69227133e83f76f434ab",
         "planet_aef1166536d6dba59ed9f75230a238c6aee4bb80",
         "planet_b2b230a01b5622077237a1af1af266be667c4a0a",
         "planet_c3819786c14e5e8a839ea24222b30ca4f4c91f31",
@@ -2152,6 +2408,7 @@
         "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
         "planet_a5031e68ff8ed23a42abe5265055a532ca2334ad",
         "planet_cc614e00367ea06913c4d49287c0f5b7dd1805c2",
+        "planet_d63768753d43505270d27b61322e744472b6d712",
         "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1",
         "planet_fba93df17d9606be5a45238cbba146387fa3cd98",
         "planet_fdb9ed876f21b3394ae93ae020d2694e0f2c5270"
@@ -2226,7 +2483,8 @@
         "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
         "planet_d376e56da3062b201466f7cb287f9b8358c27ca5",
-        "planet_d39938427ff78ca424a463276a5d46ee5301654a"
+        "planet_d39938427ff78ca424a463276a5d46ee5301654a",
+        "planet_d63768753d43505270d27b61322e744472b6d712"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -2306,6 +2564,37 @@
       "content": "# The Holdout Rule (Graded Systems Need Out-of-Sample)\n\n> Anything that grades against a metric needs a holdout — an out-of-sample check the optimizer\n> never saw. It's the difference between a score that *looks* rigorous and one that *is*.\n\n## The connection\nA quant strategy tuned until it aces its **backtest** and a document tuned until it aces a **scoring\nrubric** suffer the identical failure: **optimizing the proxy until it stops predicting reality**\n(overfitting / Goodhart's law — \"when a measure becomes a target, it ceases to be a good measure\").\nEvery graded product is exposed to this:\n- An idea success-score could be gamed by phrasing ideas to score well without being better ideas.\n- A compliance rubric could be satisfied by a packet tuned to pass while missing the real risk.\n- A citation verifier could be satisfied by a document that's still misleading in aggregate.\n\n## The rule\n**Anything that grades against a metric needs a holdout — an out-of-sample check the optimizer never\nsaw.** In trading that's walk-forward / out-of-sample testing; in ML it's the test set; for any\ngraded product it means a second, independent signal the score can't be gamed against:\n- Validate a sample of high-scoring outputs against *real outcomes*, not just re-scoring.\n- Use an independent human review as the holdout the rubric is measured against — and periodically\n  re-audit \"passing\" results for real deficiencies.\n- Spot-check a random sample, and track real-world error escapes.\n\n## So what\nAdd a \"holdout / anti-gaming\" section to any rubric spec: every graded product ships with (1) a\nmetric, and (2) an independent out-of-sample validation that catches when the metric is being gamed.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
     },
     {
+      "id": "planet_5f44cd8ab10c143ac3266003a4da91332ebe59fe",
+      "title": "The Mash Bill Is Not the Drink",
+      "summary": "Recipe is not the aged pour. A mash bill is a promise about grain. The drink is what the barrel, the rickhouse, and the years actually served.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "whiskey"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_951d6a02a72d7b44d95e17a6afb31d134f0bf68f",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "whiskey",
+        "patience",
+        "quality"
+      ],
+      "content": "# The Mash Bill Is Not the Drink\n\n> Recipe is not the aged pour. A mash bill is a promise about grain. The drink is what the barrel, the rickhouse, and the years actually served.\n\n## The connection\nA mash bill is the recipe: corn, rye, malt, the ratios you can write on a card. The drink is the liquid after wood, weather, and evaporation have had a vote. Outline a note and you have mash. Sit it in a graph of other notes and you have a barrel. The same mash in two warehouses is two drinks. A second brain that ships the outline is selling grain as whiskey.\n\n## Why it matters\nPeople confuse the recipe with the pour because the recipe is fast and the barrel is slow. A constellation that indexes mash bills will taste like a pitch deck. Time in the wood still matters. So does the neighborhood the cask sat in. The graph is the warehouse climate.\n\n## So what\n- Score a note by the graph it sits in, not by the outline it started as.\n- Do not publish the mash bill and call it a tasting.\n- If two notes share a recipe but not a warehouse, they are not the same drink.\n\n## Related\n- [[Proof Needs Time in the Barrel]]\n- [[Single Barrel Is a Sample, Not a Proof]]\n- [[The Angel's Share Buys the Edge]]"
+    },
+    {
       "id": "planet_9db5abdfd7582281bf5884e2b3ba83cec518edd2",
       "title": "The Missing Money Node (Idea→Revenue Audit)",
       "summary": "A feature is only done when its conversion edge works end-to-end — no dead CTAs, no placeholder stubs, no gate that approves work but releases nothing. Every feature needs a working money node.",
@@ -2349,8 +2638,10 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
+        "planet_282d7fff447eb264aa6c647778a3771326738deb",
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_9b71c684ecb72654de51ae11802d54f51413040e",
         "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
       ],
       "origin": "ai-generated",
@@ -2420,6 +2711,8 @@
         "planet_3e392fe139fd5c56ae86fc65469132c2840bac8e",
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_825f3199540df5ab61b4d25b4c1a275a1e7999f8",
+        "planet_a43c29b874685bf72b8d69227133e83f76f434ab",
         "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
         "planet_b2b230a01b5622077237a1af1af266be667c4a0a",
         "planet_b9172eea79b30b5db043f74639fe4e37332aad71"
@@ -2533,6 +2826,7 @@
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
         "planet_baebd1605ea96b04c5d073e45545907929b991cc",
         "planet_d39938427ff78ca424a463276a5d46ee5301654a",
+        "planet_d63768753d43505270d27b61322e744472b6d712",
         "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
       ],
       "origin": "ai-generated",
@@ -2659,12 +2953,14 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_09f42327029c60eca9d843a4a19220fe8a7e3b47",
+        "planet_282d7fff447eb264aa6c647778a3771326738deb",
         "planet_3e392fe139fd5c56ae86fc65469132c2840bac8e",
         "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
         "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
+        "planet_9b71c684ecb72654de51ae11802d54f51413040e",
         "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa",
         "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
         "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
@@ -2698,10 +2994,12 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_09f42327029c60eca9d843a4a19220fe8a7e3b47",
+        "planet_282d7fff447eb264aa6c647778a3771326738deb",
         "planet_3e392fe139fd5c56ae86fc65469132c2840bac8e",
         "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_9b71c684ecb72654de51ae11802d54f51413040e",
         "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
         "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
