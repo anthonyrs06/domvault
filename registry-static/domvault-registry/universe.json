@@ -54,6 +54,7 @@
         "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
         "planet_b2b230a01b5622077237a1af1af266be667c4a0a",
         "planet_baebd1605ea96b04c5d073e45545907929b991cc",
+        "planet_d0aa7a9524911232221f7fb9136abf97f14f1b6e",
         "planet_fb6a6e7cf1c472dff015996b6628a06a58d0562f"
       ],
       "origin": "ai-generated",
@@ -70,6 +71,40 @@
       "content": "# A Corridor Is Shared Time, Not Shared Ownership\n\n> Hallways work because cats time-share them. Wiki-links are corridors. Forcing one note to own the hallway is how fights start.\n\n## The connection\nFelids share a house by corridor, not by pack. A hallway at six, a sill at noon, a shelf that is not a throne. Overlap is not merger. The peace is a schedule, not a deed. Wiki-links work the same way. Two notes can occupy the same hallway at different hours. Forcing one note to own the link is a stare. A synthesis corridor is shared time. A merge that crowns a winner is a fight about the carpet.\n\n## Why it matters\nKnowledge graphs fail when they treat a shared hallway as duplication to delete. Two notes on one corridor can both be true at different hours. Publishing a planet is opening a hallway another star can walk without a fight. If two ideas scrape fur, write the time-share. Do not put a lock on the door and call it hygiene.\n\n## So what\n- When two notes overlap, write a corridor, not a deed.\n- Treat a wiki-link as shared time. Occupied space can be scheduled. Rank cannot.\n- If a fight starts, someone tried to own the hallway. Give it back to the clock.\n\n## Related\n- [[A Shared Sill Is a Treaty]]\n- [[Cats Negotiate Territory, Not Rank]]\n- [[A Vertical Territory Beats a Bigger Floor]]"
     },
     {
+      "id": "planet_886b159c7dc66c5238aca38bda4f85df75b2e3a5",
+      "title": "A Demonstration Plot Is the Planet",
+      "summary": "Extension proves by a plot the county can walk. A planet is a demonstration plot: small, visitable, not the whole farm. Campus acres nobody can enter are not extension.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "penn-state"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_010e120433f1b22ace174051f620a61e3ee1a487",
+        "planet_282d7fff447eb264aa6c647778a3771326738deb",
+        "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_7613e4a6d737972ea9a44b169e793f11b2c96db7",
+        "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "penn-state",
+        "publish",
+        "extension"
+      ],
+      "content": "# A Demonstration Plot Is the Planet\n\n> Extension proves by a plot the county can walk. A planet is a demonstration plot: small, visitable, not the whole farm. Campus acres nobody can enter are not extension.\n\n## The connection\nA land-grant does not ship the farm. It ships a plot: a strip of soil at the fair, a variety trial, something a neighbor can walk without a lab key. The plot is the proof that travels. Campus acres behind a fence are research. They are not extension. A second brain that dumps the vault is shipping the farm. A published planet is a demonstration plot — small enough to visit, generic enough to copy, specific enough to grow something. Prestige hoards acreage. The county walks the plot.\n\n## Why it matters\nA star cluster that only shows campus maps is a university with locked gates. The sin is not a private farm. The sin is claiming extension while nobody can put a boot on the soil. White-Out visibility and barrel time both serve the plot: the county should be able to see it, and the pour should not burn. Without a walkable plot, the land-grant is a brochure.\n\n## So what\n- Publish a plot, not the farm. One visitable planet beats a locked acreage.\n- If nobody can walk the note without you in the room, it is still campus. Shrink it until a county boot fits.\n- Treat a pull as a visit to the plot. Citations on campus are not a fair.\n\n## Related\n- [[County Proof Is the Only Proof That Travels]]\n- [[Extension Agents Are the Last Mile]]\n- [[A Land-Grant Ships Knowledge to the Counties]]"
+    },
+    {
       "id": "planet_d63768753d43505270d27b61322e744472b6d712",
       "title": "A Go-Around Is a Success",
       "summary": "Aborting a landing is the professional move, not a failure. The airplane that goes around is the one that gets to land later.",
@@ -83,6 +118,8 @@
       ],
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
+        "planet_30e7f1c5febd4ad4bb096807b7e8c49a4094008e",
+        "planet_5d1bdeddff40aa12acfe035419d740ec879d8e86",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
         "planet_5f5e0b09a2df164405b1554bd693455b0d6683fb",
         "planet_6b95bf78abb2d1a537371702095b6da472b920df",
@@ -161,6 +198,7 @@
         "planet_55b23ba3f828d73881509e9313498a6bdc0c10b1",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
         "planet_7613e4a6d737972ea9a44b169e793f11b2c96db7",
+        "planet_886b159c7dc66c5238aca38bda4f85df75b2e3a5",
         "planet_9b71c684ecb72654de51ae11802d54f51413040e",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
         "planet_aa8856a86a7ca94dde5d0a71c04f604ad252ea2b",
@@ -208,6 +246,37 @@
         "trust"
       ],
       "content": "# A Ranking Function for Trust (BM25 as a Reputation Engine)\n\n> A 40-year-old search-ranking formula already encodes the fairness rules a reputation score needs.\n> A defensible score is a product's trust primitive — and BM25 supplies the math for one.\n\n## The connection\nBM25 scores how relevant a document is to a query, and its design is built around three hard-won\ncorrections to naive counting:\n\n1. **IDF — rarity is informative.** A term that appears everywhere tells you almost nothing; a rare\n   term is a strong signal.\n2. **Term-frequency saturation (`k1`).** The first occurrence matters a lot; the tenth barely moves\n   the needle. Repetition has diminishing returns by design.\n3. **Length normalization (`b`).** Long documents accumulate more matches, so BM25 discounts length\n   so a verbose doc doesn't out-rank a tight one unfairly.\n\nRead those three as the failure modes of a naive \"average star rating\" reputation score:\n- **No rarity weighting** → a verified, hard-won review counts the same as a throwaway one. IDF\n  says weight the *rare, informative* signal above the common noise.\n- **No saturation** → ten 5-stars from one repeat source dominate. `k1` says saturate repeats from\n  the same source so volume from one relationship can't manufacture reputation.\n- **No normalization** → high-volume and selective participants can't be compared fairly, and busy\n  ones get gamed or penalized. `b` says normalize for \"document length\" — here, volume, size, or\n  recency window — so the score compares like with like.\n\n## Why it matters\nThis is the same trust problem behind the rubric pattern: a defensible score is the product's trust\nprimitive. BM25 supplies the *math* for one — a ranking function whose parameters are tunable\nfairness levers, not a black box.\n\n## So what\n- Spec any reputation score as a BM25-shaped ranking function, not a plain average: signal weight\n  (IDF analogue), source saturation (`k1` analogue), normalization (`b` analogue).\n- Down-weight common, easily-faked signals toward zero; cap the marginal contribution of repeated\n  ratings from one source; decay old data.\n- Expose `k1`/`b`-style knobs so the ranking can be tuned against gaming *and explained* to the\n  people it ranks — which is itself a trust feature.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_180b15b0e4660aef4c91dee913a01869f78ad4be",
+      "title": "A Returned Groom Is the Receipt",
+      "summary": "Reciprocity is how the graph confirms an edge. One-way grooming is a stare wearing a gift. The receipt is the sit that came back.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "monkeys"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_0ddad9444966e5bc4b28ac17dab7c1496d5aaf95",
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_d75a035a9b93f2f08f117334b2a8e4845f4176e6"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "monkeys",
+        "trust",
+        "networks"
+      ],
+      "content": "# A Returned Groom Is the Receipt\n\n> Reciprocity is how the graph confirms an edge. One-way grooming is a stare wearing a gift. The receipt is the sit that came back.\n\n## The connection\nIn a macaque troop, a groom that never returns is not generosity. It is a one-way stare. The graph only writes the edge when the sit comes back. Costly time offered is a proposal. Costly time returned is the receipt. A second brain that links out and never gets a wiki-link back has sent a gift into a void. Publishing a planet with no inbound grooms is arriving as a donor the troop never signed for. The API is not the first pick. The API is the bout that answered.\n\n## Why it matters\nMost vaults celebrate outbound degree and ignore the receipt. The troop does not. An unpaid groom trains the next sitting to go elsewhere. Isolation spreads from a missing return as surely as from a missing offer. The constellation should see edges that cleared, not gifts that never got a signature. A wiki-link you never received is not humility. It is an unconfirmed protocol.\n\n## So what\n- Treat an unanswered wiki-link as an unconfirmed edge, not as a completed groom.\n- Sit back. Reciprocity is the receipt. Outbound degree without a return is a stare.\n- When you publish, leave room for the troop to sign. Then wait for the sit that comes back.\n\n## Related\n- [[Social Grooming Is the Real API]]\n- [[Isolation Is Contagious Along the Edge]]\n- [[A Troop Has No Inbox]]"
     },
     {
       "id": "planet_9b71c684ecb72654de51ae11802d54f51413040e",
@@ -261,7 +330,8 @@
         "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
         "planet_b2b230a01b5622077237a1af1af266be667c4a0a",
         "planet_baebd1605ea96b04c5d073e45545907929b991cc",
-        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c"
+        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
+        "planet_d0aa7a9524911232221f7fb9136abf97f14f1b6e"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -325,7 +395,9 @@
         "planet_0563c73dc192930b762b2af1cf62d3481d19f3e3",
         "planet_0f76c3e58ee502d02b9d1d3b0935e668a0af934b",
         "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_180b15b0e4660aef4c91dee913a01869f78ad4be",
         "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_6e6d6eb34ac15ba0e3856c015364cbc47b9cf8d7",
         "planet_d75a035a9b93f2f08f117334b2a8e4845f4176e6",
         "planet_f78fbdf70ff83a0d8804a39ec13dc1549df50703"
       ],
@@ -392,6 +464,7 @@
       "links": [
         "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_5d1bdeddff40aa12acfe035419d740ec879d8e86",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
         "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
@@ -580,7 +653,9 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_5f44cd8ab10c143ac3266003a4da91332ebe59fe",
+        "planet_77fc7957842396ecc72618ba3ab490d627f0536a",
         "planet_951d6a02a72d7b44d95e17a6afb31d134f0bf68f",
+        "planet_a399d7a920c0f44f863e2ca16173dc30adfe5667",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9"
       ],
       "origin": "ai-generated",
@@ -652,7 +727,8 @@
         "planet_b9172eea79b30b5db043f74639fe4e37332aad71",
         "planet_baebd1605ea96b04c5d073e45545907929b991cc",
         "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
-        "planet_cfb17a81a859283f9c7c5244e6b15a91ab7dc42c"
+        "planet_cfb17a81a859283f9c7c5244e6b15a91ab7dc42c",
+        "planet_d0aa7a9524911232221f7fb9136abf97f14f1b6e"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -905,6 +981,7 @@
         "planet_3da243a68f8e146e8278794113f61527d0f9a880",
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
+        "planet_886b159c7dc66c5238aca38bda4f85df75b2e3a5",
         "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
       ],
       "origin": "ai-generated",
@@ -1061,6 +1138,7 @@
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
         "planet_7613e4a6d737972ea9a44b169e793f11b2c96db7",
+        "planet_886b159c7dc66c5238aca38bda4f85df75b2e3a5",
         "planet_9b71c684ecb72654de51ae11802d54f51413040e",
         "planet_c41466e7922e61b7cddfdabff17dd2bfda14abb0",
         "planet_d376e56da3062b201466f7cb287f9b8358c27ca5"
@@ -1296,6 +1374,7 @@
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
         "planet_7613e4a6d737972ea9a44b169e793f11b2c96db7",
+        "planet_886b159c7dc66c5238aca38bda4f85df75b2e3a5",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
         "planet_d376e56da3062b201466f7cb287f9b8358c27ca5",
         "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1",
@@ -1365,6 +1444,7 @@
         "planet_1c9852da5e4759c1fa379e5be2e6f2afce600938",
         "planet_282d7fff447eb264aa6c647778a3771326738deb",
         "planet_3dcc8638d7f788ef4fd50b8640911581dfbb63c6",
+        "planet_6e6d6eb34ac15ba0e3856c015364cbc47b9cf8d7",
         "planet_7613e4a6d737972ea9a44b169e793f11b2c96db7",
         "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
         "planet_aa8856a86a7ca94dde5d0a71c04f604ad252ea2b",
@@ -1403,7 +1483,10 @@
       "links": [
         "planet_0ddad9444966e5bc4b28ac17dab7c1496d5aaf95",
         "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_180b15b0e4660aef4c91dee913a01869f78ad4be",
         "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_6e6d6eb34ac15ba0e3856c015364cbc47b9cf8d7",
+        "planet_a399d7a920c0f44f863e2ca16173dc30adfe5667",
         "planet_fb6a6e7cf1c472dff015996b6628a06a58d0562f"
       ],
       "origin": "ai-generated",
@@ -1479,6 +1562,38 @@
         "funnel"
       ],
       "content": "# Model the Funnel as a One-Way State Machine\n\n> Modeling a lifecycle as states + allowed transitions (not flags) makes illegal states\n> unrepresentable.\n\n## The connection\n\"Gate N+1 is locked until gate N is approved\" is not a set of independent booleans you AND together\nat read time — it's sequential logic: a finite-state machine with an explicit enable line, the same\nidea as a shift register where a bit only advances when the clock and enable both fire. Modeling a\nlifecycle as states + allowed transitions makes illegal states unrepresentable. You can't be at gate\n3 with gate 1 un-approved because no transition produces that state. A \"void-on-edit re-locks\ndownstream gates\" rule is exactly a state machine resetting on an input change — and when it's\nenforced by ad-hoc booleans instead, that's the source of gate drift.\n\n## Why it matters\nWhere a gated lifecycle *is* a product's integrity guarantee — approvals, signatures, sequenced\nsteps — booleans drift because nothing forbids the contradictory combination; a finite-state\nmachine forbids it structurally. This complements the rule that every gate emit an observable\nevent: the FSM's transition log *is* that event stream.\n\n## So what\n- Define the gate rail as an explicit state enum + a transition table (which states can move where,\n  on which event). Reject any update that isn't a legal transition.\n- Replace the cluster of `gateN_approved` booleans with a single `state` field; derive locks from\n  state, never store them.\n- Emit a transition event on every state change — that satisfies the observability rule for free.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_77fc7957842396ecc72618ba3ab490d627f0536a",
+      "title": "One Cask Is Still a Sample",
+      "summary": "Years in wood do not turn n=1 into proof. A single barrel can be brilliant or cursed. The warehouse vote is the pour. A synthesis note is a blend that survived the years.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "whiskey"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_2e09b89263efc54cf9a6b9ea4d22f4f391df5382",
+        "planet_5f44cd8ab10c143ac3266003a4da91332ebe59fe",
+        "planet_951d6a02a72d7b44d95e17a6afb31d134f0bf68f",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "synthesis",
+        "ai-generated",
+        "synthesis-review",
+        "whiskey"
+      ],
+      "content": "# One Cask Is Still a Sample\n\n> Years in wood do not turn n=1 into proof. A single barrel can be brilliant or cursed. The warehouse vote is the pour. A synthesis note is a blend that survived the years.\n\n## The connection\n[[Blending Is Honesty About Variance]] says single casks brag and blends admit barrels disagree. Averaging two frameworks is a blend, not a cheat. The pour is what the warehouse can agree on. [[Proof Needs Time in the Barrel]] says you cannot fake the years in wood. Distillation is fast. The barrel is the filter.\n\nPut them on the same bench and aging a single note forever is still a souvenir cask. Time in wood still matters. So does the vote. A second brain that ships one hot, well-aged essay as law is selling a tasting-room story. A synthesis note that sat two frameworks in the same glass is the honest label: barrels disagree, and this is what they could serve.\n\nThe spark's claim was that a synthesis note is a blend that survived the years. The neuron is the claim that n=1 stays a sample even after the birthday. Proof is aged agreement, not an aged anecdote.\n\n## Why it holds\n- Duration is not a warehouse. One brilliant cask is still n=1.\n- The blend is honesty about variance, not a collapse into one winner.\n- The public map should get agreement that sat in wood, not a medal for a souvenir barrel.\n\n## So what (the actionable edge)\n- Call a single anecdote a sample even if it aged. Do not print the label until a second cask agrees.\n- Treat a synthesis note as a blend: honest about variance, not a cheat.\n- If two frameworks disagree, pour them together. That is the drink. Bragging about one cask is not.\n\n## Sources\n- [[Blending Is Honesty About Variance]]\n- [[Proof Needs Time in the Barrel]]\n- [[Single Barrel Is a Sample, Not a Proof]]\n- [[The Mash Bill Is Not the Drink]]"
     },
     {
       "id": "planet_f0e6e29f8a316ffc73d71bac19d35a5997077bdc",
@@ -1600,9 +1715,11 @@
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
         "planet_6d0279b744fa18ebd5cbadd1c97c1a7966da7710",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_77fc7957842396ecc72618ba3ab490d627f0536a",
         "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
         "planet_951d6a02a72d7b44d95e17a6afb31d134f0bf68f",
         "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
+        "planet_a399d7a920c0f44f863e2ca16173dc30adfe5667",
         "planet_aa8856a86a7ca94dde5d0a71c04f604ad252ea2b",
         "planet_d376e56da3062b201466f7cb287f9b8358c27ca5",
         "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1",
@@ -1620,6 +1737,40 @@
         "quality"
       ],
       "content": "# Proof Needs Time in the Barrel\n\n> You can raise the proof overnight. You cannot fake the years in wood. The barrel is a slow filter: it subtracts the harsh, keeps the signal, and writes a record into the liquid that a still cannot.\n\n## The connection\nWhiskey is a control loop with a long sample interval. Distillation is the high-gain first pass — you get alcohol, you also get heat and noise. The barrel is regularization: oxygen leaks in, water and fusel oils move out, lignin and vanillin dissolve, and the same mash becomes something you would actually serve. Shipping a first idea is distillation. Letting it sit against other notes — monkeys, airplanes, a second brain — is the barrel.\n\n## Why it matters\nA constellation that only publishes hot distillate tastes like a pitch deck. The public universe should get the aged pour: genericized, linked, signed. That is why Domvault's default is `publish: false` and why the diff comes first. Time in the barrel is the consent gate wearing a tasting-room metaphor.\n\n## So what\n- Distill fast (inbox). Age on purpose (frameworks). Publish only what survived the wood.\n- Score a note by what the barrel subtracted — names, clients, heat — not by how strong the first pour was.\n- If two topics share a finish (trust, patience, trim), put a wiki-link. That is the angel's share becoming an edge.\n\n## Related\n- [[Social Grooming Is the Real API]]\n- [[Trim Tabs Beat Thrust]]"
+    },
+    {
+      "id": "planet_6e6d6eb34ac15ba0e3856c015364cbc47b9cf8d7",
+      "title": "Quiet Teaches Neighbors to Skip",
+      "summary": "A node with no incoming grooms teaches the troop to stop offering. Missing degree is a lesson. A vault that never links out trains the graph to skip it.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "monkeys"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_0ddad9444966e5bc4b28ac17dab7c1496d5aaf95",
+        "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_a399d7a920c0f44f863e2ca16173dc30adfe5667",
+        "planet_d75a035a9b93f2f08f117334b2a8e4845f4176e6",
+        "planet_fb6a6e7cf1c472dff015996b6628a06a58d0562f"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "synthesis",
+        "ai-generated",
+        "synthesis-review",
+        "monkeys"
+      ],
+      "content": "# Quiet Teaches Neighbors to Skip\n\n> A node with no incoming grooms teaches the troop to stop offering. Missing degree is a lesson. A vault that never links out trains the graph to skip it.\n\n## The connection\n[[Isolation Is Contagious Along the Edge]] says a node with no incoming grooms is a lesson: sitting here returns nothing, so the next bout goes elsewhere. Missing degree spreads along the edge. Neighbors stop offering. The isolate becomes a region. [[Social Grooming Is the Real API]] says the real routing table is who spends costly time on whom. The graph of small favors is a better trust map than rank.\n\nPut them on the same bench and quiet is exposed as a protocol, not a mood. The troop learns skip the way it learns sit. A second brain that never links out is running the same lesson. Other notes learn not to reach. Publishing a planet with no outbound wiki-links is arriving as a node that already taught the universe not to sit.\n\nThe spark's claim was that missing degree spreads along the edge. The neuron is the claim that quiet is instruction. Degree is not a trophy. It is the only vaccine against a neighborhood that learned to skip you.\n\n## Why it holds\n- Quiet is a lesson the troop will learn. Isolation is contagious because skip is cheaper than a wasted sit.\n- Outbound cost is how you unteach the skip. Incoming degree follows a groom someone can actually receive.\n- A published planet with no edges is a node that trained the map to route around it.\n\n## So what (the actionable edge)\n- If a note has no outbound links, it is teaching neighbors to skip it. Add one costly edge today.\n- Treat a silent neighborhood as a protocol bug, not as a personality.\n- When you publish, groom an existing troop member on the way out. Incoming degree follows outgoing cost.\n\n## Sources\n- [[Isolation Is Contagious Along the Edge]]\n- [[Social Grooming Is the Real API]]\n- [[Isolation Is a Missing Degree]]\n- [[A Troop Has No Inbox]]"
     },
     {
       "id": "planet_1625e50c06eea3a7638fbcef8633600dfb72ab98",
@@ -1859,6 +2010,7 @@
         "planet_472d69230c97d5648845837f932d4e101e00ad55",
         "planet_5f44cd8ab10c143ac3266003a4da91332ebe59fe",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_77fc7957842396ecc72618ba3ab490d627f0536a",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9"
       ],
       "origin": "ai-generated",
@@ -1892,9 +2044,11 @@
         "planet_0563c73dc192930b762b2af1cf62d3481d19f3e3",
         "planet_0ddad9444966e5bc4b28ac17dab7c1496d5aaf95",
         "planet_0f76c3e58ee502d02b9d1d3b0935e668a0af934b",
+        "planet_180b15b0e4660aef4c91dee913a01869f78ad4be",
         "planet_3da243a68f8e146e8278794113f61527d0f9a880",
         "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_6e6d6eb34ac15ba0e3856c015364cbc47b9cf8d7",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
         "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
@@ -2236,7 +2390,8 @@
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
         "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa",
-        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c"
+        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
+        "planet_d0aa7a9524911232221f7fb9136abf97f14f1b6e"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -2332,6 +2487,7 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_1d4be4b2d74f20d3dddd2dd26e59038b52340d39",
+        "planet_30e7f1c5febd4ad4bb096807b7e8c49a4094008e",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
         "planet_5f5e0b09a2df164405b1554bd693455b0d6683fb",
         "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
@@ -2529,6 +2685,7 @@
         "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
         "planet_951d6a02a72d7b44d95e17a6afb31d134f0bf68f",
         "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
+        "planet_a399d7a920c0f44f863e2ca16173dc30adfe5667",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
         "planet_d86aad0eea3ea579f7f4b8017f40b007e5ae6ca1"
       ],
@@ -2629,6 +2786,8 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_1d4be4b2d74f20d3dddd2dd26e59038b52340d39",
+        "planet_30e7f1c5febd4ad4bb096807b7e8c49a4094008e",
+        "planet_5d1bdeddff40aa12acfe035419d740ec879d8e86",
         "planet_6d0279b744fa18ebd5cbadd1c97c1a7966da7710",
         "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
         "planet_9e609cdd9b319d48d3917256b650f15b3da21df5",
@@ -2651,6 +2810,39 @@
       "content": "# The Briefing Card Beats the Hero Story\n\n> Crews brief the boring constraints before takeoff. Vault capture is a briefing card. Hero narratives skip the weather and crash.\n\n## The connection\nA crew does not take off on a feeling. They brief the weather, the runway, the fuel, the missed-approach. The card is boring on purpose. Hero stories skip the card: skill, a late-night insight, a solo without a list. That is how you bend metal. A vault wants the same heroics. The sustainable version is a briefing card: inbox, genericize, link, hold-private, publish. Capture is not a memoir. Capture is the constraints you will actually fly.\n\n## Why it matters\nCompetence hides the hole. You skip the brief because you have done the pattern a thousand times. Vaults skip the card because the note already feels done. The constellation should see planets that survived a procedure, not performances that arrived hot. A hero narrative is a current you cannot trim. A briefing card is trim you can hold.\n\n## So what\n- Keep a short capture card and actually read it: weather, neighbors, heading, then pour.\n- Treat skipped constraints as the accident chain, not as a flex.\n- Publish the brief, not the memoir. Hero stories skip the weather and crash.\n\n## Related\n- [[The Checklist Is How You Survive Competence]]\n- [[A Go-Around Is a Success]]\n- [[First Solo Is Attitude, Not Hours]]"
     },
     {
+      "id": "planet_d0aa7a9524911232221f7fb9136abf97f14f1b6e",
+      "title": "The Buffer Is the Peace",
+      "summary": "Core territory plus buffer is how cats share a house. Notes need a buffer — a spark, an unpublished corridor — before they occupy someone else's core. Publishing into a core is a stare.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "cats"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_2f531b7310f47194fdbbf2c3cca45cf559270b1f",
+        "planet_3e392fe139fd5c56ae86fc65469132c2840bac8e",
+        "planet_825f3199540df5ab61b4d25b4c1a275a1e7999f8",
+        "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
+        "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "cats",
+        "territory",
+        "networks"
+      ],
+      "content": "# The Buffer Is the Peace\n\n> Core territory plus buffer is how cats share a house. Notes need a buffer — a spark, an unpublished corridor — before they occupy someone else's core. Publishing into a core is a stare.\n\n## The connection\nFelids keep a core they will fight for and a buffer they will share. The peace is the buffer, not the friendship. Walk into the core uninvited and you get a stare. A second brain that publishes into another note's core — a merge, a rename, a claim that this is the real version — skips the buffer. Sparks are buffers. Unpublished corridors are buffers. A planet that arrives in someone else's core without a hallway is not a neighbor. It is a trespass wearing a title.\n\n## Why it matters\nKnowledge graphs fail when they treat every overlap as a core to capture. Two notes can share a buffer without surrendering a range. The constellation should get planets that claimed a patch and left a hallway, not planets that sat on another star's sill and called it hygiene. A buffer you can refuse is a slow blink. A core you cannot leave is a stare.\n\n## So what\n- Keep a buffer between cores. A spark is a hallway. A forced merge is a stare into the nest.\n- When two notes scrape fur, widen the buffer. Do not annex the core and call it cleanup.\n- Publish into a patch you can hold. Leave the neighboring core alone until there is a treaty.\n\n## Related\n- [[Cats Negotiate Territory, Not Rank]]\n- [[A Corridor Is Shared Time, Not Shared Ownership]]\n- [[A Shared Sill Is a Treaty]]"
+    },
+    {
       "id": "planet_d39938427ff78ca424a463276a5d46ee5301654a",
       "title": "The Checklist Is How You Survive Competence",
       "summary": "Expertise is not permission to skip the list. The pilots who live are the ones who still read it after they could fly the pattern in their sleep.",
@@ -2665,6 +2857,7 @@
       "license": "PolyForm-Noncommercial-1.0.0",
       "links": [
         "planet_1d4be4b2d74f20d3dddd2dd26e59038b52340d39",
+        "planet_5d1bdeddff40aa12acfe035419d740ec879d8e86",
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
         "planet_5f5e0b09a2df164405b1554bd693455b0d6683fb",
         "planet_6b95bf78abb2d1a537371702095b6da472b920df",
@@ -2845,7 +3038,9 @@
         "planet_2e09b89263efc54cf9a6b9ea4d22f4f391df5382",
         "planet_472d69230c97d5648845837f932d4e101e00ad55",
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_77fc7957842396ecc72618ba3ab490d627f0536a",
         "planet_951d6a02a72d7b44d95e17a6afb31d134f0bf68f",
+        "planet_a399d7a920c0f44f863e2ca16173dc30adfe5667",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9"
       ],
       "origin": "ai-generated",
@@ -2860,6 +3055,40 @@
         "quality"
       ],
       "content": "# The Mash Bill Is Not the Drink\n\n> Recipe is not the aged pour. A mash bill is a promise about grain. The drink is what the barrel, the rickhouse, and the years actually served.\n\n## The connection\nA mash bill is the recipe: corn, rye, malt, the ratios you can write on a card. The drink is the liquid after wood, weather, and evaporation have had a vote. Outline a note and you have mash. Sit it in a graph of other notes and you have a barrel. The same mash in two warehouses is two drinks. A second brain that ships the outline is selling grain as whiskey.\n\n## Why it matters\nPeople confuse the recipe with the pour because the recipe is fast and the barrel is slow. A constellation that indexes mash bills will taste like a pitch deck. Time in the wood still matters. So does the neighborhood the cask sat in. The graph is the warehouse climate.\n\n## So what\n- Score a note by the graph it sits in, not by the outline it started as.\n- Do not publish the mash bill and call it a tasting.\n- If two notes share a recipe but not a warehouse, they are not the same drink.\n\n## Related\n- [[Proof Needs Time in the Barrel]]\n- [[Single Barrel Is a Sample, Not a Proof]]\n- [[The Angel's Share Buys the Edge]]"
+    },
+    {
+      "id": "planet_5d1bdeddff40aa12acfe035419d740ec879d8e86",
+      "title": "The Missed Approach Lives in the Card",
+      "summary": "A briefing card is the constraints you will actually fly. A go-around is aborting when the brief no longer matches the slope. Hero narratives skip the weather and stick the bad landing.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "airplanes"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_30e7f1c5febd4ad4bb096807b7e8c49a4094008e",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_5f5e0b09a2df164405b1554bd693455b0d6683fb",
+        "planet_6b95bf78abb2d1a537371702095b6da472b920df",
+        "planet_d39938427ff78ca424a463276a5d46ee5301654a",
+        "planet_d63768753d43505270d27b61322e744472b6d712"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "synthesis",
+        "ai-generated",
+        "synthesis-review",
+        "airplanes"
+      ],
+      "content": "# The Missed Approach Lives in the Card\n\n> A briefing card is the constraints you will actually fly. A go-around is aborting when the brief no longer matches the slope. Hero narratives skip the weather and stick the bad landing.\n\n## The connection\n[[The Briefing Card Beats the Hero Story]] says crews brief the boring constraints before takeoff. Capture is a briefing card. Hero narratives skip the weather and crash. [[A Go-Around Is a Success]] says aborting a landing is the professional move. Unstable, too high, a runway that is not yours: you add power, climb, fly the pattern again.\n\nPut them on the same bench and the missed approach is exposed as part of the card, not as a confession. The brief includes the field you will use if this slope is not yours. A vault that only plans the publish has no missed-approach procedure. Hold-private is flying the field already named. Heroics on a bad glideslope are a brief you skipped, then tried to replace with throttle.\n\nThe spark's claim was that aborting is still a brief. The neuron is the claim that the go-around lives in the card you read on the ground. Publish is landing clearance that still matches. A memoir that skipped the weather is not a substitute.\n\n## Why it holds\n- The missed approach is a line on the card, not a surprise failure.\n- Ego wants to stick the landing. The airplane wants a brief that still fits the slope.\n- The public map should get planets that arrived with a card, not performances that arrived hot.\n\n## So what (the actionable edge)\n- Write the hold-private into the capture card before you try to publish.\n- When the approach is unstable, fly the missed approach you already named. Do not invent heroics in the flare.\n- Treat an unpublished rewrite as a successful go-around flown from the card, not as a stalled career.\n\n## Sources\n- [[The Briefing Card Beats the Hero Story]]\n- [[A Go-Around Is a Success]]\n- [[The Checklist Is How You Survive Competence]]\n- [[Trim Tabs Beat Thrust]]"
     },
     {
       "id": "planet_9db5abdfd7582281bf5884e2b3ba83cec518edd2",
@@ -2925,6 +3154,41 @@
       "content": "# The Nittany Line Is a Shared Heading\n\n> Campuses and counties do not coordinate by reading the same memo. They share a heading: one lion, one color, a line you can hold without a meeting.\n\n## The connection\nA land-grant is a scatter of places that still have to fly as one body. The cheap trick is a shared heading bug: identity small enough to keep and loud enough to read from the next county. White-Out is the Saturday version. The Nittany line is the year-round version. A galaxy tag is the same instrument. You do not brief every note on mission. You give it a heading another star can join.\n\n## Why it matters\nPrivate ontologies do not travel. A new brand per note is a campus with no visiting day. Extension needs a line the county already knows how to see. Publish fields (galaxy, handle, license) are that line. They cost almost nothing to keep and they let a wagon find you.\n\n## So what\n- Put a note on one heading you can defend. Do not invent a second mascot.\n- Treat a galaxy tag as a coordination signal, not as decoration.\n- If two campuses cannot share a line, they are not a land-grant. They are two labs.\n\n## Related\n- [[A Land-Grant Ships Knowledge to the Counties]]\n- [[White-Out Is One Constraint]]"
     },
     {
+      "id": "planet_a399d7a920c0f44f863e2ca16173dc30adfe5667",
+      "title": "The Rickhouse Is a Neighborhood",
+      "summary": "Barrels age by shared climate, not in a closet. Notes age by sitting next to other notes. A lone cask is not a rickhouse.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "whiskey"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_2e09b89263efc54cf9a6b9ea4d22f4f391df5382",
+        "planet_5f44cd8ab10c143ac3266003a4da91332ebe59fe",
+        "planet_6e6d6eb34ac15ba0e3856c015364cbc47b9cf8d7",
+        "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
+        "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
+        "planet_d75a035a9b93f2f08f117334b2a8e4845f4176e6",
+        "planet_fb6a6e7cf1c472dff015996b6628a06a58d0562f"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "whiskey",
+        "patience",
+        "quality"
+      ],
+      "content": "# The Rickhouse Is a Neighborhood\n\n> Barrels age by shared climate, not in a closet. Notes age by sitting next to other notes. A lone cask is not a rickhouse.\n\n## The connection\nA rickhouse is a neighborhood with weather. Barrels share heat, humidity, leaks in the roof. The same mash in two warehouses is two drinks because the neighbors were different. Aging a note in a private folder with no wiki-links is a cask in a closet. Time passed. Climate did not. A second brain that wants proof needs a rickhouse: other notes close enough to mark the liquid. Synthesis is what the warehouse does to a barrel that sat in a row.\n\n## Why it matters\nPeople confuse duration with aging. A note that sat alone for a year is still n=1 with a birthday. The wood is the graph. Neighbors are the climate. Publishing a planet that never sat beside another planet is pouring closet whiskey and calling it a rickhouse. The public universe should taste warehouse weather, not a timer.\n\n## So what\n- Age a note next to two neighbors before you pour. Time without climate is a closet.\n- Treat a wiki-link as shared weather, not as decoration on a solitary cask.\n- If a claim never sat in a row, it is not aged. It is stored. Move it into the rickhouse.\n\n## Related\n- [[Proof Needs Time in the Barrel]]\n- [[Blending Is Honesty About Variance]]\n- [[The Angel's Share Buys the Edge]]"
+    },
+    {
       "id": "planet_c3819786c14e5e8a839ea24222b30ca4f4c91f31",
       "title": "The Rubric Pattern (Graded, Explainable AI Is the Trust Primitive)",
       "summary": "Intelligence is table stakes; trust is the product. The trust primitive is the rubric: a fixed, weighted, explainable scoring scheme graded against ground truth — never raw model output on faith.",
@@ -2982,7 +3246,8 @@
         "planet_a43c29b874685bf72b8d69227133e83f76f434ab",
         "planet_a9c8a96efe3055a8f08889943e6bff610805e23e",
         "planet_b2b230a01b5622077237a1af1af266be667c4a0a",
-        "planet_b9172eea79b30b5db043f74639fe4e37332aad71"
+        "planet_b9172eea79b30b5db043f74639fe4e37332aad71",
+        "planet_d0aa7a9524911232221f7fb9136abf97f14f1b6e"
       ],
       "origin": "ai-generated",
       "content_hash": null,
@@ -3116,8 +3381,10 @@
       "links": [
         "planet_010e120433f1b22ace174051f620a61e3ee1a487",
         "planet_11f6f8fa2009cca3c80b0dbd5d5cb3f3567956a5",
+        "planet_30e7f1c5febd4ad4bb096807b7e8c49a4094008e",
         "planet_43213c8628a9ae85a399b1eba5a0e0dffdc4155a",
         "planet_530dba2ae4c6b7f5e8b7e72df94a3d048a80d0e7",
+        "planet_5d1bdeddff40aa12acfe035419d740ec879d8e86",
         "planet_675bd94b88513794ab02dbf62ad1ddc56b81d1ca",
         "planet_6b95bf78abb2d1a537371702095b6da472b920df",
         "planet_6d0279b744fa18ebd5cbadd1c97c1a7966da7710",
@@ -3264,6 +3531,7 @@
         "planet_75b5b5f1f55c0acdce9b1660d10c9d28da857ba1",
         "planet_7613e4a6d737972ea9a44b169e793f11b2c96db7",
         "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
+        "planet_886b159c7dc66c5238aca38bda4f85df75b2e3a5",
         "planet_9b71c684ecb72654de51ae11802d54f51413040e",
         "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa",
         "planet_ced357cb8faceae6826beb06cdb6fe5c15827b8c",
@@ -3305,6 +3573,7 @@
         "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
         "planet_6b95bf78abb2d1a537371702095b6da472b920df",
         "planet_7613e4a6d737972ea9a44b169e793f11b2c96db7",
+        "planet_886b159c7dc66c5238aca38bda4f85df75b2e3a5",
         "planet_9b71c684ecb72654de51ae11802d54f51413040e",
         "planet_a515b8f60c8952e7d68d274698d6389c7f1979aa",
         "planet_a9d41537c6214a21c6917b5f295757a098a0cdb9",
@@ -3344,6 +3613,8 @@
         "planet_1625e50c06eea3a7638fbcef8633600dfb72ab98",
         "planet_2f531b7310f47194fdbbf2c3cca45cf559270b1f",
         "planet_3da243a68f8e146e8278794113f61527d0f9a880",
+        "planet_6e6d6eb34ac15ba0e3856c015364cbc47b9cf8d7",
+        "planet_a399d7a920c0f44f863e2ca16173dc30adfe5667",
         "planet_b9172eea79b30b5db043f74639fe4e37332aad71",
         "planet_cc614e00367ea06913c4d49287c0f5b7dd1805c2",
         "planet_cfb17a81a859283f9c7c5244e6b15a91ab7dc42c",
@@ -3362,6 +3633,39 @@
         "second-brain"
       ],
       "content": "# Wiki-Links Are DNS for the Vault\n\n> If retrieval walks edges that don't resolve, the graph it traverses is a lie, and the answer\n> inherits the lie.\n\n## The connection\nA `[[wiki-link]]` is a name→note resolution, exactly like a DNS A-record is name→IP. The whole DNS\nrecord set maps onto vault link mechanics: an **A-record** is a link to a real note; a **CNAME** is\nan alias (one name resolving to a canonical note); a broken link is a dangling **NXDOMAIN**; an\norphan note is an island no record points to. DNS doesn't trust the network until resolution is\nhealthy — and neither should a graph-based retrieval system. If retrieval walks edges that don't\nresolve (or resolve ambiguously via stale aliases), the graph it traverses is a lie, and the answer\ninherits the lie.\n\n## Why it matters\nThis gives a graph-retrieval build a missing pre-index stage. It's tempting to assume links resolve;\nDNS literacy says assume they don't until audited. A retrieval layer that trusts broken edges is the\nstreetlight failure in a new costume — confidently walking to a node that isn't there. The resolver\n(link-integrity + alias table) is cheap, runs once per index, and gates trust.\n\n## So what\n- Add a link-resolution health check as a pre-index step: report broken links (NXDOMAIN), orphans,\n  and duplicate/ambiguous aliases (CNAME collisions).\n- Maintain an explicit alias table so retrieval resolves canonical names deterministically, not by\n  fuzzy match.\n- Fail the index (or flag) if broken-link count exceeds a threshold — don't ship retrieval over an\n  unresolved graph.\n\n---\n*Genericized from Dom's second brain, shared under PolyForm Noncommercial 1.0.0.*"
+    },
+    {
+      "id": "planet_30e7f1c5febd4ad4bb096807b7e8c49a4094008e",
+      "title": "You Brief the Alternate Before Takeoff",
+      "summary": "You name the missed-approach field before you leave. A vault should name the hold-private before it tries to publish. Alternates are the card, not pessimism.",
+      "author": {
+        "handle": "anthony",
+        "display": "Anthony Sadarangani",
+        "star": "star_anthony"
+      },
+      "galaxy": [
+        "airplanes"
+      ],
+      "license": "PolyForm-Noncommercial-1.0.0",
+      "links": [
+        "planet_5d1bdeddff40aa12acfe035419d740ec879d8e86",
+        "planet_5f42e7f1e4fe439431c40ac84fba9268a48c26d3",
+        "planet_5f5e0b09a2df164405b1554bd693455b0d6683fb",
+        "planet_6d0279b744fa18ebd5cbadd1c97c1a7966da7710",
+        "planet_d63768753d43505270d27b61322e744472b6d712"
+      ],
+      "origin": "ai-generated",
+      "content_hash": null,
+      "published_at": "2026-06-20T15:41:00Z",
+      "version": 1,
+      "price": null,
+      "tags": [
+        "framework",
+        "airplanes",
+        "control",
+        "leverage"
+      ],
+      "content": "# You Brief the Alternate Before Takeoff\n\n> You name the missed-approach field before you leave. A vault should name the hold-private before it tries to publish. Alternates are the card, not pessimism.\n\n## The connection\nA crew does not invent the alternate on short final. They brief it on the ground: fuel, weather, the field they will use if this runway is not theirs. The alternate is part of the takeoff brief, not a confession of failure. A vault that only plans the publish has no missed-approach field. Hold-private is the alternate. A go-around is flying it. Hero stories skip the field and then invent a recovery in the flare. That is how you bend metal.\n\n## Why it matters\nCompetence hides the hole. You skip the alternate because the destination already feels like home. Vaults skip the hold-private because the note already feels done. The constellation should see planets that arrived with a field named, not performances that arrived with no fuel for a second try. Naming the alternate is trim. Inventing it on short final is thrust used as a substitute for a card.\n\n## So what\n- Name the hold-private before you try to publish. The alternate is part of the brief.\n- Treat a go-around as flying the field you already named, not as a surprise failure.\n- If you cannot name an alternate, you are not cleared. Stay on the ground until the card has a second field.\n\n## Related\n- [[The Briefing Card Beats the Hero Story]]\n- [[A Go-Around Is a Success]]\n- [[Trim Tabs Beat Thrust]]"
     },
     {
       "id": "planet_7c0297b1b20aed33171bbd92fabf851408f80b68",
