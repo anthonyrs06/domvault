@@ -1,0 +1,72 @@
+# Rebuild the git-backed static registry (universe.json) on main so the public
+# Explorer (github.io -> Vercel) picks up new planets without a second human PR.
+#
+# Triggers
+#   * push to main on frameworks/**
+#   * workflow_dispatch -- rebuild-only, no payload
+#   * repository_dispatch type constellation-publish
+#       client_payload: { filename, content }
+#       filename -- basename only, kebab-case .md (not README.md, no paths)
+#       content -- complete markdown note with publish: true and frontmatter
+#                  handle / star / author / galaxy / title
+#
+# Commits registry-static/domvault-registry (and a dispatched note under
+# frameworks/). Vercel deploys from that commit. Does NOT POST to Fly --
+# https://domvault-registry.fly.dev is the live signed registry (long-term
+# write path). This workflow updates https://domvault-registry.vercel.app
+# and therefore the public github.io Explorer.
+#
+# Recursion: bot commits are skipped.
+name: constellation-publish
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "frameworks/**"
+      - "registry-static/build.mjs"
+  workflow_dispatch:
+  repository_dispatch:
+    types: [constellation-publish]
+
+concurrency:
+  group: constellation-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Apply dispatched note
+        if: github.event_name == 'repository_dispatch'
+        run: node scripts/apply-dispatch.mjs
+
+      - name: Rebuild static registry
+        run: node registry-static/build.mjs
+
+      - name: Commit rebuilt registry
+        run: |
+          set -euo pipefail
+          git add frameworks registry-static/domvault-registry
+          if git diff --cached --quiet; then
+            echo "No constellation changes to publish."
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -m "constellation: rebuild static registry"
+          git push origin HEAD:main

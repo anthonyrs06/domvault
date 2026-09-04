@@ -13,7 +13,8 @@
     "demo": "tsx scripts/demo.ts",
     "publish": "tsx scripts/publish-frameworks.ts",
     "build:registry": "esbuild registry/server/main.ts --bundle --platform=node --format=esm --outfile=dist/registry.mjs",
-    "start:registry": "node dist/registry.mjs"
+    "start:registry": "node dist/registry.mjs",
+    "publish:vault": "tsx scripts/publish-from-vault.ts"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",

@@ -10,3 +10,4 @@
 8. [The Publish Rubric](08-what-to-publish-rubric.md) — score what's safe to share, built from the brain's own frameworks.
 9. [Observatory: agent query endpoint](09-observatory-agent-query-endpoint.md) — Chunk / Retriever / Synthesizer interfaces + the two-gate trust model (spec for Prompt F).
 10. [YottaGraph retriever + fusion](10-yottagraph-retriever-adapter.md) — transport-agnostic external source, fused ranking, redistribution + injection safety (spec for Prompt G).
+11. [Auto-publish](11-auto-publish.md) — Action on main rebuilds the public Vercel map; dispatch publishes a note without a second PR.
